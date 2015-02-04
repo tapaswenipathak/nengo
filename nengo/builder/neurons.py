@@ -1,6 +1,6 @@
 import numpy as np
 
-from nengo.builder import Builder, Operator, Signal
+from nengo.builder import Builder, Operator
 from nengo.neurons import (AdaptiveLIF, AdaptiveLIFRate, Izhikevich, LIF,
                            NeuronType, SpikingRectifiedLinear)
 
@@ -129,7 +129,7 @@ def build_spikingrectifiedlinear(model, spikingrectifiedlinear, neurons):
     more than once with the same `.SpikingRectifiedLinear` instance.
     """
 
-    model.sig[neurons]['voltage'] = Signal(
+    model.sig[neurons]['voltage'] = model.Signal(
         np.zeros(neurons.size_in), name="%s.voltage" % neurons)
     model.add_op(SimNeurons(
         neurons=spikingrectifiedlinear,
@@ -160,9 +160,9 @@ def build_lif(model, lif, neurons):
     more than once with the same `.LIF` instance.
     """
 
-    model.sig[neurons]['voltage'] = Signal(
+    model.sig[neurons]['voltage'] = model.Signal(
         np.zeros(neurons.size_in), name="%s.voltage" % neurons)
-    model.sig[neurons]['refractory_time'] = Signal(
+    model.sig[neurons]['refractory_time'] = model.Signal(
         np.zeros(neurons.size_in), name="%s.refractory_time" % neurons)
     model.add_op(SimNeurons(
         neurons=lif,
@@ -194,7 +194,7 @@ def build_alifrate(model, alifrate, neurons):
     more than once with the same `.AdaptiveLIFRate` instance.
     """
 
-    model.sig[neurons]['adaptation'] = Signal(
+    model.sig[neurons]['adaptation'] = model.Signal(
         np.zeros(neurons.size_in), name="%s.adaptation" % neurons)
     model.add_op(SimNeurons(neurons=alifrate,
                             J=model.sig[neurons]['in'],
@@ -225,11 +225,11 @@ def build_alif(model, alif, neurons):
     more than once with the same `.AdaptiveLIF` instance.
     """
 
-    model.sig[neurons]['voltage'] = Signal(
+    model.sig[neurons]['voltage'] = model.Signal(
         np.zeros(neurons.size_in), name="%s.voltage" % neurons)
-    model.sig[neurons]['refractory_time'] = Signal(
+    model.sig[neurons]['refractory_time'] = model.Signal(
         np.zeros(neurons.size_in), name="%s.refractory_time" % neurons)
-    model.sig[neurons]['adaptation'] = Signal(
+    model.sig[neurons]['adaptation'] = model.Signal(
         np.zeros(neurons.size_in), name="%s.adaptation" % neurons)
     model.add_op(SimNeurons(neurons=alif,
                             J=model.sig[neurons]['in'],
@@ -261,10 +261,10 @@ def build_izhikevich(model, izhikevich, neurons):
     more than once with the same `.Izhikevich` instance.
     """
 
-    model.sig[neurons]['voltage'] = Signal(
+    model.sig[neurons]['voltage'] = model.Signal(
         np.ones(neurons.size_in) * izhikevich.reset_voltage,
         name="%s.voltage" % neurons)
-    model.sig[neurons]['recovery'] = Signal(
+    model.sig[neurons]['recovery'] = model.Signal(
         np.ones(neurons.size_in)
         * izhikevich.reset_voltage
         * izhikevich.coupling, name="%s.recovery" % neurons)

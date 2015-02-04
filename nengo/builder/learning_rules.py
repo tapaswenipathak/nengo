@@ -491,7 +491,7 @@ def build_learning_rule(model, rule):
     else:
         raise BuildError("Unknown target %r" % rule.modifies)
 
-    delta = Signal(np.zeros(target.shape), name='Delta')
+    delta = model.Signal(np.zeros(target.shape), name='Delta')
 
     model.add_op(Copy(delta, target, inc=True, tag=tag))
     model.sig[rule]['delta'] = delta
@@ -664,7 +664,7 @@ def build_pes(model, pes, rule):
     conn = rule.connection
 
     # Create input error signal
-    error = Signal(np.zeros(rule.size_in), name="PES:error")
+    error = model.Signal(np.zeros(rule.size_in), name="PES:error")
     model.add_op(Reset(error))
     model.sig[rule]['in'] = error  # error connection will attach here
 

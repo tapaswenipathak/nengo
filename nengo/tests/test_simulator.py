@@ -30,6 +30,34 @@ def test_steps(RefSimulator):
         assert np.isscalar(sim.time)
 
 
+@pytest.mark.parametrize('dtype', [np.float16, np.float32, np.float64])
+def test_dtype(RefSimulator, seed, dtype):
+    int_dtype = np.dtype(np.dtype(dtype).str.replace('f', 'i'))
+
+    with nengo.Network() as model:
+        u = nengo.Node([0.5, -0.4])
+        a = nengo.Ensemble(10, 2)
+        nengo.Connection(u, a)
+        p = nengo.Probe(a)
+
+    with RefSimulator(model, dtype=dtype) as sim:
+        sim.step()
+
+        for k, v in sim.signals.items():
+            assert v.dtype in (dtype, int_dtype), "Signal '%s' wrong dtype" % k
+
+        objs = (obj for obj in model.all_objects if sim.data[obj] is not None)
+        for obj in objs:
+            for x in (x for x in sim.data[obj] if isinstance(x, np.ndarray)):
+                assert x.dtype == dtype, obj
+
+        assert sim.data[p].dtype == dtype
+
+    with pytest.raises(ValidationError):
+        with RefSimulator(model, dtype=int_dtype):
+            pass  # integer dtypes not supported
+
+
 def test_time_absolute(Simulator):
     m = nengo.Network()
     with Simulator(m) as sim:

@@ -1,6 +1,6 @@
 import numpy as np
 
-from nengo.builder import Builder, Operator, Signal
+from nengo.builder import Builder, Operator
 from nengo.builder.operator import DotInc, ElementwiseInc, Reset, SparseDotInc
 from nengo.exceptions import BuildError
 from nengo.transforms import Convolution, Dense, Sparse
@@ -31,8 +31,9 @@ def build_dense(model, transform, sig_in,
         weights = multiply(encoders.T, weights)
 
     # Add operator for applying weights
-    weight_sig = Signal(weights, name="%s.weights" % transform, readonly=True)
-    weighted = Signal(
+    weight_sig = model.Signal(weights, readonly=True,
+                              name="%s.weights" % transform)
+    weighted = model.Signal(
         np.zeros(transform.size_out if encoders is None else weights.shape[0]),
         name="%s.weighted" % transform)
     model.add_op(Reset(weighted))
@@ -57,16 +58,16 @@ def build_sparse(model, transform, sig_in,
     assert encoders is None
 
     # Add output signal
-    weighted = Signal(np.zeros(transform.size_out),
-                      name="%s.weighted" % transform)
+    weighted = model.Signal(np.zeros(transform.size_out),
+                            name="%s.weighted" % transform)
     model.add_op(Reset(weighted))
 
     weights = transform.sample(rng=rng)
     assert weights.ndim == 2
 
     # Add operator for applying weights
-    weight_sig = Signal(weights, name="%s.weights" % transform,
-                        readonly=True)
+    weight_sig = model.Signal(weights, name="%s.weights" % transform,
+                              readonly=True)
     model.add_op(SparseDotInc(weight_sig, sig_in, weighted,
                               tag="%s.apply_weights" % transform))
 
@@ -86,8 +87,9 @@ def build_convolution(model, transform, sig_in,
     assert encoders is None
 
     weights = transform.sample(rng=rng)
-    weight_sig = Signal(weights, name="%s.weights" % transform, readonly=True)
-    weighted = Signal(
+    weight_sig = model.Signal(weights, readonly=True,
+                              name="%s.weights" % transform)
+    weighted = model.Signal(
         np.zeros(transform.size_out), name="%s.weighted" % transform)
     model.add_op(Reset(weighted))
 

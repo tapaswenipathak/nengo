@@ -1,6 +1,6 @@
 import numpy as np
 
-from nengo.builder import Builder, Operator, Signal
+from nengo.builder import Builder, Operator
 from nengo.processes import Process
 from nengo.synapses import Synapse
 
@@ -158,7 +158,7 @@ def build_synapse(model, synapse, sig_in, sig_out=None):
     more than once with the same `.Synapse` instance.
     """
     if sig_out is None:
-        sig_out = Signal(
+        sig_out = model.Signal(
             np.zeros(sig_in.shape), name="%s.%s" % (sig_in.name, synapse))
 
     model.add_op(SimProcess(

@@ -14,6 +14,7 @@ from nengo.params import (
     Parameter,
     ShapeParam,
 )
+from nengo.rc import global_dtype
 from nengo.utils.numpy import is_array_like, scipy_sparse
 
 
@@ -87,7 +88,7 @@ class Dense(Transform):
         self.shape = shape
 
         if is_array_like(init):
-            init = np.asarray(init, dtype=np.float64)
+            init = np.asarray(init, dtype=global_dtype)
 
             # check that the shape of init is compatible with the given shape
             # for this transform
@@ -416,7 +417,7 @@ class Convolution(Transform):
             ]
             kernel = np.reshape(kernel, self.kernel_shape)
         else:
-            kernel = np.array(self.init)
+            kernel = np.array(self.init, dtype=global_dtype)
         return kernel
 
     @property
@@ -441,12 +442,12 @@ class Convolution(Transform):
     def output_shape(self):
         """Output shape after applying convolution to input."""
         output_shape = np.array(
-            self.input_shape.spatial_shape, dtype=np.float64)
+            self.input_shape.spatial_shape, dtype=float)
         if self.padding == "valid":
             output_shape -= self.kernel_size
             output_shape += 1
         output_shape /= self.strides
-        output_shape = tuple(np.ceil(output_shape).astype(np.int64))
+        output_shape = tuple(np.ceil(output_shape).astype(int))
         output_shape = (output_shape + (self.n_filters,) if self.channels_last
                         else (self.n_filters,) + output_shape)
 

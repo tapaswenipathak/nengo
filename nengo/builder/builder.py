@@ -7,7 +7,8 @@ from nengo import rc
 from nengo.builder.signal import Signal, SignalDict
 from nengo.builder.operator import TimeUpdate
 from nengo.cache import NoDecoderCache
-from nengo.exceptions import BuildError
+from nengo.exceptions import BuildError, ValidationError
+from nengo.rc import global_dtype
 
 
 class Model:
@@ -21,6 +22,13 @@ class Model:
         A name or description to differentiate models.
     decoder_cache : DecoderCache, optional
         Interface to a cache for expensive parts of the build process.
+    builder : `nengo.builder.Builder`, optional
+        A ``Builder`` instance to use for building. Defaults to a
+        new ``Builder()``.
+    dtype : `numpy.dtype`, optional
+        The data type to use for representing internal signals for building
+        and simulation. Must be a floating-point data type. Defaults to the
+        value set by the `nengo.rc` system (which defaults to `numpy.float64`).
 
     Attributes
     ----------
@@ -64,11 +72,16 @@ class Model:
         or for the network builder to determine if it is the top-level network.
     """
 
-    def __init__(self, dt=0.001, label=None, decoder_cache=None, builder=None):
+    def __init__(self, dt=0.001, label=None, decoder_cache=None, builder=None,
+                 dtype=global_dtype):
         self.dt = dt
         self.label = label
         self.decoder_cache = (NoDecoderCache() if decoder_cache is None
                               else decoder_cache)
+        self.dtype = np.dtype(dtype)
+        if self.dtype.kind != 'f':
+            raise ValidationError("Must be float dtype", 'dtype', obj=self)
+        self.int_dtype = np.dtype(self.dtype.str.replace('f', 'i'))
 
         # Will be filled in by the network builder
         self.toplevel = None
@@ -82,11 +95,13 @@ class Model:
         self.seeded = {}
 
         self.sig = collections.defaultdict(dict)
-        self.sig['common'][0] = Signal(0., readonly=True, name='ZERO')
-        self.sig['common'][1] = Signal(1., readonly=True, name='ONE')
+        self.sig['common'][0] = self.Signal(np.array(0.), readonly=True,
+                                            name='ZERO')
+        self.sig['common'][1] = self.Signal(np.array(1.), readonly=True,
+                                            name='ONE')
 
-        self.step = Signal(np.array(0, dtype=np.int64), name='step')
-        self.time = Signal(np.array(0, dtype=np.float64), name='time')
+        self.step = self.Signal(np.array(0), dtype=self.int_dtype, name='step')
+        self.time = self.Signal(np.array(0), name='time')
         self.add_op(TimeUpdate(self.step, self.time))
 
         self.builder = Builder() if builder is None else builder
@@ -94,6 +109,10 @@ class Model:
 
     def __str__(self):
         return "Model: %s" % self.label
+
+    def Signal(self, value, dtype=None, **kwargs):
+        dtype = self.dtype if dtype is None else dtype
+        return Signal(value, dtype=dtype, **kwargs)
 
     def add_op(self, op):
         """Add an operator to the model.

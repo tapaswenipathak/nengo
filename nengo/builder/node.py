@@ -1,6 +1,6 @@
 import numpy as np
 
-from nengo.builder import Builder, Signal
+from nengo.builder import Builder
 from nengo.builder.operator import Reset, SimPyFunc
 from nengo.exceptions import BuildError
 from nengo.node import Node
@@ -30,7 +30,7 @@ def build_node(model, node):
 
     # input signal
     if not is_array_like(node.output) and node.size_in > 0:
-        sig_in = Signal(np.zeros(node.size_in), name="%s.in" % node)
+        sig_in = model.Signal(np.zeros(node.size_in), name="%s.in" % node)
         model.add_op(Reset(sig_in))
     else:
         sig_in = None
@@ -39,15 +39,15 @@ def build_node(model, node):
     if node.output is None:
         sig_out = sig_in
     elif isinstance(node.output, Process):
-        sig_out = Signal(np.zeros(node.size_out), name="%s.out" % node)
+        sig_out = model.Signal(np.zeros(node.size_out), name="%s.out" % node)
         model.build(node.output, sig_in, sig_out)
     elif callable(node.output):
-        sig_out = (Signal(np.zeros(node.size_out), name="%s.out" % node)
+        sig_out = (model.Signal(np.zeros(node.size_out), name="%s.out" % node)
                    if node.size_out > 0 else None)
         model.add_op(SimPyFunc(
             output=sig_out, fn=node.output, t=model.time, x=sig_in))
     elif is_array_like(node.output):
-        sig_out = Signal(node.output, name="%s.out" % node)
+        sig_out = model.Signal(node.output, name="%s.out" % node)
     else:
         raise BuildError(
             "Invalid node output type %r" % type(node.output).__name__)

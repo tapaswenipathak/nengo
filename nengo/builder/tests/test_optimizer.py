@@ -5,9 +5,13 @@ import pytest
 import nengo
 from nengo.builder.optimizer import SigMerger
 from nengo.builder.signal import Signal
+from nengo.rc import global_dtype
 from nengo.spa.tests.test_thalamus import thalamus_net
 from nengo.tests.test_learning_rules import learning_net
 from nengo.transforms import SparseMatrix
+
+global_dtype_resolution = np.finfo(global_dtype).resolution
+global_dtype_decimal = int(np.floor(-np.log10(global_dtype_resolution) * 0.5))
 
 
 def test_sigmerger_check():
@@ -144,4 +148,5 @@ def test_optimizer_does_not_change_result(seed, net):
         sim_opt.run(0.1)
 
     for probe in probes:
-        assert_almost_equal(sim.data[probe], sim_opt.data[probe])
+        assert_almost_equal(sim.data[probe], sim_opt.data[probe],
+                            decimal=global_dtype_decimal)

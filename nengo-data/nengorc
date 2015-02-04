@@ -26,6 +26,12 @@
 
 ### CONFIGURATION BEGINS HERE
 
+# --- Settings for controlling the precision of all calculations
+[precision]
+
+# NumPy dtype that will be used for all signals, if possible.
+# Note that Nengo is only expected to work for float dtypes. (string)
+#dtype: float64
 
 # --- Settings for the decoder cache
 [decoder_cache]

@@ -51,7 +51,7 @@ class Signal:
     assert_named_signals = False
 
     def __init__(self, initial_value,
-                 name=None, base=None, readonly=False, offset=0):
+                 name=None, base=None, readonly=False, offset=0, dtype=None):
         if self.assert_named_signals:
             assert name
         self._name = name
@@ -69,7 +69,7 @@ class Signal:
             # we make a view of the data and mark it as not writeable.
             # Consumers (like SignalDict) are responsible for making copies
             # that can be modified, or using the readonly view appropriately.
-            readonly_view = np.asarray(self._initial_value)
+            readonly_view = np.asarray(self._initial_value, dtype=dtype)
             if readonly_view.ndim > 0 and base is None:
                 readonly_view = np.ascontiguousarray(readonly_view)
             # Ensure we have a view and aren't modifying the original's flags
@@ -108,7 +108,8 @@ class Signal:
         if not self.sparse:
             shape, base, offset, strides = self._initial_value
             self._initial_value = np.ndarray(
-                shape, buffer=base, offset=offset, strides=strides)
+                shape, buffer=base, dtype=base.dtype,
+                offset=offset, strides=strides)
             self._initial_value.setflags(write=False)
 
     def __getitem__(self, item):

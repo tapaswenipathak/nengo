@@ -62,6 +62,8 @@ Commented lines show the default values for each setting.
 import configparser
 import logging
 
+import numpy as np
+
 import nengo.utils.paths
 
 logger = logging.getLogger(__name__)
@@ -69,6 +71,9 @@ logger = logging.getLogger(__name__)
 # The default core Nengo RC settings. Access with
 #   nengo.RC_DEFAULTS[section_name][option_name]
 RC_DEFAULTS = {
+    'precision': {
+        'dtype': 'float64',
+    },
     'decoder_cache': {
         'enabled': True,
         'readonly': False,
@@ -166,3 +171,4 @@ class _RC(configparser.SafeConfigParser):
 
 
 rc = _RC()
+global_dtype = np.dtype(rc.get('precision', 'dtype'))
