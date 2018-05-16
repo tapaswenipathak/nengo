@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 
 import nengo
-from nengo.exceptions import BuildError, SimulationError
+from nengo.exceptions import BuildError, SimulationError, ValidationError
 from nengo.neurons import (
     AdaptiveLIF,
     AdaptiveLIFRate,
@@ -34,8 +34,8 @@ def test_lif_builtin(rng):
     gain, bias = lif.gain_bias(
         rng.uniform(80, 100, size=N), rng.uniform(-1, 1, size=N))
 
-    x = np.arange(-2, 2, .1).reshape(-1, 1)
-    J = gain * x + bias
+    x = np.arange(-2, 2, .1)
+    J = gain * x[:, None] + bias
 
     voltage = np.zeros_like(J)
     reftime = np.zeros_like(J)
@@ -151,7 +151,6 @@ def test_lif_zero_tau_ref(Simulator):
 def test_alif_rate(Simulator, plt):
     n = 100
     max_rates = 50 * np.ones(n)
-    # max_rates = 200 * np.ones(n)
     intercepts = np.linspace(-0.99, 0.99, n)
     encoders = np.ones((n, 1))
 
@@ -166,13 +165,12 @@ def test_alif_rate(Simulator, plt):
         nengo.Connection(u, a, synapse=None)
         ap = nengo.Probe(a.neurons)
 
-    dt = 1e-3
-    with Simulator(model, dt=dt) as sim:
+    with Simulator(model) as sim:
         sim.run(2.)
 
     t = sim.trange()
     rates = sim.data[ap]
-    _, ref = tuning_curves(a, sim, inputs=np.array([0.5]))
+    _, ref = tuning_curves(a, sim, inputs=0.5)
 
     ax = plt.subplot(211)
     implot(plt, t, intercepts[::-1], rates.T, ax=ax)
@@ -216,8 +214,7 @@ def test_alif(Simulator, plt):
         ap = nengo.Probe(a.neurons)
         bp = nengo.Probe(b.neurons)
 
-    dt = 1e-3
-    with Simulator(model, dt=dt) as sim:
+    with Simulator(model) as sim:
         sim.run(2.)
 
     t = sim.trange()
@@ -411,6 +408,8 @@ def test_amplitude(Simulator, seed, rng, plt, Neuron):
 
     gain, bias = neuron0.gain_bias(max_rates, intercepts)
     r0 = amp * neuron0.rates(x, gain, bias)
+    assert r0.shape[0] == 1
+    r0 = r0.squeeze(axis=0)
 
     i = np.argsort(r0)
     plt.plot(r0[i])
@@ -517,16 +516,17 @@ def test_gain_bias(rng, nl_nodirect, generic):
     else:
         gain, bias = nl.gain_bias(max_rates, intercepts)
 
-    assert np.allclose(nl.rates(np.ones(n), gain, bias), max_rates,
-                       atol=tolerance)
+    assert np.allclose(nl.rates(1, gain, bias), max_rates, atol=tolerance)
 
     if nl_nodirect == Sigmoid:
         threshold = 0.5 / nl.tau_ref
     else:
         threshold = 0
 
-    assert np.all(nl.rates(intercepts - tolerance, gain, bias) <= threshold)
-    assert np.all(nl.rates(intercepts + tolerance, gain, bias) > threshold)
+    x = (intercepts - tolerance)[np.newaxis, :]
+    assert np.all(nl.rates(x, gain, bias) <= threshold)
+    x = (intercepts + tolerance)[np.newaxis, :]
+    assert np.all(nl.rates(x, gain, bias) > threshold)
 
     if generic:
         max_rates0, intercepts0 = (
@@ -536,6 +536,62 @@ def test_gain_bias(rng, nl_nodirect, generic):
 
     assert np.allclose(max_rates, max_rates0, atol=tolerance)
     assert np.allclose(intercepts, intercepts0, atol=tolerance)
+
+
+def test_current(rng):
+    neuron_type = NeuronType()
+    n_neurons = 20
+    gain = rng.rand(n_neurons)
+    bias = rng.rand(n_neurons)
+
+    # 3 samples
+    x = rng.rand(3)
+    current = neuron_type.current(x, gain, bias)
+    assert np.allclose(current, gain * x.reshape(-1, 1) + bias)
+    assert current.shape == (3, n_neurons)
+
+    # 10 samples, different values for each neuron
+    x = rng.rand(10, n_neurons)
+    current = neuron_type.current(x, gain, bias)
+    assert np.allclose(current, gain * x + bias)
+    assert current.shape == (10, n_neurons)
+
+    with pytest.raises(ValidationError):
+        # Incorrect second dimension
+        x = rng.rand(10, 2)
+        current = neuron_type.current(x, gain, bias)
+
+    with pytest.raises(ValidationError):
+        # Too many dimensions
+        x = rng.rand(10, n_neurons, 1)
+        current = neuron_type.current(x, gain, bias)
+
+
+def test_rates_shaping(rng, nl_nodirect):
+    neuron_type = nl_nodirect()
+    n_neurons = 20
+    gain = rng.rand(n_neurons)
+    bias = rng.rand(n_neurons)
+
+    # 3 samples
+    x = rng.rand(3)
+    rates = neuron_type.rates(x, gain, bias)
+    assert rates.shape == (3, n_neurons)
+
+    # 10 samples, different values for each neuron
+    x = rng.rand(10, n_neurons)
+    rates = neuron_type.rates(x, gain, bias)
+    assert rates.shape == (10, n_neurons)
+
+    with pytest.raises(ValidationError):
+        # Incorrect second dimension
+        x = rng.rand(10, 2)
+        rates = neuron_type.rates(x, gain, bias)
+
+    with pytest.raises(ValidationError):
+        # Too many dimensions
+        x = rng.rand(10, n_neurons, 1)
+        rates = neuron_type.rates(x, gain, bias)
 
 
 def test_argreprs():

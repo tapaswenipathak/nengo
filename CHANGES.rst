@@ -80,6 +80,9 @@ Release History
 - The ``settled_firingrate`` function has been moved from
   ``nengo.utils.neurons`` to ``nengo.neurons``.
   (`#1187 <https://github.com/nengo/nengo/pull/1187>`_)
+- The ``NeuronType.current`` and ``NeuronType.rates`` methods now document
+  the supported shapes of parameters and return values.
+  (`#1437 <https://github.com/nengo/nengo/pull/1437>`__)
 
 **Deprecated**
 

@@ -52,6 +52,8 @@ def tuning_curves(ens, sim, inputs=None):
         else:
             inputs = [inputs]
         inputs = np.asarray(inputs).T
+    else:
+        inputs = np.asarray(inputs)
 
     eval_points = inputs.reshape((-1, ens.dimensions))
     activities = get_activities(sim.data[ens], ens, eval_points)
@@ -92,13 +94,8 @@ def response_curves(ens, sim, inputs=None):
 
     if inputs is None:
         inputs = np.linspace(-1.0, 1.0)
-
-    x = np.atleast_2d(inputs).T
-    activities = ens.neuron_type.rates(
-        x, sim.data[ens].gain, sim.data[ens].bias)
-    activities = np.squeeze(activities)
-
-    return inputs, activities
+    return inputs, ens.neuron_type.rates(
+        inputs, sim.data[ens].gain, sim.data[ens].bias)
 
 
 def _similarity(encoders, index, rows, cols=1):
