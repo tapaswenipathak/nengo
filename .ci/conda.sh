@@ -14,7 +14,7 @@ MINICONDA="http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh"
 if [[ "$COMMAND" == "install" ]]; then
     export PATH="$HOME/miniconda/bin:$PATH"
     if ! [[ -d $HOME/miniconda/envs/test ]]; then
-        exe rm -rf $HOME/miniconda
+        exe rm -rf "$HOME/miniconda"
         exe wget "$MINICONDA" --quiet -O miniconda.sh
         exe bash miniconda.sh -b -p "$HOME/miniconda"
         exe conda create --quiet -y -n test python="$PYTHON" pip
