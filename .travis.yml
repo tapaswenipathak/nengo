@@ -52,7 +52,6 @@ jobs:
             condition: $TRAVIS_TAG =~ ^v[0-9]*
 
 before_install:
-  - chmod +x .ci/deploy.sh  # so we can keep it -x on local machines
   - source .ci/conda.sh install
 
 install:
