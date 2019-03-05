@@ -25,7 +25,7 @@ elif [[ "$COMMAND" == "script" ]]; then
     exe python -c "import numpy; numpy.show_config()"
     if [[ "$COVERAGE" == "true" ]]; then
         exe coverage run -m pytest nengo -v --duration 20 --color=yes --plots
-        exe coverage report
+        exe coverage report -m
     else
         exe pytest nengo -v --duration 20 --color=yes
     fi
