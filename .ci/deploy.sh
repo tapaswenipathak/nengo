@@ -11,6 +11,7 @@ NAME=$0
 COMMAND=$1
 
 if [[ "$COMMAND" == "install" ]]; then
+    exe conda install --quiet "$NUMPY"
     exe pip install check-manifest collective.checkdocs
 elif [[ "$COMMAND" == "script" ]]; then
     exe check-manifest
