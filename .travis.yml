@@ -21,7 +21,7 @@ jobs:
     - env: MODE="test" PYTHON="3.6" COVERAGE="true" SCIPY="true"
     - env: MODE="test" PYTHON="2.7" COVERAGE="true"
     - stage: advanced
-    - env: MODE="docs" PYTHON="3.6"
+      env: MODE="docs" PYTHON="3.6"
     - env: MODE="test" PYTHON="2.7" NUMPY="1.11"
       cache: false  # disable the cache for one build to make sure that works
     - env: MODE="test" PYTHON="2.7" NUMPY="1.12"
