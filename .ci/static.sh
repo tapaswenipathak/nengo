@@ -14,8 +14,6 @@ COMMAND=$1
 STATUS=0  # Used to exit with non-zero status if any check fails
 
 if [[ "$COMMAND" == "install" ]]; then
-    # pip installs a more recent entrypoints version than conda
-    exe pip install entrypoints
     exe conda install --quiet jupyter
     exe pip install codespell flake8 pylint gitlint
 elif [[ "$COMMAND" == "script" ]]; then
