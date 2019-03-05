@@ -11,7 +11,7 @@ NAME=$0
 COMMAND=$1
 
 if [[ "$COMMAND" == "install" ]]; then
-    exe conda install --quiet jupyter matplotlib numpy="$NUMPY" scipy
+    exe conda install --quiet jupyter matplotlib "$NUMPY" scipy
     exe pip install -e .[docs]
 elif [[ "$COMMAND" == "script" ]]; then
     exe sphinx-build -b linkcheck -vW -D nbsphinx_execute=never docs docs/_build

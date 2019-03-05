@@ -10,7 +10,7 @@ cache:
 env:
   global:
     - MODE="test"
-    - NUMPY="1.15"
+    - NUMPY="numpy"
     - SCIPY="false"
     - COVERAGE="false"
 
@@ -22,13 +22,13 @@ jobs:
     - env: MODE="test" PYTHON="2.7" COVERAGE="true"
     - stage: advanced
       env: MODE="docs" PYTHON="3.6"
-    - env: MODE="test" PYTHON="2.7" NUMPY="1.11"
+    - env: MODE="test" PYTHON="2.7" NUMPY="numpy=1.11"
       cache: false  # disable the cache for one build to make sure that works
-    - env: MODE="test" PYTHON="2.7" NUMPY="1.12"
-    - env: MODE="test" PYTHON="2.7" NUMPY="1.13"
-    - env: MODE="test" PYTHON="2.7" NUMPY="1.14"
+    - env: MODE="test" PYTHON="2.7" NUMPY="numpy=1.12"
+    - env: MODE="test" PYTHON="2.7" NUMPY="numpy=1.13"
+    - env: MODE="test" PYTHON="2.7" NUMPY="numpy=1.14"
     # >= 1.12 not packaged for py34 in conda
-    - env: MODE="test" PYTHON="3.4" NUMPY="1.11"
+    - env: MODE="test" PYTHON="3.4" NUMPY="numpy=1.11"
     - env: MODE="test" PYTHON="3.5"
     - stage: deploy
       if: branch =~ ^release-candidate-* OR tag =~ ^v[0-9]*

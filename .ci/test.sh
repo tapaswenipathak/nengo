@@ -11,7 +11,7 @@ NAME=$0
 COMMAND=$1
 
 if [[ "$COMMAND" == "install" ]]; then
-    exe conda install --quiet jupyter matplotlib numpy="$NUMPY"
+    exe conda install --quiet jupyter matplotlib "$NUMPY"
     if [[ "$SCIPY" == "true" ]]; then
         exe conda install --quiet scipy
         exe pip install scikit-learn
