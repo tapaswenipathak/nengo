@@ -5,6 +5,10 @@ include *.txt
 include *.yml
 recursive-include nengo *.rst
 recursive-include nengo *.txt
+include .codecov.yml
+include .gitlint
+include .pylintrc
+include pytest.ini
 
 # Include this file, to ensure we can recreate source distributions
 include MANIFEST.in
@@ -19,9 +23,14 @@ prune dist
 prune .git
 prune .github
 prune .tox
+prune .eggs
+
+# Exclude auto-generated files
+recursive-exclude docs/examples *.py
 
 # Patterns to exclude from any directory
 global-exclude *-checkpoint.ipynb
+global-exclude *.ipynb_checkpoints*
 
 # Exclude all bytecode
 global-exclude *.pyc *.pyo *.pyd
