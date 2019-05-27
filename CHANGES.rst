@@ -112,6 +112,10 @@ Release History
   which speed up build times slightly. To re-enable this testing,
   enable the ``fail_fast`` RC setting.
   (`#1532 <https://github.com/nengo/nengo/pull/1532>`__)
+- Higher-order synapses no longer remove unnecessary time-step delays when
+  they do not have a passthrough. Synapses with passthrough matrices are still
+  simulated one time-step behind.
+  (`#1535 <https://github.com/nengo/nengo/pull/1535>`__)
 
 **Deprecated**
 
