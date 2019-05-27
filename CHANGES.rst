@@ -128,6 +128,10 @@ Release History
   (`#1187 <https://github.com/nengo/nengo/pull/1187>`_)
 - ``PES.correction`` is no longer probeable.
   (`#1398 <https://github.com/nengo/nengo/pull/1398>`_)
+- Higher-order synapses no longer remove unnecessary time-step delays when
+  they do not have a passthrough. Synapses with passthrough matrices are still
+  simulated one time-step behind.
+  (`#1535 <https://github.com/nengo/nengo/pull/1535>`__)
 
 **Fixed**
 
