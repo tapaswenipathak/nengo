@@ -73,8 +73,8 @@ class Synapse(Process):
         axis : int, optional
             The axis along which to filter.
         y0 : array_like, optional
-            The starting state of the filter output. If None, the initial
-            value of the input signal along the axis filtered will be used.
+            The starting state of the filter output (for stable linear systems
+            only). If `None`, the filter state is initialized to zero.
         copy : bool, optional
             Whether to copy the input data, or simply work in-place.
         filtfilt : bool, optional
@@ -88,9 +88,6 @@ class Synapse(Process):
         if filtered.dtype.kind != 'f':
             filtered = filtered.astype(np.float64)
         filt_view = np.rollaxis(filtered, axis=axis)  # rolled view on filtered
-
-        if y0 is None:
-            y0 = filt_view[0]
 
         shape_in = shape_out = as_shape(filt_view[0].shape, min_dim=1)
         step = self.make_step(

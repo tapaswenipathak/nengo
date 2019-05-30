@@ -116,6 +116,10 @@ Release History
   they do not have a passthrough. Synapses with passthrough matrices are still
   simulated one time-step behind.
   (`#1535 <https://github.com/nengo/nengo/pull/1535>`__)
+- ``Synapse.filt`` no longer uses the initial value of the input signal to
+  initialize the state if ``y0 is None``. This allows unstable filters
+  (e.g. integrators) to be used with ``filt``.
+  (`#1535 <https://github.com/nengo/nengo/pull/1535>`__)
 
 **Deprecated**
 
