@@ -120,6 +120,9 @@ Release History
   initialize the state if ``y0 is None``. This allows unstable filters
   (e.g. integrators) to be used with ``filt``.
   (`#1535 <https://github.com/nengo/nengo/pull/1535>`__)
+- ``LinearFilter`` now has the discretization method as a class attribute,
+  instead of an argument to ``make_step``, to make it easier to change.
+  (`#1535 <https://github.com/nengo/nengo/pull/1535>`__)
 
 **Deprecated**
 
