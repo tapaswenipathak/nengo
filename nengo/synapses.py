@@ -60,7 +60,7 @@ class Synapse(Process):
                          default_dt=default_dt,
                          seed=seed)
 
-    def filt(self, x, dt=None, axis=0, y0=None, copy=True, filtfilt=False):
+    def filt(self, x, dt=None, axis=0, y0=0, copy=True, filtfilt=False):
         """Filter ``x`` with this synapse model.
 
         Parameters
@@ -73,8 +73,8 @@ class Synapse(Process):
         axis : int, optional
             The axis along which to filter.
         y0 : array_like, optional
-            The starting state of the filter output. If None, the initial
-            value of the input signal along the axis filtered will be used.
+            The starting state of the filter output. Must be zero for
+            unstable linear systems.
         copy : bool, optional
             Whether to copy the input data, or simply work in-place.
         filtfilt : bool, optional
@@ -88,9 +88,6 @@ class Synapse(Process):
         if filtered.dtype.kind != 'f':
             filtered = filtered.astype(np.float64)
         filt_view = np.rollaxis(filtered, axis=axis)  # rolled view on filtered
-
-        if y0 is None:
-            y0 = filt_view[0]
 
         shape_in = shape_out = as_shape(filt_view[0].shape, min_dim=1)
         step = self.make_step(
@@ -114,8 +111,7 @@ class Synapse(Process):
         """
         return self.filt(x, filtfilt=True, **kwargs)
 
-    def make_step(self, shape_in, shape_out, dt, rng,
-                  y0=None, dtype=np.float64):
+    def make_step(self, shape_in, shape_out, dt, rng, y0=0, dtype=np.float64):
         """Create function that advances the synapse forward one time step.
 
         At a minimum, Synapse subclasses must implement this method.
@@ -133,7 +129,7 @@ class Synapse(Process):
         rng : `numpy.random.RandomState`
             Random number generator.
         y0 : array_like, optional
-            The starting state of the filter output. If None, each dimension
+            The starting state of the filter output. If zero, each dimension
             of the state will start at zero.
         dtype : `numpy.dtype`
             Type of data used by the synapse model. This is important for
@@ -238,7 +234,7 @@ class LinearFilter(Synapse):
 
         return A, B, C, D
 
-    def make_step(self, shape_in, shape_out, dt, rng, y0=None,
+    def make_step(self, shape_in, shape_out, dt, rng, y0=0,
                   dtype=np.float64):
         """Returns a `.Step` instance that implements the linear filter."""
         assert shape_in == shape_out
@@ -255,21 +251,30 @@ class LinearFilter(Synapse):
         # create state memory variable X
         X = np.zeros((A.shape[0],) + shape_out, dtype=dtype)
 
-        # initialize X using y0 as steady-state output (if y0 is provided)
-        if y0 is not None and LinearFilter.OneX.check(A, B, C, D, X):
+        # initialize X using y0 as steady-state output
+        y0 = np.array(y0, copy=False, ndmin=2)
+        if (y0 == 0).all():
+            # just leave X as zeros in this case, so that this value works
+            # for unstable systems
+            pass
+        elif LinearFilter.OneX.check(A, B, C, D, X):
             # OneX combines B and C into one scaling value `b`
-            y0 = np.array(y0, copy=False, ndmin=1)
             b = B.item() * C.item()
             X[:] = (b / (1 - A.item())) * y0
-        elif y0 is not None and len(X) > 0:
-            # Solve for input `u0` given output `y0`, then state given input
+        else:
+            # Solve for u0 (input) given y0 (output), then X given u0
             assert B.ndim == 1 or B.ndim == 2 and B.shape[1] == 1
             y0 = np.array(y0, copy=False, ndmin=2)
             IAB = np.linalg.solve(np.eye(len(A)) - A, B)
-            Q = C.dot(IAB) + D
+            Q = C.dot(IAB) + D  # multiplier from input to output (DC gain)
             assert Q.size == 1
-            u0 = y0 / Q.item()
-            X[:] = IAB.dot(u0)
+            if np.abs(Q.item()) > 1e-8:
+                u0 = y0 / Q.item()
+                X[:] = IAB.dot(u0)
+            else:
+                raise ValidationError("Cannot solve for state if DC gain is "
+                                      "zero. Please set `y0=0`.",
+                                      'y0', obj=self)
 
         if LinearFilter.NoX.check(A, B, C, D, X):
             return LinearFilter.NoX(A, B, C, D, X)
@@ -455,8 +460,7 @@ class Triangle(Synapse):
         super().__init__(**kwargs)
         self.t = t
 
-    def make_step(self, shape_in, shape_out, dt, rng, y0=None,
-                  dtype=np.float64):
+    def make_step(self, shape_in, shape_out, dt, rng, y0=0, dtype=np.float64):
         """Returns a custom step function."""
         assert shape_in == shape_out
 
@@ -470,7 +474,7 @@ class Triangle(Synapse):
         x = collections.deque(maxlen=n_taps)
 
         output = np.zeros(shape_out, dtype=dtype)
-        if y0 is not None:
+        if y0 != 0:
             output[:] = y0
 
         def step_triangle(t, signal):
