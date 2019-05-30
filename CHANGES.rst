@@ -98,6 +98,9 @@ Release History
 - PES learning updates are now applied on the next timestep rather than
   the current one.
   (`#1398 <https://github.com/nengo/nengo/pull/1398>`_)
+- ``LinearFilter`` now has the discretization method as a class attribute,
+  instead of an argument to ``make_step``, to make it easier to change.
+  (`#1535 <https://github.com/nengo/nengo/pull/1535>`__)
 
 **Deprecated**
 
