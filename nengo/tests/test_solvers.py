@@ -9,7 +9,7 @@ import pytest
 import nengo
 from nengo.dists import UniformHypersphere
 from nengo.exceptions import BuildError, ValidationError
-from nengo.utils.numpy import rms, norm
+from nengo.utils.numpy import rms, norm, scipy_sparse
 from nengo.utils.stdlib import Timer
 from nengo.utils.testing import allclose
 from nengo.solvers import (
@@ -610,7 +610,7 @@ def test_non_compositional_solver(Simulator, solver, rng, seed, plt):
         a = nengo.Ensemble(100, 1)
         b = nengo.Ensemble(101, 1)
         nengo.Connection(u, a, synapse=None)
-        nengo.Connection(a, b, solver=solver, transform=-1)
+        conn = nengo.Connection(a, b, solver=solver, transform=-1)
 
         up = nengo.Probe(u, synapse=0.03)
         bp = nengo.Probe(b, synapse=0.03)
@@ -624,6 +624,27 @@ def test_non_compositional_solver(Simulator, solver, rng, seed, plt):
     plt.plot(sim.trange(), y)
 
     assert np.allclose(y, -x, atol=0.1)
+    assert isinstance(sim.data[conn].weights, scipy_sparse.csr_matrix)
+
+
+@pytest.mark.parametrize('solver', [
+    LstsqDrop(),
+    LstsqL1(),
+])
+def test_sparse_decoders_warnings(Simulator, solver):
+    # sparse decoders are not yet supported
+    assert solver.sparse
+    assert not solver.weights
+
+    with nengo.Network() as net:
+        conn = nengo.Connection(
+            nengo.Ensemble(10, 1), nengo.Node(size_in=1), solver=solver)
+
+    with pytest.warns(UserWarning, match="Sparse decoders are not supported"):
+        with Simulator(net) as sim:
+            pass
+
+    assert 0 < sim.data[conn].solver_info['sparsity'] < 1
 
 
 def test_non_compositional_solver_transform_error(Simulator):

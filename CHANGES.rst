@@ -41,6 +41,10 @@ Release History
   added to the model. See `configuration options
   <https://www.nengo.ai/nengo/nengorc.html#configuration-options>`__
   for details. (`#1532 <https://github.com/nengo/nengo/pull/1532>`__)
+- Solvers can set ``sparse = True`` to hint to the backend that it returns
+  a sparse weight matrix, which can save time and memory.
+  Both ``LstsqL1`` and ``LstsqDrop`` set this by default.
+  (`#1539 <https://github.com/nengo/nengo/pull/1539>`__)
 
 **Changed**
 

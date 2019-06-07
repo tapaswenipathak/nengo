@@ -1,4 +1,5 @@
 import collections
+import warnings
 
 import numpy as np
 
@@ -7,13 +8,13 @@ from nengo.builder.ensemble import gen_eval_points, get_activities
 from nengo.builder.node import SimPyFunc
 from nengo.builder.operator import Copy, ElementwiseInc
 from nengo.connection import Connection
-from nengo.transforms import Dense
 from nengo.ensemble import Ensemble, Neurons
 from nengo.exceptions import BuildError, ObsoleteError
 from nengo.neurons import Direct
 from nengo.node import Node
 from nengo.solvers import NoSolver, Solver
-from nengo.utils.numpy import is_iterable
+from nengo.transforms import Dense, Sparse
+from nengo.utils.numpy import is_iterable, scipy_sparse
 
 built_attrs = ['eval_points', 'solver_info', 'weights', 'transform']
 
@@ -274,10 +275,17 @@ def build_connection(model, conn):
         # special case for non-compositional weight solvers, where
         # the solver is solving for the full weight matrix. so we don't
         # need to combine decoders/transform/encoders.
-        weighted, weights = model.build(Dense(decoders.shape, init=decoders),
-                                        in_signal,
-                                        rng=rng)
+        if conn.solver.sparse:
+            transform = Sparse(decoders.shape,
+                               init=scipy_sparse.csr_matrix(decoders))
+        else:
+            transform = Dense(decoders.shape, init=decoders)
+        weighted, weights = model.build(transform, in_signal, rng=rng)
     else:
+        if conn.solver.sparse:
+            warnings.warn("Sparse decoders are not supported. "
+                          "Set `weights=True` in the solver to take "
+                          "advantage of sparse transforms.")
         weighted, weights = model.build(conn.transform,
                                         in_signal,
                                         decoders=decoders,
