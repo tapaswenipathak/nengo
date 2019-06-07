@@ -1,7 +1,7 @@
 import numpy as np
 
 from nengo.exceptions import ValidationError
-from nengo.rc import global_dtype
+from nengo.rc import rc
 from nengo.utils.numpy import is_integer, is_number
 
 
@@ -26,7 +26,7 @@ class SemanticPointer:
                 raise ValidationError(
                     "Must specify either the data or the length for a "
                     "SemanticPointer.", attr='data', obj=self)
-            self.v = np.array(data, dtype=global_dtype)
+            self.v = np.array(data, dtype=rc.dtype)
             if len(self.v.shape) != 1:
                 raise ValidationError("'data' must be a vector", 'data', self)
 

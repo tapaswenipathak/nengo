@@ -3,7 +3,7 @@ import pytest
 
 import nengo
 from nengo.exceptions import SimulationError, ValidationError
-from nengo.rc import global_dtype
+from nengo.rc import rc
 
 
 def test_time(Simulator):
@@ -246,8 +246,6 @@ def test_len():
 
 
 def test_set_arraylike_output(Simulator):
-    dtype = global_dtype
-
     with nengo.Network() as model:
         # if output is None, size_out == size_in
         with pytest.warns(UserWarning):
@@ -269,11 +267,11 @@ def test_set_arraylike_output(Simulator):
         # scalar gets promoted to float vector
         scalar = nengo.Node(2)
         assert scalar.output.shape == (1,)
-        assert scalar.output.dtype == dtype
+        assert scalar.output.dtype == rc.dtype
         # vector stays 1D
         vector = nengo.Node(np.arange(3))
         assert vector.output.shape == (3,)
-        assert vector.output.dtype == dtype
+        assert vector.output.dtype == rc.dtype
 
     with Simulator(model):  # Ensure it all builds
         pass

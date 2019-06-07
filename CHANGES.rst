@@ -44,11 +44,8 @@ Release History
 - Added a ``--memory`` option for pytest that prints the total memory
   consumed by the tests when they complete (Linux and Mac OS X only).
   (`#640 <https://github.com/nengo/nengo/pull/640>`__)
-- Added a ``dtype`` option to both the ``nengorc`` file and to ``Simulator``,
-  to change the floating-point Numpy datatype used by Nengo. The RC setting
-  changes the datatype throughout the Nengo package (including how parameters
-  are stored on Nengo objects), whereas the ``Simulator`` argument only changes
-  the datatype used for building and simulation.
+- Added ``dtype`` settings to change the floating-point Numpy datatype used
+  by Nengo in general and specifically in the simulator.
   (`#640 <https://github.com/nengo/nengo/pull/640>`__)
 
 **Changed**

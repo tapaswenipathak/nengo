@@ -88,6 +88,7 @@ RC_DEFAULTS = {
         'simplified': True,
     },
     'nengo.Simulator': {
+        'dtype': 'auto',
         'fail_fast': False,
     }
 }
@@ -125,6 +126,17 @@ class _RC(configparser.SafeConfigParser):
         # configparser uses old-style classes without 'super' support
         configparser.SafeConfigParser.__init__(self)
         self.reload_rc()
+
+    @property
+    def dtype(self):
+        return np.dtype(self.get('precision', 'dtype'))
+
+    @property
+    def sim_dtype(self):
+        sim_dtype = self.get('nengo.Simulator', 'dtype')
+        if sim_dtype == 'auto':
+            return self.dtype
+        return np.dtype(sim_dtype)
 
     def _clear(self):
         self.remove_section(configparser.DEFAULTSECT)
@@ -171,4 +183,3 @@ class _RC(configparser.SafeConfigParser):
 
 
 rc = _RC()
-global_dtype = np.dtype(rc.get('precision', 'dtype'))

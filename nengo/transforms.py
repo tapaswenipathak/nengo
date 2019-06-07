@@ -14,7 +14,7 @@ from nengo.params import (
     Parameter,
     ShapeParam,
 )
-from nengo.rc import global_dtype
+from nengo.rc import rc
 from nengo.utils.numpy import is_array_like, scipy_sparse
 
 
@@ -88,7 +88,7 @@ class Dense(Transform):
         self.shape = shape
 
         if is_array_like(init):
-            init = np.asarray(init, dtype=global_dtype)
+            init = np.asarray(init, dtype=rc.dtype)
 
             # check that the shape of init is compatible with the given shape
             # for this transform
@@ -267,9 +267,10 @@ class Sparse(Transform):
     ----------
     shape : tuple of int
         The full shape of the sparse matrix: ``(size_out, size_in)``.
-    inds : array_like of int
-        The indices of
-    init : `.Distribution` or array_like, optional (Default: 1.0)
+    indices : array_like of int
+        An Nx2 array of integers indicating the (row,col) coordinates for the
+        N non-zero elements in the matrix.
+    init : `.Distribution` or array_like, optional
         A Distribution used to initialize the transform matrix, or a concrete
         instantiation for the matrix. If the matrix is square we also allow a
         scalar (equivalent to ``np.eye(n) * init``) or a vector (equivalent to
@@ -417,7 +418,7 @@ class Convolution(Transform):
             ]
             kernel = np.reshape(kernel, self.kernel_shape)
         else:
-            kernel = np.array(self.init, dtype=global_dtype)
+            kernel = np.array(self.init, dtype=rc.dtype)
         return kernel
 
     @property

@@ -10,6 +10,7 @@ from nengo.builder.ensemble import BuiltEnsemble
 from nengo.builder.operator import DotInc
 from nengo.builder.signal import Signal
 from nengo.exceptions import ObsoleteError, SimulatorClosed, ValidationError
+from nengo.rc import rc
 from nengo.utils.progress import ProgressBar
 
 
@@ -30,9 +31,12 @@ def test_steps(RefSimulator):
         assert np.isscalar(sim.time)
 
 
-@pytest.mark.parametrize('dtype', [np.float16, np.float32, np.float64])
-def test_dtype(RefSimulator, seed, dtype):
-    int_dtype = np.dtype(np.dtype(dtype).str.replace('f', 'i'))
+@pytest.mark.parametrize('dtype', ['float16', 'float32', 'float64'])
+def test_dtype(RefSimulator, request, seed, dtype):
+    # Ensure dtype is set back to default after the test, even if it fails
+    request.addfinalizer(lambda: rc.set("nengo.Simulator", "dtype", "auto"))
+
+    int_dtype = dtype.replace('float', 'int')
 
     with nengo.Network() as model:
         u = nengo.Node([0.5, -0.4])
@@ -40,7 +44,8 @@ def test_dtype(RefSimulator, seed, dtype):
         nengo.Connection(u, a)
         p = nengo.Probe(a)
 
-    with RefSimulator(model, dtype=dtype) as sim:
+    rc.set("nengo.Simulator", "dtype", dtype)
+    with RefSimulator(model) as sim:
         sim.step()
 
         for k, v in sim.signals.items():
@@ -54,7 +59,8 @@ def test_dtype(RefSimulator, seed, dtype):
         assert sim.data[p].dtype == dtype
 
     with pytest.raises(ValidationError):
-        with RefSimulator(model, dtype=int_dtype):
+        rc.set("nengo.Simulator", "dtype", int_dtype)
+        with RefSimulator(model):
             pass  # integer dtypes not supported
 
 

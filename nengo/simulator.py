@@ -12,7 +12,7 @@ from nengo.builder.optimizer import optimize as opmerge_optimize
 from nengo.builder.signal import SignalDict
 from nengo.cache import get_default_decoder_cache
 from nengo.exceptions import ReadonlyError, SimulatorClosed, ValidationError
-from nengo.rc import global_dtype
+from nengo.rc import rc
 from nengo.utils.graphs import toposort
 from nengo.utils.progress import Progress, ProgressTracker
 from nengo.utils.simulator import operator_dependency_graph
@@ -108,10 +108,6 @@ class Simulator:
         that can speed up simulations significantly at the cost of slower
         builds. If running models for very small amounts of time,
         pass ``False`` to disable the optimizer.
-    dtype : `numpy.dtype`, optional
-        The data type to use for representing internal signals for building
-        and simulation. Must be a floating-point data type. Defaults to the
-        value set by the `nengo.rc` system (which defaults to `numpy.float64`).
 
     Attributes
     ----------
@@ -135,18 +131,15 @@ class Simulator:
 
     def __init__(
             self, network,
-            dt=0.001, seed=None, model=None, progress_bar=True, optimize=True,
-            dtype=global_dtype):
+            dt=0.001, seed=None, model=None, progress_bar=True, optimize=True):
         self.closed = True  # Start closed in case constructor raises exception
         self.progress_bar = progress_bar
 
         if model is None:
             self.model = Model(dt=float(dt),
                                label="%s, dt=%f" % (network, dt),
-                               decoder_cache=get_default_decoder_cache(),
-                               dtype=dtype)
+                               decoder_cache=get_default_decoder_cache())
         else:
-            assert model.dtype == dtype
             self.model = model
 
         pt = ProgressTracker(progress_bar, Progress("Building", "Build"))

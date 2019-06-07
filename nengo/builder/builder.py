@@ -8,7 +8,6 @@ from nengo.builder.signal import Signal, SignalDict
 from nengo.builder.operator import TimeUpdate
 from nengo.cache import NoDecoderCache
 from nengo.exceptions import BuildError, ValidationError
-from nengo.rc import global_dtype
 
 
 class Model:
@@ -25,10 +24,6 @@ class Model:
     builder : `nengo.builder.Builder`, optional
         A ``Builder`` instance to use for building. Defaults to a
         new ``Builder()``.
-    dtype : `numpy.dtype`, optional
-        The data type to use for representing internal signals for building
-        and simulation. Must be a floating-point data type. Defaults to the
-        value set by the `nengo.rc` system (which defaults to `numpy.float64`).
 
     Attributes
     ----------
@@ -38,6 +33,12 @@ class Model:
         Interface to a cache for expensive parts of the build process.
     dt : float
         The length of each timestep, in seconds.
+    dtype : `numpy.dtype`
+        The data type used to represent internal signals.
+        Always a floating-point data type.
+    int_dtype : `numpy.dtype`
+        The data type used to represent internal integer signals.
+        Always an integer data type.
     label : str or None
         A name or description to differentiate models.
     operators : list
@@ -72,13 +73,12 @@ class Model:
         or for the network builder to determine if it is the top-level network.
     """
 
-    def __init__(self, dt=0.001, label=None, decoder_cache=None, builder=None,
-                 dtype=global_dtype):
+    def __init__(self, dt=0.001, label=None, decoder_cache=None, builder=None):
         self.dt = dt
         self.label = label
         self.decoder_cache = (NoDecoderCache() if decoder_cache is None
                               else decoder_cache)
-        self.dtype = np.dtype(dtype)
+        self.dtype = rc.sim_dtype
         if self.dtype.kind != 'f':
             raise ValidationError("Must be float dtype", 'dtype', obj=self)
         self.int_dtype = np.dtype(self.dtype.str.replace('f', 'i'))
