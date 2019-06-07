@@ -1,0 +1,615 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Connections in depth &#8212; Nengo 3.0.0.dev0 docs</title>
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/mmenu.all.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/components.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/nengo.css" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<!--[if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
+<script type="text/javascript" src="https://cdn.crate.io/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/js/modernizr.js"></script>
+    <script type="text/javascript" src="_static/js/underscore.min.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/searchtools.js"></script>
+    <script type="text/javascript" src="_static/js/webflow.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap.js"></script>
+    <script type="text/javascript" src="_static/js/mmenu.all.min.js"></script>
+    <script type="text/javascript" src="_static/js/fontawesome.js"></script>
+    <script type="text/javascript" src="_static/js/custom.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Nengo configuration" href="nengorc.html" />
+    <link rel="prev" title="Advanced topics" href="advanced.html" />
+<link rel="stylesheet" type="text/css" href="_static/custom.css">
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-41658423-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-41658423-2');
+</script>
+
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head><body>
+<header class="header-nav">
+  <div class="container">
+    <div class="navbar w-nav" data-animation="default" data-collapse="small" data-contain="1" data-duration="400">
+      <a class="brand w-nav-brand" href="https://www.nengo.ai/">
+        <img src="https://www.nengo.ai/design/_images/general-full-light.svg" width="120">
+      </a>
+      <nav class="w-nav-menu main-nav" role="navigation">
+        <div class="dropdownBackground">
+          <span class="arrow"></span>
+        </div>
+        <ul id="menu-top-navigation" class="menu">
+          <li class="navlink w-nav-link menu-item menu-item-has-children">
+            <a href="https://www.nengo.ai/overview.html">Overview</a>
+            <ul class="sub-menu">
+                <li class="menu-item"><a href="https://www.nengo.ai/quickstart.html">Quick Start</a></li>
+            </ul>
+          </li>
+          <li class="navlink w-nav-link menu-item menu-item-has-children">
+            <a href="https://www.nengo.ai/documentation.html">Documentation</a>
+            <table class="sub-menu">
+              <tr>
+                <td class="menu-heading">Core</td>
+                <td class="menu-heading">Backends</td>
+                <td class="menu-heading">Add-ons</td>
+              </tr>
+              <tr>
+                <td class="menu-item"><a href="https://www.nengo.ai/nengo">Nengo</a></td>
+                <td class="menu-item"><a href="https://www.nengo.ai/nengo-fpga">Nengo FPGA</a></td>
+                <td class="menu-item"><a href="https://github.com/nengo/nengo-examples">Nengo Examples</a></td>
+              </tr>
+              <tr>
+                <td class="menu-item"><a href="https://www.nengo.ai/nengo-dl/">Nengo DL</a></td>
+                <td class="menu-item"><a href="https://www.nengo.ai/nengo-loihi">Nengo Loihi</a></td>
+                <td class="menu-item"><a href="https://www.nengo.ai/nengo-extras/">Nengo Extras</a></td>
+              </tr>
+              <tr>
+                <td class="menu-item"><a href="https://github.com/nengo/nengo-gui">Nengo GUI</a></td>
+                <td class="menu-item"><a href="https://github.com/nengo/nengo-mpi">Nengo MPI</a></td>
+                <td class="menu-item"><a href="https://arvoelke.github.io/nengolib-docs/">Nengo Lib</a></td>
+              </tr>
+              <tr>
+                <td class="menu-item"><a href="https://www.nengo.ai/nengo-spa/">Nengo SPA</a></td>
+                <td class="menu-item"><a href="https://github.com/nengo/nengo-ocl">Nengo OpenCL</a></td>
+                <td class="menu-item"></td>
+              </tr>
+              <tr>
+                <td class="menu-item"></td>
+                <td class="menu-item"><a href="https://github.com/project-rig/nengo_spinnaker">Nengo SpiNNaker</a></td>
+                <td class="menu-item"></td>
+              </tr>
+            </table>
+          </li>
+          <li class="navlink w-nav-link menu-item menu-item-has-children">
+            <a href="https://www.nengo.ai/community.html">Community</a>
+            <ul class="sub-menu">
+              <li class="menu-item"><a href="https://forum.nengo.ai/">Forum</a></li>
+              <li class="menu-item"><a href="https://www.nengo.ai/publications.html">Publications</a></li>
+              <li class="menu-item"><a href="https://www.nengo.ai/summerschool.html">Summer School</a></li>
+              <li class="menu-item"><a href="https://www.nengo.ai/videos.html">Videos</a></li>
+              <li class="menu-item"><a href="https://www.nengo.ai/people.html">People</a></li>
+            </ul>
+          </li>
+          <li class="navlink w-nav-link menu-item menu-item-has-children">
+            <a href="https://www.nengo.ai/projects.html">Development</a>
+            <ul class="sub-menu">
+              <li class="menu-item"><a href="https://www.nengo.ai/contributing.html">Contributor Guide</a></li>
+              <li class="menu-item"><a href="https://www.nengo.ai/projects.html">Ecosystem</a></li>
+            </ul>
+          </li>
+          <li class="navlink w-nav-link menu-item"><a href="https://www.nengo.ai/README.html">About</a></li>
+          <li class="btn-link w-nav-link menu-item"><a href="https://www.nengo.ai/download.html">Download</a></li>
+        </ul>
+      </nav>
+
+      <div id="mobile-nav" class="mm-menu">
+        <ul class="offcanvas-menu">
+          <li class="navlink w-nav-link menu-item"><a href="https://www.nengo.ai/overview.html">Overview</a></li>
+          <li class="navlink w-nav-link menu-item menu-item-has-children">
+            <a href="https://www.nengo.ai/documentation.html">Documentation</a>
+            <ul class="sub-menu">
+              <li class="menu-item"><a href="https://www.nengo.ai/quickstart.html">Quick Start</a></li>
+              <li class="menu-item"><a href="http://www.nengo.ai/nengo">NengoCore</a></li>
+              <li class="menu-item"><a href="https://github.com/nengo/nengo-gui#nengo-gui">NengoGUI</a></li>
+            </ul>
+          </li>
+          <li class="navlink w-nav-link menu-item menu-item-has-children">
+            <a href="https://www.nengo.ai/community.html">Community</a>
+            <ul class="sub-menu">
+              <li class="menu-item"><a href="https://forum.nengo.ai/">Forum</a></li>
+              <li class="menu-item"><a href="https://www.nengo.ai/summerschool.html">Summer School</a></li>
+              <li class="menu-item"><a href="https://www.nengo.ai/people.html">People</a></li>
+            </ul>
+          </li>
+          <li class="navlink w-nav-link menu-item menu-item-has-children">
+            <a href="https://www.nengo.ai/projects.html">Development</a>
+            <ul class="sub-menu">
+              <li class="menu-item"><a href="https://www.nengo.ai/contributing.html">Contributor Guide</a></li>
+              <li class="menu-item"><a href="https://www.nengo.ai/projects.html">Ecosystem</a></li>
+            </ul>
+          </li>
+          <li class="navlink w-nav-link menu-item"><a href="https://www.nengo.ai/README.html">About</a></li>
+          <li class="btn-link w-nav-link menu-item"><a href="https://www.nengo.ai/download.html">Download</a></li>
+        </ul>
+      </div>
+
+      <a href="#mobile-nav" class="fa fa-bars mobile-nav-button"></a>
+    </div>
+  </div>
+</header>
+
+<div class="w-section section border-top">
+  <div class="container">
+    <div class="row" id="connections">
+      <div class="col-md-4 col-lg-3">
+        <aside class="wrapper-navleft"><div role="complementary" class="bs-docs-sidebar hidden-print" id="nav-affix">
+  <ul class="bs-docs-sidenav bs-sidenav nav" role="complementary">
+    <a href="index.html">
+      <img class="logo" src="https://www.nengo.ai/design/_images/general-full-light.svg" alt="Nengo" width="200" />
+    </a>
+    <ul class="toctree nav nav-list">
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="user_guide.html">User guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="frontend_api.html">Nengo frontend API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">Setting parameters with Configs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="networks.html">Reusable networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spa.html">Semantic Pointer Architecture</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="advanced.html">Advanced topics</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Connections in depth</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nengorc.html">Nengo configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="improving_performance.html">Improving performance</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="backend_api.html">Nengo backend API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html">Release History</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html">Nengo history</a></li>
+<li class="toctree-l2"><a class="reference internal" href="converting.html">Converting from Nengo 1.4 to Nengo 2.0</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to Nengo</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://www.nengo.ai/projects.html">Nengo ecosystem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">Nengo license</a></li>
+</ul>
+
+    </ul>
+  </ul>
+<form id="form-search" class="form-search" action="search.html" method="get">
+  <div class="form-group">
+    <input type="text" name="q" class="form-control" placeholder="Search" />
+  </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form></div>
+          
+        </aside>
+      </div>
+      <div class="col-md-8 col-lg-9">
+        <div class="body wrapper-content-right">
+          
+<div class="version-select-container">
+    <div data-delay="0" class="w-dropdown">
+        <div class="w-dropdown-toggle toggle">
+            <div class="toggle-text">latest</div>
+            <div class="w-icon-dropdown-toggle toggle-icon"></div>
+        </div>
+        <nav class="w-dropdown-list dropdown-list">
+            
+            
+                <div class="w-dropdown-link">latest</div>
+            
+
+            
+                
+                    <a href="v2.8.0/connections.html" class="w-dropdown-link">v2.8.0</a>
+                
+            
+                
+                    <a href="/connections.html" class="w-dropdown-link"></a>
+                
+            
+        </nav>
+    </div>
+</div>
+
+          
+  <div class="section" id="connections-in-depth">
+<h1>Connections in depth<a class="headerlink" href="#connections-in-depth" title="Permalink to this headline">¶</a></h1>
+<p>The <a class="reference internal" href="frontend_api.html#nengo.Connection" title="nengo.Connection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Connection</span></code></a> object encapsulates different behaviors
+depending on the attributes of the connection.
+It can be helpful in debugging network behavior
+to know what is happening under the hood
+for different types of connections.</p>
+<p>The biggest determiner of what happens
+in a connection is the <code class="docutils literal notranslate"><span class="pre">pre</span></code> object.
+When the <code class="docutils literal notranslate"><span class="pre">pre</span></code> object is an <a class="reference internal" href="frontend_api.html#nengo.Ensemble" title="nengo.Ensemble"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Ensemble</span></code></a>
+with a neuron type other than <a class="reference internal" href="frontend_api.html#nengo.Direct" title="nengo.Direct"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Direct</span></code></a>,
+Nengo will create a decoded connection.
+When the <code class="docutils literal notranslate"><span class="pre">pre</span></code> object is anything else,
+Nengo will create a direct connection.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">post</span></code> object
+is only used to determine
+which signal will receive the data
+produced by the connection.
+If you’re not sure what your connection
+is doing, interrogate the <code class="docutils literal notranslate"><span class="pre">pre</span></code> object first.</p>
+<div class="section" id="decoded-connections">
+<h2>Decoded connections<a class="headerlink" href="#decoded-connections" title="Permalink to this headline">¶</a></h2>
+<p>Decoded connections are any connection
+<strong>from an ensemble to any other object</strong>.
+The following are all examples of decoded connections:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span> <span class="k">as</span> <span class="n">net</span><span class="p">:</span>
+    <span class="n">ens1</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">node</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">size_in</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">ens2</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># Ensemble to ensemble</span>
+    <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">ens1</span><span class="p">,</span> <span class="n">ens2</span><span class="p">)</span>
+    <span class="c1"># Ensemble slice to node</span>
+    <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">ens1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">node</span><span class="p">)</span>
+    <span class="c1"># Ensemble to neurons slice</span>
+    <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">ens1</span><span class="p">,</span> <span class="n">ens2</span><span class="o">.</span><span class="n">neurons</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>The important thing about decoded connections
+is that they do not directly compute the
+<code class="docutils literal notranslate"><span class="pre">function</span></code> defined for that connection
+(keeping in mind that passing in no function
+is equivalent to passing in the identity function).
+Instead, the function is approximated
+by solving for a set of decoding weights.
+The output of a decoded connection
+is the sum of the pre ensemble’s neural activity
+weighted by the decoding weights
+solved for in the build process.</p>
+<p>Mathematically, you can think of a decoded connection
+as implementing the following equation:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{y}(t) = \sum_{i=0}^n \mathbf{d}^{f}_i a_i(x(t))\]</div>
+<p>where</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\mathbf{y}(t)\)</span> is the output of the connection at time <span class="math notranslate nohighlight">\(t\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(n\)</span> is the number of neurons in the pre ensemble</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{d}^{f}_i\)</span> is the decoding weight associated
+with neuron <span class="math notranslate nohighlight">\(i\)</span> given the function <span class="math notranslate nohighlight">\(f\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(a_i(x(t))\)</span> is the activity of neuron <span class="math notranslate nohighlight">\(i\)</span> given
+<span class="math notranslate nohighlight">\(x(t)\)</span>, the input at time <span class="math notranslate nohighlight">\(t\)</span>.</p></li>
+</ul>
+<p>Note that the length of the <span class="math notranslate nohighlight">\(\mathbf{d}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{y}\)</span> vectors
+is the same, and is specified by the dimensionality of
+the output of the function <span class="math notranslate nohighlight">\(f\)</span> when applied to input <span class="math notranslate nohighlight">\(x\)</span>.</p>
+<p>While the equation above is straightforward,
+there are several important implications
+that one should keep in mind when using decoded connections.</p>
+<ul>
+<li><p>Decoders will be automatically solved for in the build process.</p>
+<p>Solving for decoders makes up the majority of build time,
+so if building your networks takes a long time,
+look at your decoded connections and
+try lowering the number of neurons
+or using different <a class="reference internal" href="frontend_api.html#nengo.solvers.Solver" title="nengo.solvers.Solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Solver</span></code></a> types.</p>
+</li>
+<li><p>The function passed to the connection
+is used to determine decoders.
+It will never be run during the simulation.</p>
+<p>When you define a function in a node,
+it will be execute on every simulation timestep.
+That may lead you to think that the function
+passed to a connection is executed on every timestep,
+but that is <em>not</em> the case for decoded connections.
+The function passed to the connection will be executed
+in the decoder solving process determine an error
+to minimize, but never during the simulation.</p>
+</li>
+<li><p>The characteristics of the <code class="docutils literal notranslate"><span class="pre">pre</span></code> ensemble
+are critically important to performance.</p>
+<p>If you determine that your decoded connection
+is not approximating the desired function well,
+examine the <code class="docutils literal notranslate"><span class="pre">pre</span></code> ensemble.
+The decoded value depends on the activity
+of the <code class="docutils literal notranslate"><span class="pre">pre</span></code> ensemble;
+does it represent its input reliably?
+If not, then a function of that input
+cannot be well approximated.
+If you think that your function may be incorrect,
+switch the <code class="docutils literal notranslate"><span class="pre">pre</span></code> ensemble to use
+the <a class="reference internal" href="frontend_api.html#nengo.Direct" title="nengo.Direct"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Direct</span></code></a> neuron type,
+which does not use decoders.
+If that function looks correct,
+move on to a simpler neuron type
+like <a class="reference internal" href="frontend_api.html#nengo.RectifiedLinear" title="nengo.RectifiedLinear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RectifiedLinear</span></code></a> until you
+can determine why your function is not
+being approximated well.</p>
+<p>Concrete examples of how the properties of <code class="docutils literal notranslate"><span class="pre">pre</span></code> ensemble influence the
+desired function can be found in <a class="footnote-reference brackets" href="#id4" id="id1">1</a>, <a class="footnote-reference brackets" href="#id5" id="id2">2</a>.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="direct-connections">
+<h2>Direct connections<a class="headerlink" href="#direct-connections" title="Permalink to this headline">¶</a></h2>
+<p>Any connection that is not a decoded connection
+is a direct connection.</p>
+<p>For simplicity and consistency,
+Nengo exposes the same interface
+for decoded and direct connections.
+In all cases, data from the <code class="docutils literal notranslate"><span class="pre">pre</span></code> object
+is sent to the <code class="docutils literal notranslate"><span class="pre">post</span></code> object,
+with an optional <code class="docutils literal notranslate"><span class="pre">synapse</span></code> filter.
+In decoded connections,
+weights are automatically determined
+through decoder solving.
+In direct connections,
+weights can be manually specified
+through the <code class="docutils literal notranslate"><span class="pre">transform</span></code> argument. <a class="footnote-reference brackets" href="#id6" id="id3">3</a></p>
+<p>The most common example of a direct connection
+is a neuron-to-neuron connection.
+These connections are the types of connections
+you see in most neural simulators,
+and can be used to reproduce networks
+written in other simulators like
+<a class="reference external" href="http://briansimulator.org/">Brian</a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span> <span class="k">as</span> <span class="n">net</span><span class="p">:</span>
+    <span class="n">ens1</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">ens2</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># Neuron to neuron</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">ens2</span><span class="o">.</span><span class="n">n_neurons</span><span class="p">,</span> <span class="n">ens1</span><span class="o">.</span><span class="n">n_neurons</span><span class="p">))</span>
+    <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">ens1</span><span class="o">.</span><span class="n">neurons</span><span class="p">,</span> <span class="n">ens2</span><span class="o">.</span><span class="n">neurons</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that it does not matter that the dimensionality of <code class="docutils literal notranslate"><span class="pre">ens1</span></code>
+does not match the dimensionality of <code class="docutils literal notranslate"><span class="pre">ens2</span></code>.
+It only matters that the <code class="docutils literal notranslate"><span class="pre">transform</span></code>
+is of the correct shape,
+which in the case of neuron-to-neuron connections
+is <code class="docutils literal notranslate"><span class="pre">(post.n_neurons,</span> <span class="pre">pre.n_neurons)</span></code>.</p>
+<p>In the vast majority of cases,
+the above description is all you need to know.
+Below we give some additional examples,
+focusing on situations that differ from the description above.</p>
+<div class="section" id="nodes-and-direct-ensembles">
+<h3>Nodes and <a class="reference internal" href="frontend_api.html#nengo.Direct" title="nengo.Direct"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Direct</span></code></a> ensembles<a class="headerlink" href="#nodes-and-direct-ensembles" title="Permalink to this headline">¶</a></h3>
+<p>In connections from nodes and ensembles
+using the <a class="reference internal" href="frontend_api.html#nengo.Direct" title="nengo.Direct"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Direct</span></code></a> neuron type,
+the <code class="docutils literal notranslate"><span class="pre">function</span></code> argument is valid
+and will result in the function being applied
+to the input on every timestep.
+This is in direct contrast to decoded connections,
+in which the function is executed
+during the build process and <em>not</em> during the simulation.</p>
+<p>Examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span> <span class="k">as</span> <span class="n">net</span><span class="p">:</span>
+    <span class="n">node</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">ens1</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">neuron_type</span><span class="o">=</span><span class="n">nengo</span><span class="o">.</span><span class="n">Direct</span><span class="p">())</span>
+    <span class="n">ens2</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Node to LIF ensemble</span>
+    <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">ens2</span><span class="p">,</span> <span class="n">function</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="c1"># Direct ensemble to LIF ensemble</span>
+    <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">ens1</span><span class="p">,</span> <span class="n">ens2</span><span class="p">,</span> <span class="n">function</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="passthrough-nodes">
+<h3>Passthrough nodes<a class="headerlink" href="#passthrough-nodes" title="Permalink to this headline">¶</a></h3>
+<p>When creating large networks,
+it is often helpful to use passthrough nodes
+to route signals from place to place
+without introducing unnecessary ensembles.
+For example, the <a class="reference internal" href="networks.html#nengo.networks.EnsembleArray" title="nengo.networks.EnsembleArray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnsembleArray</span></code></a> network
+is often used to represent a high-dimensional vector
+with many lower-dimensional ensemble.
+The high-dimensional vector is still available
+as <code class="docutils literal notranslate"><span class="pre">EnsembleArray.output</span></code> through the use
+of a passthrough node that collects the output
+of all the lower-dimensional ensembles.</p>
+<p>Unlike other types of nodes,
+we explicitly disable the <code class="docutils literal notranslate"><span class="pre">function</span></code> argument
+when connecting from passthrough nodes.
+The reason for this is to ensure that users know
+they are making a direct connection
+and not a decoded connection.
+The output of a network like <a class="reference internal" href="networks.html#nengo.networks.EnsembleArray" title="nengo.networks.EnsembleArray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnsembleArray</span></code></a>
+can usually be treated the same way
+as the output of an <a class="reference internal" href="frontend_api.html#nengo.Ensemble" title="nengo.Ensemble"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Ensemble</span></code></a>,
+except for the case of applying a function
+to the output,
+since decoders are not used to approximate
+the function in the case of networks
+using passthrough nodes.</p>
+<p>As an example,
+consider using an <a class="reference internal" href="networks.html#nengo.networks.EnsembleArray" title="nengo.networks.EnsembleArray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnsembleArray</span></code></a> to compute a product:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span> <span class="k">as</span> <span class="n">net</span><span class="p">:</span>
+    <span class="n">ea</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">networks</span><span class="o">.</span><span class="n">EnsembleArray</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">product</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Passthrough node to ensemble -- raises error</span>
+    <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">ea</span><span class="o">.</span><span class="n">output</span><span class="p">,</span> <span class="n">product</span><span class="p">,</span> <span class="n">function</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>If this example did not raise an error,
+the product would be computed nearly perfectly,
+despite the fact that that computation
+is impossible to decode from the ensembles
+of the ensemble array.
+Consider that the product
+requires information from both dimensions of the signal
+(i.e., the dimensions interact nonlinearly).
+In order for nonlinearities to be decoded,
+some neurons must encode information from
+the nonlinearly-interacting dimensions.
+Since the ensemble array represents each dimension independently,
+no neurons will encode information from multiple dimensions,
+and therefore the product cannot be approximated
+by the ensemble array.</p>
+<p>If you are aware that the function
+will not be approximated but directly computed,
+and you desire this behavior,
+you can enable it by modifying the node so that it is
+no longer a passthrough node,
+but instead computes the identity function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span> <span class="k">as</span> <span class="n">net</span><span class="p">:</span>
+    <span class="n">ea</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">networks</span><span class="o">.</span><span class="n">EnsembleArray</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">product</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Make the node non-passthrough</span>
+    <span class="n">ea</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span>
+    <span class="c1"># Node to ensemble -- no error</span>
+    <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">ea</span><span class="o">.</span><span class="n">output</span><span class="p">,</span> <span class="n">product</span><span class="p">,</span> <span class="n">function</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>If you’re designing networks
+that may have arbitrary function
+applied to the output,
+you should implement a way to make
+decoded connections from the ensembles
+in your network.
+See the <a class="reference internal" href="networks.html#nengo.networks.EnsembleArray.add_output" title="nengo.networks.EnsembleArray.add_output"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnsembleArray.add_output</span></code></a> method
+for an example of how that might be implemented.</p>
+</div>
+<div class="section" id="neuron-to-ensemble-connections">
+<h3>Neuron-to-ensemble connections<a class="headerlink" href="#neuron-to-ensemble-connections" title="Permalink to this headline">¶</a></h3>
+<p>As noted above,
+a decoded connection is implemented by
+solving for a set of decoding weights
+and then weighting a sum of activities by those decoders.
+If you already know the decoding weights
+you want to use on a connection,
+then you can skip the decoder solving step
+by using a direct connection
+from the neurons of an ensemble to another object.</p>
+<p>In the example below,
+we make two equivalent connections,
+one using a decoded connection
+and one using a direct connection:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span> <span class="k">as</span> <span class="n">net</span><span class="p">:</span>
+    <span class="n">ens1</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">ens2</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Decoded ensemble to ensemble connection</span>
+    <span class="n">conn1</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">ens1</span><span class="p">,</span> <span class="n">ens2</span><span class="p">,</span> <span class="n">function</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Simulator</span><span class="p">(</span><span class="n">net</span><span class="p">)</span> <span class="k">as</span> <span class="n">sim</span><span class="p">:</span>
+    <span class="n">decoders</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">conn1</span><span class="p">]</span><span class="o">.</span><span class="n">weights</span>
+
+<span class="k">with</span> <span class="n">net</span><span class="p">:</span>
+    <span class="c1"># Direct neurons to ensemble connection</span>
+    <span class="n">conn2</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">ens1</span><span class="o">.</span><span class="n">neurons</span><span class="p">,</span> <span class="n">ens2</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">decoders</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the above example, the shape of <code class="docutils literal notranslate"><span class="pre">decoders</span></code> is <code class="docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">20)</span></code>.
+If you run this example and probe the output of <code class="docutils literal notranslate"><span class="pre">conn1</span></code>
+and <code class="docutils literal notranslate"><span class="pre">conn2</span></code>, you will see that their output is the same
+(as long as a seed is set on <code class="docutils literal notranslate"><span class="pre">ens1</span></code>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">net</span><span class="p">:</span>
+    <span class="n">probe1</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Probe</span><span class="p">(</span><span class="n">conn1</span><span class="p">,</span> <span class="s2">&quot;output&quot;</span><span class="p">,</span> <span class="n">synapse</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+    <span class="n">probe2</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Probe</span><span class="p">(</span><span class="n">conn2</span><span class="p">,</span> <span class="s2">&quot;output&quot;</span><span class="p">,</span> <span class="n">synapse</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Simulator</span><span class="p">(</span><span class="n">net</span><span class="p">)</span> <span class="k">as</span> <span class="n">sim</span><span class="p">:</span>
+    <span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">probe1</span><span class="p">],</span> <span class="n">sim</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">probe2</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Both <code class="docutils literal notranslate"><span class="pre">conn1</span></code> and <code class="docutils literal notranslate"><span class="pre">conn2</span></code> can have learning rules applied,
+so this type of direct connection can be useful
+when saving the weights in a learning network
+and loading it up in the future.</p>
+<dl class="footnote brackets">
+<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Gosmann, Jan. Precise multiplications with the NEF.
+Waterloo, Ontario, Canada: University of Waterloo; 2015.
+Available from: <a class="reference external" href="https://zenodo.org/record/35680">https://zenodo.org/record/35680</a></p>
+</dd>
+<dt class="label" id="id5"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>Gosmann, Jan, and Chris Eliasmith. “Optimizing Semantic Pointer
+Representations for Symbol-Like Processing in Spiking Neural Networks.”
+PLoS ONE 11, no. 2 (February 22, 2016): e0149928.
+<a class="reference external" href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0149928">doi:10.1371/journal.pone.0149928</a>.</p>
+</dd>
+<dt class="label" id="id6"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
+<dd><p>Note that decoded connections
+also accept the <code class="docutils literal notranslate"><span class="pre">transform</span></code> argument.
+In the case of decoded connections,
+the <code class="docutils literal notranslate"><span class="pre">transform</span></code> is a linear operation
+that is applied after the function
+is applied to the input.
+In most cases, slicing the input
+or including the transform
+in the function is recommended.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div><footer class="footer">
+  <div class="w-container">
+    <div class="w-clearfix">
+      <div class="w-row search">
+<form id="form-search" class="form-search" action="search.html" method="get">
+  <div class="form-group">
+    <input type="text" name="q" class="form-control" placeholder="Search" />
+  </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form></div>
+      <div class="w-row mobileAlign">
+        <div class="w-col w-col-2 footer-menu">
+          <p class="menu-Label">ABR, Inc.</p>
+          <ul class="vertical-menu">
+            <li class="footer-listitem-new"><a href="https://appliedbrainresearch.com/products/">Products</a></li>
+            <li class="footer-listitem-new "><a href="https://appliedbrainresearch.com/services/">Services</a></li>
+            <li class="footer-listitem-new"><a href="https://appliedbrainresearch.com/research/">Research</a></li>
+          </ul>
+        </div>
+        <div class="w-col w-col-2 footer-menu">
+          <p class="menu-Label">About Us</p>
+          <ul class="vertical-menu">
+            <li class="footer-listitem-new"><a href="https://appliedbrainresearch.com/about-us/">Contact</a></li>
+            <li class="footer-listitem-new"><a href="https://appliedbrainresearch.com/about-us/#team">Team</a></li>
+            <li class="footer-listitem-new"><a href="https://appliedbrainresearch.com/about-us/#culture">Culture</a></li>
+          </ul>
+        </div>
+        <a class="brand footer-brand" href="https://appliedbrainresearch.com">
+          <img src="https://appliedbrainresearch.com/img/logo-light-notext.svg" width="80">
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+  </body>
+</html>
