@@ -11,6 +11,7 @@ from nengo.builder.neurons import SimNeurons
 from nengo.builder import operator
 from nengo.builder.operator import DotInc, ElementwiseInc, Copy
 from nengo.builder.signal import Signal
+from nengo.rc import rc
 from nengo.utils.graphs import BidirectionalDAG, transitive_closure
 from nengo.utils.stdlib import Timer, WeakKeyDefaultDict, WeakSet
 
@@ -226,7 +227,8 @@ class OpMergePass:
         """
 
         # Sort to have sequential memory.
-        offsets = np.array([self.opinfo[op].v_offset for op in subset])
+        offsets = np.array(
+            [self.opinfo[op].v_offset for op in subset], dtype=rc.sim_dtype)
         sort_indices = np.argsort(offsets)
         offsets = offsets[sort_indices]
         sorted_subset = [subset[i] for i in sort_indices]
@@ -647,6 +649,8 @@ class DotIncMerger(Merger):
 
     @staticmethod
     def merge(ops):
+        int_dtype = np.dtype(rc.sim_dtype.str.replace('f', 'i'))
+
         # Simple merge if all X are the same.
         if all(o.X is ops[0].X for o in ops):
             A, A_sigr = SigMerger.merge([o.A for o in ops])
@@ -662,13 +666,13 @@ class DotIncMerger(Merger):
         Y, Y_sigr = SigMerger.merge([o.Y for o in ops])
 
         # Construct sparse A representation
-        data = np.array([o.A.initial_value for o in ops])
+        data = np.array([o.A.initial_value for o in ops], dtype=rc.sim_dtype)
         if data.ndim == 1:
             data = data.reshape((data.size, 1, 1))
         elif data.ndim == 2:
             data = data.reshape(data.shape + (1,))
-        indptr = np.arange(len(ops) + 1, dtype=int)
-        indices = np.arange(len(ops), dtype=int)
+        indptr = np.arange(len(ops) + 1, dtype=int_dtype)
+        indices = np.arange(len(ops), dtype=int_dtype)
         name = 'bsr_merged<{first}, ..., {last}>'.format(
             first=ops[0].A.name, last=ops[-1].A.name)
         readonly = all([o.A.readonly for o in ops])

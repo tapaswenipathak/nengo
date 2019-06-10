@@ -2,7 +2,7 @@ import collections
 
 import numpy as np
 
-from nengo.builder import Builder
+from nengo.builder import Builder, Signal
 from nengo.builder.ensemble import gen_eval_points, get_activities
 from nengo.builder.node import SimPyFunc
 from nengo.builder.operator import Copy, ElementwiseInc
@@ -12,6 +12,7 @@ from nengo.ensemble import Ensemble, Neurons
 from nengo.exceptions import BuildError, ObsoleteError
 from nengo.neurons import Direct
 from nengo.node import Node
+from nengo.rc import rc
 from nengo.solvers import NoSolver, Solver
 from nengo.utils.numpy import is_iterable
 
@@ -62,15 +63,16 @@ def get_eval_points(model, conn, rng):
     if conn.eval_points is None:
         view = model.params[conn.pre_obj].eval_points.view()
         view.setflags(write=False)
-        assert view.dtype == model.dtype
+        assert view.dtype == rc.sim_dtype
         return view
     else:
         return gen_eval_points(
             conn.pre_obj, conn.eval_points, rng, conn.scale_eval_points,
-            dtype=model.dtype)
+            dtype=rc.sim_dtype)
 
 
-def get_targets(conn, eval_points, dtype=np.float64):
+def get_targets(conn, eval_points, dtype=None):
+    dtype = rc.sim_dtype if dtype is None else dtype
     if conn.function is None:
         targets = eval_points[:, conn.pre_slice].astype(dtype)
     elif isinstance(conn.function, np.ndarray):
@@ -97,7 +99,7 @@ def build_linear_system(model, conn, rng):
             "This is because no evaluation points fall in the firing "
             "ranges of any neurons." % (conn, conn.pre_obj))
 
-    targets = get_targets(conn, eval_points, dtype=model.dtype)
+    targets = get_targets(conn, eval_points, dtype=rc.sim_dtype)
     return eval_points, activities, targets
 
 
@@ -107,7 +109,7 @@ def build_decoders(model, conn, rng):
     bias = model.params[conn.pre_obj].bias
 
     eval_points = get_eval_points(model, conn, rng)
-    targets = get_targets(conn, eval_points, dtype=model.dtype)
+    targets = get_targets(conn, eval_points, dtype=rc.sim_dtype)
 
     if conn.solver.weights and not conn.solver.compositional:
         # solver is solving for the whole weight matrix, so apply
@@ -160,9 +162,9 @@ def slice_signal(model, signal, sl):
     if isinstance(sl, slice) and (sl.step is None or sl.step == 1):
         return signal[sl]
     else:
-        size = np.arange(signal.size)[sl].size
-        sliced_signal = model.Signal(np.zeros(size, dtype=model.dtype),
-                                     name="%s.sliced" % signal.name)
+        size = np.arange(signal.size, dtype=rc.sim_dtype)[sl].size
+        sliced_signal = Signal(np.zeros(size, dtype=rc.sim_dtype),
+                               name="%s.sliced" % signal.name)
         model.add_op(Copy(signal, sliced_signal, src_slice=sl))
         return sliced_signal
 
@@ -174,8 +176,8 @@ def build_solver(model, solver, conn, rng):
 
 @Builder.register(NoSolver)
 def build_no_solver(model, solver, conn, rng):
-    activities = np.zeros((1, conn.pre_obj.n_neurons))
-    targets = np.zeros((1, conn.size_mid))
+    activities = np.zeros((1, conn.pre_obj.n_neurons), dtype=rc.sim_dtype)
+    targets = np.zeros((1, conn.size_mid), dtype=rc.sim_dtype)
     # No need to invoke the cache for NoSolver
     decoders, solver_info = conn.solver(activities, targets, rng=rng)
     weights = decoders.T
@@ -252,8 +254,8 @@ def build_connection(model, conn):
         elif isinstance(conn.function, np.ndarray):
             raise BuildError("Cannot use function points in direct connection")
         else:
-            in_signal = model.Signal(np.zeros(conn.size_mid),
-                                     name='%s.func' % conn)
+            in_signal = Signal(np.zeros(conn.size_mid, dtype=rc.sim_dtype),
+                               name='%s.func' % conn)
             model.add_op(SimPyFunc(in_signal, conn.function, None, sliced_in))
     elif isinstance(conn.pre_obj, Ensemble):  # Normal decoded connection
         eval_points, decoders, solver_info = model.build(
@@ -300,9 +302,8 @@ def build_connection(model, conn):
     if isinstance(conn.post_obj, Neurons):
         # Apply neuron gains (we don't need to do this if we're connecting to
         # an Ensemble, because the gains are rolled into the encoders)
-        gains = model.Signal(
-            model.params[conn.post_obj.ensemble].gain[post_slice],
-            name="%s.gains" % conn)
+        gains = Signal(model.params[conn.post_obj.ensemble].gain[post_slice],
+                       name="%s.gains" % conn)
         model.add_op(ElementwiseInc(
             gains, weighted, model.sig[conn]['out'][post_slice],
             tag="%s.gains_elementwiseinc" % conn))

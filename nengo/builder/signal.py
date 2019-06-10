@@ -51,7 +51,7 @@ class Signal:
     assert_named_signals = False
 
     def __init__(self, initial_value,
-                 name=None, base=None, readonly=False, offset=0, dtype=None):
+                 name=None, base=None, readonly=False, offset=0):
         if self.assert_named_signals:
             assert name
         self._name = name
@@ -69,7 +69,7 @@ class Signal:
             # we make a view of the data and mark it as not writeable.
             # Consumers (like SignalDict) are responsible for making copies
             # that can be modified, or using the readonly view appropriately.
-            readonly_view = np.asarray(self._initial_value, dtype=dtype)
+            readonly_view = np.asarray(self._initial_value)
             if readonly_view.ndim > 0 and base is None:
                 readonly_view = np.ascontiguousarray(readonly_view)
             # Ensure we have a view and aren't modifying the original's flags
