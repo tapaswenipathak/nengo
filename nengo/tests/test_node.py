@@ -267,11 +267,11 @@ def test_set_arraylike_output(Simulator):
         # scalar gets promoted to float vector
         scalar = nengo.Node(2)
         assert scalar.output.shape == (1,)
-        assert scalar.output.dtype == rc.dtype
+        assert scalar.output.dtype == rc.float_dtype
         # vector stays 1D
         vector = nengo.Node(np.arange(3))
         assert vector.output.shape == (3,)
-        assert vector.output.dtype == rc.dtype
+        assert vector.output.dtype == rc.float_dtype
 
     with Simulator(model):  # Ensure it all builds
         pass

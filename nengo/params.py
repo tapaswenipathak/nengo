@@ -400,7 +400,7 @@ class NdarrayParam(Parameter):
     def dtype(self):
         if self._dtype is not None:
             return self._dtype
-        return rc.dtype
+        return rc.float_dtype
 
     def hashvalue(self, instance):
         return array_hash(self.__get__(instance, None))

@@ -26,7 +26,7 @@ class SemanticPointer:
                 raise ValidationError(
                     "Must specify either the data or the length for a "
                     "SemanticPointer.", attr='data', obj=self)
-            self.v = np.array(data, dtype=rc.dtype)
+            self.v = np.array(data, dtype=rc.float_dtype)
             if len(self.v.shape) != 1:
                 raise ValidationError("'data' must be a vector", 'data', self)
 

@@ -63,16 +63,16 @@ def get_eval_points(model, conn, rng):
     if conn.eval_points is None:
         view = model.params[conn.pre_obj].eval_points.view()
         view.setflags(write=False)
-        assert view.dtype == rc.sim_dtype
+        assert view.dtype == rc.float_dtype
         return view
     else:
         return gen_eval_points(
             conn.pre_obj, conn.eval_points, rng, conn.scale_eval_points,
-            dtype=rc.sim_dtype)
+            dtype=rc.float_dtype)
 
 
 def get_targets(conn, eval_points, dtype=None):
-    dtype = rc.sim_dtype if dtype is None else dtype
+    dtype = rc.float_dtype if dtype is None else dtype
     if conn.function is None:
         targets = eval_points[:, conn.pre_slice].astype(dtype)
     elif isinstance(conn.function, np.ndarray):
@@ -99,7 +99,7 @@ def build_linear_system(model, conn, rng):
             "This is because no evaluation points fall in the firing "
             "ranges of any neurons." % (conn, conn.pre_obj))
 
-    targets = get_targets(conn, eval_points, dtype=rc.sim_dtype)
+    targets = get_targets(conn, eval_points, dtype=rc.float_dtype)
     return eval_points, activities, targets
 
 
@@ -109,7 +109,7 @@ def build_decoders(model, conn, rng):
     bias = model.params[conn.pre_obj].bias
 
     eval_points = get_eval_points(model, conn, rng)
-    targets = get_targets(conn, eval_points, dtype=rc.sim_dtype)
+    targets = get_targets(conn, eval_points, dtype=rc.float_dtype)
 
     if conn.solver.weights and not conn.solver.compositional:
         # solver is solving for the whole weight matrix, so apply
@@ -162,9 +162,8 @@ def slice_signal(model, signal, sl):
     if isinstance(sl, slice) and (sl.step is None or sl.step == 1):
         return signal[sl]
     else:
-        size = np.arange(signal.size, dtype=rc.sim_dtype)[sl].size
-        sliced_signal = Signal(np.zeros(size, dtype=rc.sim_dtype),
-                               name="%s.sliced" % signal.name)
+        size = np.arange(signal.size, dtype=rc.float_dtype)[sl].size
+        sliced_signal = Signal(shape=size, name="%s.sliced" % signal.name)
         model.add_op(Copy(signal, sliced_signal, src_slice=sl))
         return sliced_signal
 
@@ -176,8 +175,8 @@ def build_solver(model, solver, conn, rng):
 
 @Builder.register(NoSolver)
 def build_no_solver(model, solver, conn, rng):
-    activities = np.zeros((1, conn.pre_obj.n_neurons), dtype=rc.sim_dtype)
-    targets = np.zeros((1, conn.size_mid), dtype=rc.sim_dtype)
+    activities = np.zeros((1, conn.pre_obj.n_neurons), dtype=rc.float_dtype)
+    targets = np.zeros((1, conn.size_mid), dtype=rc.float_dtype)
     # No need to invoke the cache for NoSolver
     decoders, solver_info = conn.solver(activities, targets, rng=rng)
     weights = decoders.T
@@ -254,8 +253,7 @@ def build_connection(model, conn):
         elif isinstance(conn.function, np.ndarray):
             raise BuildError("Cannot use function points in direct connection")
         else:
-            in_signal = Signal(np.zeros(conn.size_mid, dtype=rc.sim_dtype),
-                               name='%s.func' % conn)
+            in_signal = Signal(shape=conn.size_mid, name='%s.func' % conn)
             model.add_op(SimPyFunc(in_signal, conn.function, None, sliced_in))
     elif isinstance(conn.pre_obj, Ensemble):  # Normal decoded connection
         eval_points, decoders, solver_info = model.build(

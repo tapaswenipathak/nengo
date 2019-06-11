@@ -24,21 +24,19 @@ def multiply(x, y):
 @Builder.register(Dense)
 def build_dense(model, transform, sig_in,
                 decoders=None, encoders=None, rng=np.random):
-    weights = transform.sample(rng=rng).astype(rc.sim_dtype)
+    weights = transform.sample(rng=rng).astype(rc.float_dtype)
 
     if decoders is not None:
-        weights = multiply(weights, decoders.astype(rc.sim_dtype))
+        weights = multiply(weights, decoders.astype(rc.float_dtype))
     if encoders is not None:
-        weights = multiply(encoders.astype(rc.sim_dtype).T, weights)
+        weights = multiply(encoders.astype(rc.float_dtype).T, weights)
 
     # Add operator for applying weights
     weight_sig = Signal(
         weights, readonly=True, name="%s.weights" % transform)
     weighted = Signal(
-        np.zeros(
-            transform.size_out if encoders is None else weights.shape[0],
-            dtype=rc.sim_dtype,
-        ), name="%s.weighted" % transform)
+        shape=transform.size_out if encoders is None else weights.shape[0],
+        name="%s.weighted" % transform)
     model.add_op(Reset(weighted))
 
     op = ElementwiseInc if weights.ndim < 2 else DotInc
@@ -61,8 +59,7 @@ def build_sparse(model, transform, sig_in,
     assert encoders is None
 
     # Add output signal
-    weighted = Signal(np.zeros(transform.size_out, dtype=rc.sim_dtype),
-                      name="%s.weighted" % transform)
+    weighted = Signal(shape=transform.size_out, name="%s.weighted" % transform)
     model.add_op(Reset(weighted))
 
     weights = transform.sample(rng=rng)
@@ -90,12 +87,8 @@ def build_convolution(model, transform, sig_in,
     assert encoders is None
 
     weights = transform.sample(rng=rng)
-    weight_sig = Signal(
-        weights, readonly=True, name="%s.weights" % transform)
-    weighted = Signal(
-        np.zeros(transform.size_out, dtype=rc.sim_dtype),
-        name="%s.weighted" % transform,
-    )
+    weight_sig = Signal(weights, readonly=True, name="%s.weights" % transform)
+    weighted = Signal(shape=transform.size_out, name="%s.weighted" % transform)
     model.add_op(Reset(weighted))
 
     model.add_op(ConvInc(weight_sig, sig_in, weighted, transform,

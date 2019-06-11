@@ -61,7 +61,7 @@ class BuiltEnsemble(collections.namedtuple('BuiltEnsemble', built_attrs)):
 
 def gen_eval_points(
         ens, eval_points, rng, scale_eval_points=True, dtype=None):
-    dtype = rc.sim_dtype if dtype is None else dtype
+    dtype = rc.float_dtype if dtype is None else dtype
     if isinstance(eval_points, Distribution):
         n_points = ens.n_eval_points
         if n_points is None:
@@ -87,7 +87,7 @@ def get_activities(built_ens, ens, eval_points):
 
 
 def get_gain_bias(ens, rng=np.random, dtype=None):
-    dtype = rc.sim_dtype if dtype is None else dtype
+    dtype = rc.float_dtype if dtype is None else dtype
     if ens.gain is not None and ens.bias is not None:
         gain = get_samples(ens.gain, ens.n_neurons, rng=rng)
         bias = get_samples(ens.bias, ens.n_neurons, rng=rng)
@@ -164,45 +164,38 @@ def build_ensemble(model, ens):
     rng = np.random.RandomState(model.seeds[ens])
 
     eval_points = gen_eval_points(ens, ens.eval_points,
-                                  rng=rng, dtype=rc.sim_dtype)
+                                  rng=rng, dtype=rc.float_dtype)
 
     # Set up signal
-    model.sig[ens]['in'] = Signal(
-        np.zeros(ens.dimensions, dtype=rc.sim_dtype), name="%s.signal" % ens)
+    model.sig[ens]['in'] = Signal(shape=ens.dimensions, name="%s.signal" % ens)
     model.add_op(Reset(model.sig[ens]['in']))
 
     # Set up encoders
     if isinstance(ens.neuron_type, Direct):
-        encoders = np.identity(ens.dimensions, dtype=rc.sim_dtype)
+        encoders = np.identity(ens.dimensions, dtype=rc.float_dtype)
     elif isinstance(ens.encoders, Distribution):
         encoders = get_samples(
             ens.encoders, ens.n_neurons, ens.dimensions, rng=rng)
-        encoders = np.asarray(encoders, dtype=rc.sim_dtype)
+        encoders = np.asarray(encoders, dtype=rc.float_dtype)
     else:
-        encoders = npext.array(ens.encoders, min_dims=2, dtype=rc.sim_dtype)
+        encoders = npext.array(ens.encoders, min_dims=2, dtype=rc.float_dtype)
     if ens.normalize_encoders:
         encoders /= npext.norm(encoders, axis=1, keepdims=True)
 
     # Build the neurons
     gain, bias, max_rates, intercepts = get_gain_bias(ens, rng,
-                                                      dtype=rc.sim_dtype)
+                                                      dtype=rc.float_dtype)
 
     if isinstance(ens.neuron_type, Direct):
         model.sig[ens.neurons]['in'] = Signal(
-            np.zeros(ens.dimensions, dtype=rc.sim_dtype),
-            name='%s.neuron_in' % ens
-        )
+            shape=ens.dimensions, name='%s.neuron_in' % ens)
         model.sig[ens.neurons]['out'] = model.sig[ens.neurons]['in']
         model.add_op(Reset(model.sig[ens.neurons]['in']))
     else:
         model.sig[ens.neurons]['in'] = Signal(
-            np.zeros(ens.n_neurons, dtype=rc.sim_dtype),
-            name="%s.neuron_in" % ens
-        )
+            shape=ens.n_neurons, name="%s.neuron_in" % ens)
         model.sig[ens.neurons]['out'] = Signal(
-            np.zeros(ens.n_neurons, dtype=rc.sim_dtype),
-            name="%s.neuron_out" % ens
-        )
+            shape=ens.n_neurons, name="%s.neuron_out" % ens)
         model.sig[ens.neurons]['bias'] = Signal(
             bias, name="%s.bias" % ens, readonly=True)
         model.add_op(Copy(model.sig[ens.neurons]['bias'],

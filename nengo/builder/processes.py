@@ -1,8 +1,5 @@
-import numpy as np
-
 from nengo.builder import Builder, Operator, Signal
 from nengo.processes import Process
-from nengo.rc import rc
 from nengo.synapses import Synapse
 
 
@@ -160,9 +157,7 @@ def build_synapse(model, synapse, sig_in, sig_out=None):
     """
     if sig_out is None:
         sig_out = Signal(
-            np.zeros(sig_in.shape, dtype=rc.sim_dtype),
-            name="%s.%s" % (sig_in.name, synapse),
-        )
+            shape=sig_in.shape, name="%s.%s" % (sig_in.name, synapse))
 
     model.add_op(SimProcess(
         synapse, sig_in, sig_out, model.time, mode='update'))

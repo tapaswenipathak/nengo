@@ -31,12 +31,13 @@ def test_steps(RefSimulator):
         assert np.isscalar(sim.time)
 
 
-@pytest.mark.parametrize('dtype', ['float16', 'float32', 'float64'])
-def test_dtype(RefSimulator, request, seed, dtype):
+@pytest.mark.parametrize('bits', ["16", "32", "64"])
+def test_dtype(RefSimulator, request, seed, bits):
     # Ensure dtype is set back to default after the test, even if it fails
-    request.addfinalizer(lambda: rc.set("nengo.Simulator", "dtype", "auto"))
+    request.addfinalizer(lambda: rc.set("precision", "bits", "64"))
 
-    int_dtype = dtype.replace('float', 'int')
+    float_dtype = np.dtype(getattr(np, "float%s" % bits))
+    int_dtype = np.dtype(getattr(np, "int%s" % bits))
 
     with nengo.Network() as model:
         u = nengo.Node([0.5, -0.4])
@@ -44,24 +45,20 @@ def test_dtype(RefSimulator, request, seed, dtype):
         nengo.Connection(u, a)
         p = nengo.Probe(a)
 
-    rc.set("nengo.Simulator", "dtype", dtype)
+    rc.set("precision", "bits", bits)
     with RefSimulator(model) as sim:
         sim.step()
 
         for k, v in sim.signals.items():
-            assert v.dtype in (dtype, int_dtype), "Signal '%s' wrong dtype" % k
+            assert v.dtype in (
+                float_dtype, int_dtype), "Signal '%s' wrong dtype" % k
 
         objs = (obj for obj in model.all_objects if sim.data[obj] is not None)
         for obj in objs:
             for x in (x for x in sim.data[obj] if isinstance(x, np.ndarray)):
-                assert x.dtype == dtype, obj
+                assert x.dtype == float_dtype, obj
 
-        assert sim.data[p].dtype == dtype
-
-    with pytest.raises(ValidationError):
-        rc.set("nengo.Simulator", "dtype", int_dtype)
-        with RefSimulator(model):
-            pass  # integer dtypes not supported
+        assert sim.data[p].dtype == float_dtype
 
 
 def test_time_absolute(Simulator):

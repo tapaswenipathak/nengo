@@ -72,7 +72,7 @@ logger = logging.getLogger(__name__)
 #   nengo.RC_DEFAULTS[section_name][option_name]
 RC_DEFAULTS = {
     'precision': {
-        'dtype': 'float64',
+        'bits': 64,
     },
     'decoder_cache': {
         'enabled': True,
@@ -88,7 +88,6 @@ RC_DEFAULTS = {
         'simplified': True,
     },
     'nengo.Simulator': {
-        'dtype': 'auto',
         'fail_fast': False,
     }
 }
@@ -128,15 +127,14 @@ class _RC(configparser.SafeConfigParser):
         self.reload_rc()
 
     @property
-    def dtype(self):
-        return np.dtype(self.get('precision', 'dtype'))
+    def float_dtype(self):
+        bits = self.get('precision', 'bits')
+        return np.dtype(getattr(np, "float%s" % bits))
 
-    @property
-    def sim_dtype(self):
-        sim_dtype = self.get('nengo.Simulator', 'dtype')
-        if sim_dtype == 'auto':
-            return self.dtype
-        return np.dtype(sim_dtype)
+    @ property
+    def int_dtype(self):
+        bits = self.get('precision', 'bits')
+        return np.dtype(getattr(np, "int%s" % bits))
 
     def _clear(self):
         self.remove_section(configparser.DEFAULTSECT)

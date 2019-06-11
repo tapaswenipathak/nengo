@@ -9,7 +9,7 @@ from nengo.spa.tests.test_thalamus import thalamus_net
 from nengo.tests.test_learning_rules import learning_net
 from nengo.transforms import SparseMatrix
 
-global_dtype_resolution = np.finfo(nengo.rc.dtype).resolution
+global_dtype_resolution = np.finfo(nengo.rc.float_dtype).resolution
 global_dtype_decimal = int(np.floor(-np.log10(global_dtype_resolution) * 0.5))
 
 

@@ -75,7 +75,7 @@ class Vocabulary:
         self.pointers = {}
         self.keys = []
         self.key_pairs = None
-        self.vectors = np.zeros((0, dimensions), dtype=rc.dtype)
+        self.vectors = np.zeros((0, dimensions), dtype=rc.float_dtype)
         self.vector_pairs = None
         self._include_pairs = None
         self.include_pairs = include_pairs
@@ -194,7 +194,8 @@ class Vocabulary:
         self._include_pairs = value
         if self._include_pairs:
             self.key_pairs = []
-            self.vector_pairs = np.zeros((0, self.dimensions), dtype=rc.dtype)
+            self.vector_pairs = np.zeros((0, self.dimensions),
+                                         dtype=rc.float_dtype)
             for i in range(1, len(self.keys)):
                 for k in self.keys[:i]:
                     key = self.keys[i]
@@ -277,7 +278,7 @@ class Vocabulary:
         if isinstance(v, pointer.SemanticPointer):
             v = v.v
         else:
-            v = np.array(v, dtype=rc.dtype)
+            v = np.array(v, dtype=rc.float_dtype)
 
         if normalize:
             nrm = np.linalg.norm(v)
@@ -370,7 +371,8 @@ class Vocabulary:
                     keys = list(self.keys)
                     keys.extend([k for k in other.keys if k not in self.keys])
 
-            t = np.zeros((other.dimensions, self.dimensions), dtype=rc.dtype)
+            t = np.zeros((other.dimensions, self.dimensions),
+                         dtype=rc.float_dtype)
             for k in keys:
                 a = self[k].v
                 b = other[k].v

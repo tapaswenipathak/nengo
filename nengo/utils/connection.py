@@ -43,7 +43,7 @@ def target_function(eval_points, targets):
                   "the 'function' argument. That approach is faster, so this "
                   "function is deprecated and will be removed in the future.")
 
-    dtype = nengo.rc.get('precision', 'dtype')
+    dtype = nengo.rc.float_dtype
     eval_points = npext.array(eval_points, dtype=dtype, min_dims=2)
     targets = npext.array(targets, dtype=dtype, min_dims=2)
 
@@ -95,7 +95,7 @@ def eval_point_decoding(conn, sim, eval_points=None):
     """
     from nengo.builder.ensemble import get_activities
     from nengo.builder.connection import get_targets
-    dtype = nengo.rc.get('precision', 'dtype')
+    dtype = nengo.rc.float_dtype
 
     if eval_points is None:
         eval_points = sim.data[conn].eval_points

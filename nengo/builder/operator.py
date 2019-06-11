@@ -35,7 +35,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import numpy as np
 
 from nengo.exceptions import BuildError, SimulationError
-from nengo.rc import rc
 from nengo.utils.functions import function_name
 import nengo.utils.numpy as npext
 
@@ -698,7 +697,7 @@ class BsrDotInc(DotInc):
             mat_A = self.bsr_matrix((A, self.indices, self.indptr))
             inc = mat_A.dot(X)
             if self.reshape:
-                inc = np.asarray(inc, dtype=rc.sim_dtype).reshape(Y.shape)
+                inc = inc.reshape(Y.shape)
             Y[...] += inc
         return step_dotinc
 

@@ -88,7 +88,7 @@ class Dense(Transform):
         self.shape = shape
 
         if is_array_like(init):
-            init = np.asarray(init, dtype=rc.dtype)
+            init = np.asarray(init, dtype=rc.float_dtype)
 
             # check that the shape of init is compatible with the given shape
             # for this transform
@@ -418,7 +418,7 @@ class Convolution(Transform):
             ]
             kernel = np.reshape(kernel, self.kernel_shape)
         else:
-            kernel = np.array(self.init, dtype=rc.dtype)
+            kernel = np.array(self.init, dtype=rc.float_dtype)
         return kernel
 
     @property

@@ -29,9 +29,9 @@
 # --- Settings for controlling the precision of all calculations
 [precision]
 
-# Default dtype for all calculations in Nengo. Note that Nengo is only
-# expected to work for float dtypes. (string)
-#dtype: float64
+# Default dtype bits for all calculations in Nengo (e.g., bits=64 would use
+# float64/int64 dtypes) (string)
+#bits: 64
 
 # --- Settings for the decoder cache
 [decoder_cache]
@@ -77,11 +77,6 @@
 
 # --- Settings for the Nengo core simulator
 [nengo.Simulator]
-
-# NumPy dtype that will be used for all Simulator signals, if possible.
-# Note that Nengo is only expected to work for float dtypes.
-# If set to 'auto', will use the value in 'precision.dtype'. (string)
-#dtype: auto
 
 # Fail misconfigured operators immediately. If True, operators are tested
 # when they are created in build functions, rather than when they are

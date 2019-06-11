@@ -6,7 +6,7 @@ import numpy as np
 from nengo.builder.signal import Signal, SignalDict
 from nengo.builder.operator import TimeUpdate
 from nengo.cache import NoDecoderCache
-from nengo.exceptions import BuildError, ValidationError
+from nengo.exceptions import BuildError
 from nengo.rc import rc
 
 
@@ -72,9 +72,6 @@ class Model:
         self.label = label
         self.decoder_cache = (NoDecoderCache() if decoder_cache is None
                               else decoder_cache)
-        if rc.sim_dtype.kind != 'f':
-            raise ValidationError("Must be float dtype", 'dtype', obj=self)
-        int_dtype = np.dtype(rc.sim_dtype.str.replace('f', 'i'))
 
         # Will be filled in by the network builder
         self.toplevel = None
@@ -89,12 +86,12 @@ class Model:
 
         self.sig = collections.defaultdict(dict)
         self.sig['common'][0] = Signal(
-            np.array(0., dtype=rc.sim_dtype), readonly=True, name='ZERO')
+            np.array(0., dtype=rc.float_dtype), readonly=True, name='ZERO')
         self.sig['common'][1] = Signal(
-            np.array(1., dtype=rc.sim_dtype), readonly=True, name='ONE')
+            np.array(1., dtype=rc.float_dtype), readonly=True, name='ONE')
 
-        self.step = Signal(np.array(0, dtype=int_dtype), name='step')
-        self.time = Signal(np.array(0, dtype=rc.sim_dtype), name='time')
+        self.step = Signal(np.array(0, dtype=rc.int_dtype), name='step')
+        self.time = Signal(np.array(0, dtype=rc.float_dtype), name='time')
         self.add_op(TimeUpdate(self.step, self.time))
 
         self.builder = Builder() if builder is None else builder

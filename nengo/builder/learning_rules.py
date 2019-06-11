@@ -7,7 +7,6 @@ from nengo.ensemble import Ensemble
 from nengo.exceptions import BuildError
 from nengo.learning_rules import BCM, Oja, PES, Voja
 from nengo.node import Node
-from nengo.rc import rc
 
 
 class SimPES(Operator):
@@ -492,7 +491,7 @@ def build_learning_rule(model, rule):
     else:
         raise BuildError("Unknown target %r" % rule.modifies)
 
-    delta = Signal(np.zeros(target.shape, dtype=rc.sim_dtype), name='Delta')
+    delta = Signal(shape=target.shape, name='Delta')
 
     model.add_op(Copy(delta, target, inc=True, tag=tag))
     model.sig[rule]['delta'] = delta
@@ -615,8 +614,7 @@ def build_voja(model, voja, rule):
 
     # Learning signal, defaults to 1 in case no connection is made
     # and multiplied by the learning_rate * dt
-    learning = Signal(
-        np.zeros(rule.size_in, dtype=rc.sim_dtype), name="Voja:learning")
+    learning = Signal(shape=rule.size_in, name="Voja:learning")
     assert rule.size_in == 1
     model.add_op(Reset(learning, value=1.0))
     model.sig[rule]['in'] = learning  # optional connection will attach here
@@ -666,8 +664,7 @@ def build_pes(model, pes, rule):
     conn = rule.connection
 
     # Create input error signal
-    error = Signal(
-        np.zeros(rule.size_in, dtype=rc.sim_dtype), name="PES:error")
+    error = Signal(shape=rule.size_in, name="PES:error")
     model.add_op(Reset(error))
     model.sig[rule]['in'] = error  # error connection will attach here
 

@@ -66,7 +66,7 @@ class OutputParam(Parameter):
         elif is_array_like(output):
             # Make into correctly shaped numpy array before validation
             output = npext.array(
-                output, min_dims=1, copy=False, dtype=rc.dtype)
+                output, min_dims=1, copy=False, dtype=rc.float_dtype)
             self.check_ndarray(node, output)
             if not np.all(np.isfinite(output)):
                 raise ValidationError("Output value must be finite.",
