@@ -31,7 +31,7 @@ class Solver(FrozenObject, metaclass=DocstringInheritor):
 
     For a solver to be compositional, it should satisfy the linearly-optimal
     property that:
-    ``X = solver(A, Y)`` if and only if ``L(X) = solver(A, L(y))``,
+    ``X = solver(A, Y)`` if and only if ``L(X) = solver(A, L(Y))``,
     where ``L`` is some arbitrary linear operator (i.e., the transform and/or
     encoders for the postsynaptic population). This property can then be
     leveraged by the backend for efficiency. See the solver's
