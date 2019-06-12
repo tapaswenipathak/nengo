@@ -1,0 +1,1211 @@
+
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Index &#8212; Nengo 3.0.0.dev0 docs</title>
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/mmenu.all.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/components.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/nengo.css" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<!--[if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
+<script type="text/javascript" src="https://cdn.crate.io/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/js/modernizr.js"></script>
+    <script type="text/javascript" src="_static/js/underscore.min.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/searchtools.js"></script>
+    <script type="text/javascript" src="_static/js/webflow.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap.js"></script>
+    <script type="text/javascript" src="_static/js/mmenu.all.min.js"></script>
+    <script type="text/javascript" src="_static/js/fontawesome.js"></script>
+    <script type="text/javascript" src="_static/js/custom.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="#" />
+    <link rel="search" title="Search" href="search.html" />
+<link rel="stylesheet" type="text/css" href="_static/custom.css">
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-41658423-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-41658423-2');
+</script>
+
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head><body>
+<header class="header-nav">
+  <div class="container">
+    <div class="navbar w-nav" data-animation="default" data-collapse="small" data-contain="1" data-duration="400">
+      <a class="brand w-nav-brand" href="https://www.nengo.ai/">
+        <img src="https://www.nengo.ai/design/_images/general-full-light.svg" width="120">
+      </a>
+      <nav class="w-nav-menu main-nav" role="navigation">
+        <div class="dropdownBackground">
+          <span class="arrow"></span>
+        </div>
+        <ul id="menu-top-navigation" class="menu">
+          <li class="navlink w-nav-link menu-item menu-item-has-children">
+            <a href="https://www.nengo.ai/overview.html">Overview</a>
+            <ul class="sub-menu">
+                <li class="menu-item"><a href="https://www.nengo.ai/quickstart.html">Quick Start</a></li>
+            </ul>
+          </li>
+          <li class="navlink w-nav-link menu-item menu-item-has-children">
+            <a href="https://www.nengo.ai/documentation.html">Documentation</a>
+            <table class="sub-menu">
+              <tr>
+                <td class="menu-heading">Core</td>
+                <td class="menu-heading">Backends</td>
+                <td class="menu-heading">Add-ons</td>
+              </tr>
+              <tr>
+                <td class="menu-item"><a href="https://www.nengo.ai/nengo">Nengo</a></td>
+                <td class="menu-item"><a href="https://www.nengo.ai/nengo-fpga">Nengo FPGA</a></td>
+                <td class="menu-item"><a href="https://github.com/nengo/nengo-examples">Nengo Examples</a></td>
+              </tr>
+              <tr>
+                <td class="menu-item"><a href="https://www.nengo.ai/nengo-dl/">Nengo DL</a></td>
+                <td class="menu-item"><a href="https://www.nengo.ai/nengo-loihi">Nengo Loihi</a></td>
+                <td class="menu-item"><a href="https://www.nengo.ai/nengo-extras/">Nengo Extras</a></td>
+              </tr>
+              <tr>
+                <td class="menu-item"><a href="https://github.com/nengo/nengo-gui">Nengo GUI</a></td>
+                <td class="menu-item"><a href="https://github.com/nengo/nengo-mpi">Nengo MPI</a></td>
+                <td class="menu-item"><a href="https://arvoelke.github.io/nengolib-docs/">Nengo Lib</a></td>
+              </tr>
+              <tr>
+                <td class="menu-item"><a href="https://www.nengo.ai/nengo-spa/">Nengo SPA</a></td>
+                <td class="menu-item"><a href="https://github.com/nengo/nengo-ocl">Nengo OpenCL</a></td>
+                <td class="menu-item"></td>
+              </tr>
+              <tr>
+                <td class="menu-item"></td>
+                <td class="menu-item"><a href="https://github.com/project-rig/nengo_spinnaker">Nengo SpiNNaker</a></td>
+                <td class="menu-item"></td>
+              </tr>
+            </table>
+          </li>
+          <li class="navlink w-nav-link menu-item menu-item-has-children">
+            <a href="https://www.nengo.ai/community.html">Community</a>
+            <ul class="sub-menu">
+              <li class="menu-item"><a href="https://forum.nengo.ai/">Forum</a></li>
+              <li class="menu-item"><a href="https://www.nengo.ai/publications.html">Publications</a></li>
+              <li class="menu-item"><a href="https://www.nengo.ai/summerschool.html">Summer School</a></li>
+              <li class="menu-item"><a href="https://www.nengo.ai/videos.html">Videos</a></li>
+              <li class="menu-item"><a href="https://www.nengo.ai/people.html">People</a></li>
+            </ul>
+          </li>
+          <li class="navlink w-nav-link menu-item menu-item-has-children">
+            <a href="https://www.nengo.ai/projects.html">Development</a>
+            <ul class="sub-menu">
+              <li class="menu-item"><a href="https://www.nengo.ai/contributing.html">Contributor Guide</a></li>
+              <li class="menu-item"><a href="https://www.nengo.ai/projects.html">Ecosystem</a></li>
+            </ul>
+          </li>
+          <li class="navlink w-nav-link menu-item"><a href="https://www.nengo.ai/README.html">About</a></li>
+          <li class="btn-link w-nav-link menu-item"><a href="https://www.nengo.ai/download.html">Download</a></li>
+        </ul>
+      </nav>
+
+      <div id="mobile-nav" class="mm-menu">
+        <ul class="offcanvas-menu">
+          <li class="navlink w-nav-link menu-item"><a href="https://www.nengo.ai/overview.html">Overview</a></li>
+          <li class="navlink w-nav-link menu-item menu-item-has-children">
+            <a href="https://www.nengo.ai/documentation.html">Documentation</a>
+            <ul class="sub-menu">
+              <li class="menu-item"><a href="https://www.nengo.ai/quickstart.html">Quick Start</a></li>
+              <li class="menu-item"><a href="http://www.nengo.ai/nengo">NengoCore</a></li>
+              <li class="menu-item"><a href="https://github.com/nengo/nengo-gui#nengo-gui">NengoGUI</a></li>
+            </ul>
+          </li>
+          <li class="navlink w-nav-link menu-item menu-item-has-children">
+            <a href="https://www.nengo.ai/community.html">Community</a>
+            <ul class="sub-menu">
+              <li class="menu-item"><a href="https://forum.nengo.ai/">Forum</a></li>
+              <li class="menu-item"><a href="https://www.nengo.ai/summerschool.html">Summer School</a></li>
+              <li class="menu-item"><a href="https://www.nengo.ai/people.html">People</a></li>
+            </ul>
+          </li>
+          <li class="navlink w-nav-link menu-item menu-item-has-children">
+            <a href="https://www.nengo.ai/projects.html">Development</a>
+            <ul class="sub-menu">
+              <li class="menu-item"><a href="https://www.nengo.ai/contributing.html">Contributor Guide</a></li>
+              <li class="menu-item"><a href="https://www.nengo.ai/projects.html">Ecosystem</a></li>
+            </ul>
+          </li>
+          <li class="navlink w-nav-link menu-item"><a href="https://www.nengo.ai/README.html">About</a></li>
+          <li class="btn-link w-nav-link menu-item"><a href="https://www.nengo.ai/download.html">Download</a></li>
+        </ul>
+      </div>
+
+      <a href="#mobile-nav" class="fa fa-bars mobile-nav-button"></a>
+    </div>
+  </div>
+</header>
+
+<div class="w-section section border-top">
+  <div class="container">
+    <div class="row" id="genindex">
+      <div class="col-md-4 col-lg-3">
+        <aside class="wrapper-navleft"><div role="complementary" class="bs-docs-sidebar hidden-print" id="nav-affix">
+  <ul class="bs-docs-sidenav bs-sidenav nav" role="complementary">
+    <a href="index.html">
+      <img class="logo" src="https://www.nengo.ai/design/_images/general-full-light.svg" alt="Nengo" width="200" />
+    </a>
+    <ul class="toctree nav nav-list">
+      <ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide.html">User guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to Nengo</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://www.nengo.ai/projects.html">Nengo ecosystem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">Nengo license</a></li>
+</ul>
+
+    </ul>
+  </ul>
+<form id="form-search" class="form-search" action="search.html" method="get">
+  <div class="form-group">
+    <input type="text" name="q" class="form-control" placeholder="Search" />
+  </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form></div>
+          
+        </aside>
+      </div>
+      <div class="col-md-8 col-lg-9">
+        <div class="body wrapper-content-right">
+          
+<div class="version-select-container">
+    <div data-delay="0" class="w-dropdown">
+        <div class="w-dropdown-toggle toggle">
+            <div class="toggle-text">latest</div>
+            <div class="w-icon-dropdown-toggle toggle-icon"></div>
+        </div>
+        <nav class="w-dropdown-list dropdown-list">
+            
+            
+                <div class="w-dropdown-link">latest</div>
+            
+
+            
+                
+                    <a href="v2.8.0/genindex.html" class="w-dropdown-link">v2.8.0</a>
+                
+            
+                
+                    <a href="/genindex.html" class="w-dropdown-link"></a>
+                
+            
+        </nav>
+    </div>
+</div>
+
+          
+
+<h1 id="index">Index</h1>
+
+<div class="genindex-jumpbox">
+ <a href="#_"><strong>_</strong></a>
+ | <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
+ | <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
+ | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#H"><strong>H</strong></a>
+ | <a href="#I"><strong>I</strong></a>
+ | <a href="#K"><strong>K</strong></a>
+ | <a href="#L"><strong>L</strong></a>
+ | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
+ | <a href="#O"><strong>O</strong></a>
+ | <a href="#P"><strong>P</strong></a>
+ | <a href="#R"><strong>R</strong></a>
+ | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
+ | <a href="#V"><strong>V</strong></a>
+ | <a href="#W"><strong>W</strong></a>
+ 
+</div>
+<h2 id="_">_</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="frontend_api.html#nengo.solvers.Solver.__call__">__call__() (nengo.solvers.Solver method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="A">A</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="frontend_api.html#nengo.AdaptiveLIF">AdaptiveLIF (class in nengo)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.AdaptiveLIFRate">AdaptiveLIFRate (class in nengo)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.Network.add">add() (nengo.Network static method)</a>
+</li>
+      <li><a href="networks.html#nengo.networks.AssociativeMemory.add_default_output_vector">add_default_output_vector() (nengo.networks.AssociativeMemory method)</a>
+</li>
+      <li><a href="networks.html#nengo.networks.AssociativeMemory.add_input_mapping">add_input_mapping() (nengo.networks.AssociativeMemory method)</a>
+</li>
+      <li><a href="networks.html#nengo.networks.EnsembleArray.add_neuron_input">add_neuron_input() (nengo.networks.EnsembleArray method)</a>
+</li>
+      <li><a href="networks.html#nengo.networks.EnsembleArray.add_neuron_output">add_neuron_output() (nengo.networks.EnsembleArray method)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.Model.add_op">add_op() (nengo.builder.Model method)</a>
+</li>
+      <li><a href="networks.html#nengo.networks.EnsembleArray.add_output">add_output() (nengo.networks.EnsembleArray method)</a>
+</li>
+      <li><a href="networks.html#nengo.networks.AssociativeMemory.add_output_mapping">add_output_mapping() (nengo.networks.AssociativeMemory method)</a>
+</li>
+      <li><a href="networks.html#nengo.networks.AssociativeMemory.add_threshold_to_outputs">add_threshold_to_outputs() (nengo.networks.AssociativeMemory method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="networks.html#nengo.networks.AssociativeMemory.add_wta_network">add_wta_network() (nengo.networks.AssociativeMemory method)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.Network.all_connections">all_connections() (nengo.Network property)</a>
+</li>
+      <li><a href="config.html#nengo.Config.all_defaults">all_defaults() (nengo.Config static method)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.Network.all_ensembles">all_ensembles() (nengo.Network property)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.Network.all_networks">all_networks() (nengo.Network property)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.Network.all_nodes">all_nodes() (nengo.Network property)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.Network.all_objects">all_objects() (nengo.Network property)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.Network.all_probes">all_probes() (nengo.Network property)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.Alpha">Alpha (class in nengo)</a>
+</li>
+      <li><a href="networks.html#nengo.networks.AssociativeMemory.am_ens_config">am_ens_config() (nengo.networks.AssociativeMemory property)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.Process.apply">apply() (nengo.Process method)</a>
+</li>
+      <li><a href="networks.html#nengo.networks.AssociativeMemory">AssociativeMemory (class in nengo.networks)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="networks.html#nengo.networks.BasalGanglia">BasalGanglia() (in module nengo.networks)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.Signal.base">base() (nengo.builder.Signal property)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.BCM">BCM (class in nengo)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.utils.least_squares_solvers.BlockConjgrad">BlockConjgrad (class in nengo.utils.least_squares_solvers)</a>
+</li>
+      <li><a href="config.html#nengo.params.BoolParam">BoolParam (class in nengo.params)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.processes.BrownNoise">BrownNoise (class in nengo.processes)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.operator.BsrDotInc">BsrDotInc (class in nengo.builder.operator)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.Builder.build">build() (nengo.builder.Builder class method)</a>
+
+      <ul>
+        <li><a href="backend_api.html#nengo.builder.Model.build">(nengo.builder.Model method)</a>
+</li>
+      </ul></li>
+      <li><a href="backend_api.html#nengo.builder.neurons.build_alif">build_alif() (in module nengo.builder.neurons)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.neurons.build_alifrate">build_alifrate() (in module nengo.builder.neurons)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.learning_rules.build_bcm">build_bcm() (in module nengo.builder.learning_rules)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.connection.build_connection">build_connection() (in module nengo.builder.connection)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.ensemble.build_ensemble">build_ensemble() (in module nengo.builder.ensemble)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="backend_api.html#nengo.builder.neurons.build_izhikevich">build_izhikevich() (in module nengo.builder.neurons)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.learning_rules.build_learning_rule">build_learning_rule() (in module nengo.builder.learning_rules)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.neurons.build_lif">build_lif() (in module nengo.builder.neurons)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.network.build_network">build_network() (in module nengo.builder.network)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.neurons.build_neurons">build_neurons() (in module nengo.builder.neurons)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.node.build_node">build_node() (in module nengo.builder.node)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.learning_rules.build_oja">build_oja() (in module nengo.builder.learning_rules)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.learning_rules.build_pes">build_pes() (in module nengo.builder.learning_rules)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.probe.build_probe">build_probe() (in module nengo.builder.probe)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.processes.build_process">build_process() (in module nengo.builder.processes)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.processes.build_synapse">build_synapse() (in module nengo.builder.processes)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.learning_rules.build_voja">build_voja() (in module nengo.builder.learning_rules)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.Builder">Builder (class in nengo.builder)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.connection.BuiltConnection">BuiltConnection (class in nengo.builder.connection)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.ensemble.BuiltEnsemble">BuiltEnsemble (class in nengo.builder.ensemble)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="backend_api.html#nengo.cache.CacheIndex">CacheIndex (class in nengo.cache)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.dists.CosineSimilarity.cdf">cdf() (nengo.dists.CosineSimilarity method)</a>
+
+      <ul>
+        <li><a href="frontend_api.html#nengo.dists.SqrtBeta.cdf">(nengo.dists.SqrtBeta method)</a>
+</li>
+      </ul></li>
+      <li><a href="frontend_api.html#nengo.transforms.ChannelShape">ChannelShape (class in nengo.transforms)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.dists.Choice">Choice (class in nengo.dists)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.utils.least_squares_solvers.Cholesky">Cholesky (class in nengo.utils.least_squares_solvers)</a>
+</li>
+      <li><a href="networks.html#nengo.networks.CircularConvolution">CircularConvolution() (in module nengo.networks)</a>
+</li>
+      <li><a href="config.html#nengo.config.ClassParams">ClassParams (class in nengo.config)</a>
+</li>
+      <li><a href="backend_api.html#nengo.Simulator.close">close() (nengo.Simulator method)</a>
+</li>
+      <li><a href="config.html#nengo.params.NdarrayParam.coerce_defaults">coerce_defaults() (nengo.params.NdarrayParam property)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.LinearFilter.combine">combine() (nengo.LinearFilter method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="config.html#nengo.Config">Config (class in nengo)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.Network.config">config() (nengo.Network property)</a>
+</li>
+      <li><a href="config.html#nengo.Config.configures">configures() (nengo.Config method)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.utils.least_squares_solvers.Conjgrad">Conjgrad (class in nengo.utils.least_squares_solvers)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.utils.least_squares_solvers.ConjgradScipy">ConjgradScipy (class in nengo.utils.least_squares_solvers)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.Connection">Connection (class in nengo)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.connection.LearningRule.connection">connection() (nengo.connection.LearningRule property)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.transforms.ConvInc">ConvInc (class in nengo.builder.transforms)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.transforms.Convolution">Convolution (class in nengo.transforms)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.operator.Copy">Copy (class in nengo.builder.operator)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.dists.CosineSimilarity">CosineSimilarity (class in nengo.dists)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.neurons.NeuronType.current">current() (nengo.neurons.NeuronType method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="backend_api.html#nengo.cache.DecoderCache">DecoderCache (class in nengo.cache)</a>
+</li>
+      <li><a href="config.html#nengo.Config.default">default() (nengo.Config static method)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.Network.default_config">default_config() (nengo.Network static method)</a>
+</li>
+      <li><a href="networks.html#nengo.networks.AssociativeMemory.default_ens_config">default_ens_config() (nengo.networks.AssociativeMemory property)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.transforms.Dense">Dense (class in nengo.transforms)</a>
+</li>
+      <li><a href="config.html#nengo.params.DictParam">DictParam (class in nengo.params)</a>
+</li>
+      <li><a href="networks.html#nengo.networks.EnsembleArray.dimensions">dimensions() (nengo.networks.EnsembleArray property)</a>
+
+      <ul>
+        <li><a href="frontend_api.html#nengo.transforms.ChannelShape.dimensions">(nengo.transforms.ChannelShape property)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.transforms.Convolution.dimensions">(nengo.transforms.Convolution property)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="frontend_api.html#nengo.Direct">Direct (class in nengo)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.dists.Distribution">Distribution (class in nengo.dists)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.operator.DotInc">DotInc (class in nengo.builder.operator)</a>
+</li>
+      <li><a href="backend_api.html#nengo.Simulator.dt">dt() (nengo.Simulator property)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.Signal.dtype">dtype() (nengo.builder.Signal property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="backend_api.html#nengo.builder.operator.ElementwiseInc">ElementwiseInc (class in nengo.builder.operator)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.Signal.elemoffset">elemoffset() (nengo.builder.Signal property)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.Signal.elemstrides">elemstrides() (nengo.builder.Signal property)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.Ensemble">Ensemble (class in nengo)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="frontend_api.html#nengo.ensemble.Neurons.ensemble">ensemble() (nengo.ensemble.Neurons property)</a>
+</li>
+      <li><a href="networks.html#nengo.networks.EnsembleArray">EnsembleArray (class in nengo.networks)</a>
+</li>
+      <li><a href="config.html#nengo.params.EnumParam">EnumParam (class in nengo.params)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.LinearFilter.evaluate">evaluate() (nengo.LinearFilter method)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.dists.Exponential">Exponential (class in nengo.dists)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="frontend_api.html#nengo.synapses.filt">filt() (in module nengo.synapses)</a>
+
+      <ul>
+        <li><a href="frontend_api.html#nengo.synapses.Synapse.filt">(nengo.synapses.Synapse method)</a>
+</li>
+      </ul></li>
+      <li><a href="frontend_api.html#nengo.processes.FilteredNoise">FilteredNoise (class in nengo.processes)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="frontend_api.html#nengo.synapses.filtfilt">filtfilt() (in module nengo.synapses)</a>
+
+      <ul>
+        <li><a href="frontend_api.html#nengo.synapses.Synapse.filtfilt">(nengo.synapses.Synapse method)</a>
+</li>
+      </ul></li>
+      <li><a href="backend_api.html#nengo.cache.Fingerprint">Fingerprint (class in nengo.cache)</a>
+</li>
+      <li><a href="config.html#nengo.params.FunctionParam">FunctionParam (class in nengo.params)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="frontend_api.html#nengo.Direct.gain_bias">gain_bias() (nengo.Direct method)</a>
+
+      <ul>
+        <li><a href="frontend_api.html#nengo.LIFRate.gain_bias">(nengo.LIFRate method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.RectifiedLinear.gain_bias">(nengo.RectifiedLinear method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.Sigmoid.gain_bias">(nengo.Sigmoid method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.neurons.NeuronType.gain_bias">(nengo.neurons.NeuronType method)</a>
+</li>
+      </ul></li>
+      <li><a href="frontend_api.html#nengo.dists.Gaussian">Gaussian (class in nengo.dists)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="backend_api.html#nengo.cache.DecoderCache.get_default_dir">get_default_dir() (nengo.cache.DecoderCache static method)</a>
+</li>
+      <li><a href="backend_api.html#nengo.cache.DecoderCache.get_files">get_files() (nengo.cache.DecoderCache method)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.Process.get_rng">get_rng() (nengo.Process method)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.dists.get_samples">get_samples() (in module nengo.dists)</a>
+</li>
+      <li><a href="backend_api.html#nengo.cache.DecoderCache.get_size">get_size() (nengo.cache.DecoderCache method)</a>
+</li>
+      <li><a href="backend_api.html#nengo.cache.DecoderCache.get_size_in_bytes">get_size_in_bytes() (nengo.cache.DecoderCache method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="H">H</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="backend_api.html#nengo.builder.Model.has_built">has_built() (nengo.builder.Model method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="config.html#nengo.params.NdarrayParam.hashvalue">hashvalue() (nengo.params.NdarrayParam method)</a>
+
+      <ul>
+        <li><a href="config.html#nengo.params.Parameter.hashvalue">(nengo.params.Parameter method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="backend_api.html#nengo.builder.Operator.incs">incs() (nengo.builder.Operator property)</a>
+</li>
+      <li><a href="backend_api.html#nengo.simulator.SignalDict.init">init() (nengo.simulator.SignalDict method)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.transforms.Dense.init_shape">init_shape() (nengo.transforms.Dense property)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.Operator.init_signals">init_signals() (nengo.builder.Operator method)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.Signal.initial_value">initial_value() (nengo.builder.Signal property)</a>
+</li>
+      <li><a href="networks.html#nengo.networks.InputGatedMemory">InputGatedMemory() (in module nengo.networks)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="config.html#nengo.config.InstanceParams">InstanceParams (class in nengo.config)</a>
+</li>
+      <li><a href="networks.html#nengo.networks.Integrator">Integrator() (in module nengo.networks)</a>
+</li>
+      <li><a href="config.html#nengo.params.IntParam">IntParam (class in nengo.params)</a>
+</li>
+      <li><a href="backend_api.html#nengo.cache.DecoderCache.invalidate">invalidate() (nengo.cache.DecoderCache method)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.Signal.is_view">is_view() (nengo.builder.Signal property)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.Signal.itemsize">itemsize() (nengo.builder.Signal property)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.Izhikevich">Izhikevich (class in nengo)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="K">K</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="frontend_api.html#nengo.transforms.Convolution.kernel_shape">kernel_shape() (nengo.transforms.Convolution property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="frontend_api.html#nengo.Connection.learning_rule">learning_rule() (nengo.Connection property)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.connection.LearningRule">LearningRule (class in nengo.connection)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.learning_rules.LearningRuleType">LearningRuleType (class in nengo.learning_rules)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.utils.least_squares_solvers.LeastSquaresSolver">LeastSquaresSolver (class in nengo.utils.least_squares_solvers)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.LIF">LIF (class in nengo)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.LIFRate">LIFRate (class in nengo)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.LinearFilter">LinearFilter (class in nengo)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.LinearFilter.General">LinearFilter.General (class in nengo)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.LinearFilter.NoD">LinearFilter.NoD (class in nengo)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.LinearFilter.NoX">LinearFilter.NoX (class in nengo)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="frontend_api.html#nengo.LinearFilter.OneX">LinearFilter.OneX (class in nengo)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.LinearFilter.Step">LinearFilter.Step (class in nengo)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.Lowpass">Lowpass (class in nengo)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.utils.least_squares_solvers.LSMRScipy">LSMRScipy (class in nengo.utils.least_squares_solvers)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.solvers.Lstsq">Lstsq (class in nengo.solvers)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.solvers.LstsqDrop">LstsqDrop (class in nengo.solvers)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.solvers.LstsqL1">LstsqL1 (class in nengo.solvers)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.solvers.LstsqL2">LstsqL2 (class in nengo.solvers)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.solvers.LstsqL2nz">LstsqL2nz (class in nengo.solvers)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.solvers.LstsqMultNoise">LstsqMultNoise (class in nengo.solvers)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.solvers.LstsqNoise">LstsqNoise (class in nengo.solvers)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="M">M</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="backend_api.html#nengo.builder.learning_rules.SimBCM.make_step">make_step() (nengo.builder.learning_rules.SimBCM method)</a>
+
+      <ul>
+        <li><a href="frontend_api.html#nengo.LinearFilter.make_step">(nengo.LinearFilter method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.Process.make_step">(nengo.Process method)</a>
+</li>
+        <li><a href="backend_api.html#nengo.builder.Operator.make_step">(nengo.builder.Operator method)</a>
+</li>
+        <li><a href="backend_api.html#nengo.builder.learning_rules.SimOja.make_step">(nengo.builder.learning_rules.SimOja method)</a>
+</li>
+        <li><a href="backend_api.html#nengo.builder.learning_rules.SimPES.make_step">(nengo.builder.learning_rules.SimPES method)</a>
+</li>
+        <li><a href="backend_api.html#nengo.builder.learning_rules.SimVoja.make_step">(nengo.builder.learning_rules.SimVoja method)</a>
+</li>
+        <li><a href="backend_api.html#nengo.builder.neurons.SimNeurons.make_step">(nengo.builder.neurons.SimNeurons method)</a>
+</li>
+        <li><a href="backend_api.html#nengo.builder.operator.BsrDotInc.make_step">(nengo.builder.operator.BsrDotInc method)</a>
+</li>
+        <li><a href="backend_api.html#nengo.builder.operator.Copy.make_step">(nengo.builder.operator.Copy method)</a>
+</li>
+        <li><a href="backend_api.html#nengo.builder.operator.DotInc.make_step">(nengo.builder.operator.DotInc method)</a>
+</li>
+        <li><a href="backend_api.html#nengo.builder.operator.ElementwiseInc.make_step">(nengo.builder.operator.ElementwiseInc method)</a>
+</li>
+        <li><a href="backend_api.html#nengo.builder.operator.Reset.make_step">(nengo.builder.operator.Reset method)</a>
+</li>
+        <li><a href="backend_api.html#nengo.builder.operator.SimPyFunc.make_step">(nengo.builder.operator.SimPyFunc method)</a>
+</li>
+        <li><a href="backend_api.html#nengo.builder.operator.TimeUpdate.make_step">(nengo.builder.operator.TimeUpdate method)</a>
+</li>
+        <li><a href="backend_api.html#nengo.builder.processes.SimProcess.make_step">(nengo.builder.processes.SimProcess method)</a>
+</li>
+        <li><a href="backend_api.html#nengo.builder.transforms.ConvInc.make_step">(nengo.builder.transforms.ConvInc method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.processes.FilteredNoise.make_step">(nengo.processes.FilteredNoise method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.processes.Piecewise.make_step">(nengo.processes.Piecewise method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.processes.PresentInput.make_step">(nengo.processes.PresentInput method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.processes.WhiteNoise.make_step">(nengo.processes.WhiteNoise method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.processes.WhiteSignal.make_step">(nengo.processes.WhiteSignal method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.synapses.Synapse.make_step">(nengo.synapses.Synapse method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.synapses.Triangle.make_step">(nengo.synapses.Triangle method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="frontend_api.html#nengo.Direct.max_rates_intercepts">max_rates_intercepts() (nengo.Direct method)</a>
+
+      <ul>
+        <li><a href="frontend_api.html#nengo.LIFRate.max_rates_intercepts">(nengo.LIFRate method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.RectifiedLinear.max_rates_intercepts">(nengo.RectifiedLinear method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.Sigmoid.max_rates_intercepts">(nengo.Sigmoid method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.neurons.NeuronType.max_rates_intercepts">(nengo.neurons.NeuronType method)</a>
+</li>
+      </ul></li>
+      <li><a href="backend_api.html#nengo.builder.Signal.may_share_memory">may_share_memory() (nengo.builder.Signal method)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.Model">Model (class in nengo.builder)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.connection.LearningRule.modifies">modifies() (nengo.connection.LearningRule property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="frontend_api.html#nengo.transforms.ChannelShape.n_channels">n_channels() (nengo.transforms.ChannelShape property)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.Network.n_neurons">n_neurons() (nengo.Network property)</a>
+</li>
+      <li><a href="backend_api.html#nengo.Simulator.n_steps">n_steps() (nengo.Simulator property)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.Signal.name">name() (nengo.builder.Signal property)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.Signal.nbytes">nbytes() (nengo.builder.Signal property)</a>
+</li>
+      <li><a href="config.html#nengo.params.NdarrayParam">NdarrayParam (class in nengo.params)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.Signal.ndim">ndim() (nengo.builder.Signal property)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.Network">Network (class in nengo)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.ensemble.Neurons">Neurons (class in nengo.ensemble)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="frontend_api.html#nengo.Ensemble.neurons">neurons() (nengo.Ensemble property)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.neurons.NeuronType">NeuronType (class in nengo.neurons)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.solvers.Nnls">Nnls (class in nengo.solvers)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.solvers.NnlsL2">NnlsL2 (class in nengo.solvers)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.solvers.NnlsL2nz">NnlsL2nz (class in nengo.solvers)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.Node">Node (class in nengo)</a>
+</li>
+      <li><a href="backend_api.html#nengo.cache.NoDecoderCache">NoDecoderCache (class in nengo.cache)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.solvers.NoSolver">NoSolver (class in nengo.solvers)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.Process.ntrange">ntrange() (nengo.Process method)</a>
+</li>
+      <li><a href="config.html#nengo.params.NumberParam">NumberParam (class in nengo.params)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="frontend_api.html#nengo.Probe.obj">obj() (nengo.Probe property)</a>
+</li>
+      <li><a href="config.html#nengo.params.ObsoleteParam">ObsoleteParam (class in nengo.params)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.Signal.offset">offset() (nengo.builder.Signal property)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.Oja">Oja (class in nengo)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="backend_api.html#nengo.builder.Operator">Operator (class in nengo.builder)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.optimizer.optimize">optimize() (in module nengo.builder.optimizer)</a>
+</li>
+      <li><a href="networks.html#nengo.networks.Oscillator">Oscillator() (in module nengo.networks)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.transforms.Convolution.output_shape">output_shape() (nengo.transforms.Convolution property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="config.html#nengo.params.Parameter">Parameter (class in nengo.params)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.dists.PDF">PDF (class in nengo.dists)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.dists.CosineSimilarity.pdf">pdf() (nengo.dists.CosineSimilarity method)</a>
+
+      <ul>
+        <li><a href="frontend_api.html#nengo.dists.SqrtBeta.pdf">(nengo.dists.SqrtBeta method)</a>
+</li>
+      </ul></li>
+      <li><a href="frontend_api.html#nengo.PES">PES (class in nengo)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.processes.Piecewise">Piecewise (class in nengo.processes)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.dists.CosineSimilarity.ppf">ppf() (nengo.dists.CosineSimilarity method)</a>
+
+      <ul>
+        <li><a href="frontend_api.html#nengo.dists.SqrtBeta.ppf">(nengo.dists.SqrtBeta method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="frontend_api.html#nengo.processes.PresentInput">PresentInput (class in nengo.processes)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.Probe">Probe (class in nengo)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.connection.LearningRule.probeable">probeable() (nengo.connection.LearningRule property)</a>
+
+      <ul>
+        <li><a href="frontend_api.html#nengo.ensemble.Neurons.probeable">(nengo.ensemble.Neurons property)</a>
+</li>
+      </ul></li>
+      <li><a href="backend_api.html#nengo.simulator.ProbeDict">ProbeDict (class in nengo.simulator)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.Process">Process (class in nengo)</a>
+</li>
+      <li><a href="networks.html#nengo.networks.Product">Product() (in module nengo.networks)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="frontend_api.html#nengo.utils.least_squares_solvers.RandomizedSVD">RandomizedSVD (class in nengo.utils.least_squares_solvers)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.Direct.rates">rates() (nengo.Direct method)</a>
+
+      <ul>
+        <li><a href="frontend_api.html#nengo.Izhikevich.rates">(nengo.Izhikevich method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.LIFRate.rates">(nengo.LIFRate method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.SpikingRectifiedLinear.rates">(nengo.SpikingRectifiedLinear method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.neurons.NeuronType.rates">(nengo.neurons.NeuronType method)</a>
+</li>
+      </ul></li>
+      <li><a href="nengorc.html#nengo.rc">rc (in module nengo)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.Signal.readonly">readonly() (nengo.builder.Signal property)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.Operator.reads">reads() (nengo.builder.Operator property)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.RectifiedLinear">RectifiedLinear (class in nengo)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="backend_api.html#nengo.builder.Builder.register">register() (nengo.builder.Builder class method)</a>
+</li>
+      <li><a href="backend_api.html#nengo.cache.DecoderCache.remove_file">remove_file() (nengo.cache.DecoderCache method)</a>
+</li>
+      <li><a href="backend_api.html#nengo.cache.WriteableCacheIndex.remove_file_entry">remove_file_entry() (nengo.cache.WriteableCacheIndex method)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.operator.Reset">Reset (class in nengo.builder.operator)</a>
+</li>
+      <li><a href="backend_api.html#nengo.Simulator.reset">reset() (nengo.Simulator method)</a>
+
+      <ul>
+        <li><a href="backend_api.html#nengo.simulator.SignalDict.reset">(nengo.simulator.SignalDict method)</a>
+</li>
+      </ul></li>
+      <li><a href="backend_api.html#nengo.builder.Signal.reshape">reshape() (nengo.builder.Signal method)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.Process.run">run() (nengo.Process method)</a>
+
+      <ul>
+        <li><a href="backend_api.html#nengo.Simulator.run">(nengo.Simulator method)</a>
+</li>
+      </ul></li>
+      <li><a href="frontend_api.html#nengo.Process.run_steps">run_steps() (nengo.Process method)</a>
+
+      <ul>
+        <li><a href="backend_api.html#nengo.Simulator.run_steps">(nengo.Simulator method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="frontend_api.html#nengo.dists.Choice.sample">sample() (nengo.dists.Choice method)</a>
+
+      <ul>
+        <li><a href="frontend_api.html#nengo.dists.CosineSimilarity.sample">(nengo.dists.CosineSimilarity method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.dists.Distribution.sample">(nengo.dists.Distribution method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.dists.Exponential.sample">(nengo.dists.Exponential method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.dists.Gaussian.sample">(nengo.dists.Gaussian method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.dists.PDF.sample">(nengo.dists.PDF method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.dists.Samples.sample">(nengo.dists.Samples method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.dists.SqrtBeta.sample">(nengo.dists.SqrtBeta method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.dists.Uniform.sample">(nengo.dists.Uniform method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.dists.UniformHypersphere.sample">(nengo.dists.UniformHypersphere method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.transforms.Convolution.sample">(nengo.transforms.Convolution method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.transforms.Dense.sample">(nengo.transforms.Dense method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.transforms.Sparse.sample">(nengo.transforms.Sparse method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.transforms.Transform.sample">(nengo.transforms.Transform method)</a>
+</li>
+      </ul></li>
+      <li><a href="frontend_api.html#nengo.dists.Samples">Samples (class in nengo.dists)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.Operator.sets">sets() (nengo.builder.Operator property)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.Signal.shape">shape() (nengo.builder.Signal property)</a>
+</li>
+      <li><a href="config.html#nengo.params.ShapeParam">ShapeParam (class in nengo.params)</a>
+</li>
+      <li><a href="backend_api.html#nengo.cache.DecoderCache.shrink">shrink() (nengo.cache.DecoderCache method)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.Sigmoid">Sigmoid (class in nengo)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.Signal">Signal (class in nengo.builder)</a>
+</li>
+      <li><a href="backend_api.html#nengo.simulator.SignalDict">SignalDict (class in nengo.simulator)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.learning_rules.SimBCM">SimBCM (class in nengo.builder.learning_rules)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.neurons.SimNeurons">SimNeurons (class in nengo.builder.neurons)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.learning_rules.SimOja">SimOja (class in nengo.builder.learning_rules)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.learning_rules.SimPES">SimPES (class in nengo.builder.learning_rules)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.processes.SimProcess">SimProcess (class in nengo.builder.processes)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.operator.SimPyFunc">SimPyFunc (class in nengo.builder.operator)</a>
+</li>
+      <li><a href="backend_api.html#nengo.Simulator">Simulator (class in nengo)</a>
+</li>
+      <li><a href="backend_api.html#nengo.exceptions.SimulatorClosed">SimulatorClosed (class in nengo.exceptions)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.learning_rules.SimVoja">SimVoja (class in nengo.builder.learning_rules)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.Signal.size">size() (nengo.builder.Signal property)</a>
+
+      <ul>
+        <li><a href="frontend_api.html#nengo.transforms.ChannelShape.size">(nengo.transforms.ChannelShape property)</a>
+</li>
+      </ul></li>
+      <li><a href="frontend_api.html#nengo.Connection.size_in">size_in() (nengo.Connection property)</a>
+
+      <ul>
+        <li><a href="frontend_api.html#nengo.Ensemble.size_in">(nengo.Ensemble property)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.Probe.size_in">(nengo.Probe property)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.ensemble.Neurons.size_in">(nengo.ensemble.Neurons property)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.transforms.Convolution.size_in">(nengo.transforms.Convolution property)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.transforms.Dense.size_in">(nengo.transforms.Dense property)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.transforms.Sparse.size_in">(nengo.transforms.Sparse property)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.transforms.Transform.size_in">(nengo.transforms.Transform property)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="frontend_api.html#nengo.Connection.size_mid">size_mid() (nengo.Connection property)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.Connection.size_out">size_out() (nengo.Connection property)</a>
+
+      <ul>
+        <li><a href="frontend_api.html#nengo.Ensemble.size_out">(nengo.Ensemble property)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.Probe.size_out">(nengo.Probe property)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.connection.LearningRule.size_out">(nengo.connection.LearningRule property)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.ensemble.Neurons.size_out">(nengo.ensemble.Neurons property)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.transforms.Convolution.size_out">(nengo.transforms.Convolution property)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.transforms.Dense.size_out">(nengo.transforms.Dense property)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.transforms.Sparse.size_out">(nengo.transforms.Sparse property)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.transforms.Transform.size_out">(nengo.transforms.Transform property)</a>
+</li>
+      </ul></li>
+      <li><a href="frontend_api.html#nengo.Probe.slice">slice() (nengo.Probe property)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.solvers.Solver">Solver (class in nengo.solvers)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.transforms.Sparse">Sparse (class in nengo.transforms)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.Signal.sparse">sparse() (nengo.builder.Signal property)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.operator.SparseDotInc">SparseDotInc (class in nengo.builder.operator)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.transforms.ChannelShape.spatial_shape">spatial_shape() (nengo.transforms.ChannelShape property)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.SpikingRectifiedLinear">SpikingRectifiedLinear (class in nengo)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.dists.SqrtBeta">SqrtBeta (class in nengo.dists)</a>
+</li>
+      <li><a href="backend_api.html#nengo.Simulator.step">step() (nengo.Simulator method)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.AdaptiveLIF.step_math">step_math() (nengo.AdaptiveLIF method)</a>
+
+      <ul>
+        <li><a href="frontend_api.html#nengo.AdaptiveLIFRate.step_math">(nengo.AdaptiveLIFRate method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.Direct.step_math">(nengo.Direct method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.Izhikevich.step_math">(nengo.Izhikevich method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.LIF.step_math">(nengo.LIF method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.LIFRate.step_math">(nengo.LIFRate method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.RectifiedLinear.step_math">(nengo.RectifiedLinear method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.Sigmoid.step_math">(nengo.Sigmoid method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.SpikingRectifiedLinear.step_math">(nengo.SpikingRectifiedLinear method)</a>
+</li>
+        <li><a href="frontend_api.html#nengo.neurons.NeuronType.step_math">(nengo.neurons.NeuronType method)</a>
+</li>
+      </ul></li>
+      <li><a href="backend_api.html#nengo.builder.Signal.strides">strides() (nengo.builder.Signal property)</a>
+</li>
+      <li><a href="config.html#nengo.params.StringParam">StringParam (class in nengo.params)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.dists.SubvectorLength">SubvectorLength (class in nengo.dists)</a>
+</li>
+      <li><a href="backend_api.html#nengo.cache.Fingerprint.supports">supports() (nengo.cache.Fingerprint class method)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.utils.least_squares_solvers.SVD">SVD (class in nengo.utils.least_squares_solvers)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.synapses.Synapse">Synapse (class in nengo.synapses)</a>
+</li>
+      <li><a href="backend_api.html#nengo.cache.WriteableCacheIndex.sync">sync() (nengo.cache.WriteableCacheIndex method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="networks.html#nengo.networks.Thalamus">Thalamus() (in module nengo.networks)</a>
+</li>
+      <li><a href="networks.html#nengo.networks.AssociativeMemory.thresh_ens_config">thresh_ens_config() (nengo.networks.AssociativeMemory property)</a>
+</li>
+      <li><a href="config.html#nengo.presets.ThresholdingEnsembles">ThresholdingEnsembles() (in module nengo.presets)</a>
+</li>
+      <li><a href="backend_api.html#nengo.Simulator.time">time() (nengo.Simulator property)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.operator.TimeUpdate">TimeUpdate (class in nengo.builder.operator)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="frontend_api.html#nengo.Process.trange">trange() (nengo.Process method)</a>
+
+      <ul>
+        <li><a href="backend_api.html#nengo.Simulator.trange">(nengo.Simulator method)</a>
+</li>
+      </ul></li>
+      <li><a href="frontend_api.html#nengo.transforms.Transform">Transform (class in nengo.transforms)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.synapses.Triangle">Triangle (class in nengo.synapses)</a>
+</li>
+      <li><a href="config.html#nengo.params.TupleParam">TupleParam (class in nengo.params)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="frontend_api.html#nengo.dists.Uniform">Uniform (class in nengo.dists)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.dists.UniformHypersphere">UniformHypersphere (class in nengo.dists)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="config.html#nengo.config.ClassParams.update">update() (nengo.config.ClassParams method)</a>
+</li>
+      <li><a href="backend_api.html#nengo.builder.Operator.updates">updates() (nengo.builder.Operator property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="config.html#nengo.exceptions.ValidationError">ValidationError (class in nengo.exceptions)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="frontend_api.html#nengo.Voja">Voja (class in nengo)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="backend_api.html#nengo.cache.Fingerprint.whitelist">whitelist() (nengo.cache.Fingerprint class method)</a>
+</li>
+      <li><a href="frontend_api.html#nengo.processes.WhiteNoise">WhiteNoise (class in nengo.processes)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="frontend_api.html#nengo.processes.WhiteSignal">WhiteSignal (class in nengo.processes)</a>
+</li>
+      <li><a href="backend_api.html#nengo.cache.DecoderCache.wrap_solver">wrap_solver() (nengo.cache.DecoderCache method)</a>
+</li>
+      <li><a href="backend_api.html#nengo.cache.WriteableCacheIndex">WriteableCacheIndex (class in nengo.cache)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div><footer class="footer">
+  <div class="w-container">
+    <div class="w-clearfix">
+      <div class="w-row search">
+<form id="form-search" class="form-search" action="search.html" method="get">
+  <div class="form-group">
+    <input type="text" name="q" class="form-control" placeholder="Search" />
+  </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form></div>
+      <div class="w-row mobileAlign">
+        <div class="w-col w-col-2 footer-menu">
+          <p class="menu-Label">ABR, Inc.</p>
+          <ul class="vertical-menu">
+            <li class="footer-listitem-new"><a href="https://appliedbrainresearch.com/products/">Products</a></li>
+            <li class="footer-listitem-new "><a href="https://appliedbrainresearch.com/services/">Services</a></li>
+            <li class="footer-listitem-new"><a href="https://appliedbrainresearch.com/research/">Research</a></li>
+          </ul>
+        </div>
+        <div class="w-col w-col-2 footer-menu">
+          <p class="menu-Label">About Us</p>
+          <ul class="vertical-menu">
+            <li class="footer-listitem-new"><a href="https://appliedbrainresearch.com/about-us/">Contact</a></li>
+            <li class="footer-listitem-new"><a href="https://appliedbrainresearch.com/about-us/#team">Team</a></li>
+            <li class="footer-listitem-new"><a href="https://appliedbrainresearch.com/about-us/#culture">Culture</a></li>
+          </ul>
+        </div>
+        <a class="brand footer-brand" href="https://appliedbrainresearch.com">
+          <img src="https://appliedbrainresearch.com/img/logo-light-notext.svg" width="80">
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+  </body>
+</html>

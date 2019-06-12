@@ -1,0 +1,1040 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Reusable networks &#8212; Nengo 3.0.0.dev0 docs</title>
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/mmenu.all.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/components.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/nengo.css" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<!--[if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
+<script type="text/javascript" src="https://cdn.crate.io/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/js/modernizr.js"></script>
+    <script type="text/javascript" src="_static/js/underscore.min.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/searchtools.js"></script>
+    <script type="text/javascript" src="_static/js/webflow.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap.js"></script>
+    <script type="text/javascript" src="_static/js/mmenu.all.min.js"></script>
+    <script type="text/javascript" src="_static/js/fontawesome.js"></script>
+    <script type="text/javascript" src="_static/js/custom.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Designing networks" href="examples/usage/network_design.html" />
+    <link rel="prev" title="Context matters, membership doesn’t" href="examples/quirks/config.html" />
+<link rel="stylesheet" type="text/css" href="_static/custom.css">
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-41658423-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-41658423-2');
+</script>
+
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head><body>
+<header class="header-nav">
+  <div class="container">
+    <div class="navbar w-nav" data-animation="default" data-collapse="small" data-contain="1" data-duration="400">
+      <a class="brand w-nav-brand" href="https://www.nengo.ai/">
+        <img src="https://www.nengo.ai/design/_images/general-full-light.svg" width="120">
+      </a>
+      <nav class="w-nav-menu main-nav" role="navigation">
+        <div class="dropdownBackground">
+          <span class="arrow"></span>
+        </div>
+        <ul id="menu-top-navigation" class="menu">
+          <li class="navlink w-nav-link menu-item menu-item-has-children">
+            <a href="https://www.nengo.ai/overview.html">Overview</a>
+            <ul class="sub-menu">
+                <li class="menu-item"><a href="https://www.nengo.ai/quickstart.html">Quick Start</a></li>
+            </ul>
+          </li>
+          <li class="navlink w-nav-link menu-item menu-item-has-children">
+            <a href="https://www.nengo.ai/documentation.html">Documentation</a>
+            <table class="sub-menu">
+              <tr>
+                <td class="menu-heading">Core</td>
+                <td class="menu-heading">Backends</td>
+                <td class="menu-heading">Add-ons</td>
+              </tr>
+              <tr>
+                <td class="menu-item"><a href="https://www.nengo.ai/nengo">Nengo</a></td>
+                <td class="menu-item"><a href="https://www.nengo.ai/nengo-fpga">Nengo FPGA</a></td>
+                <td class="menu-item"><a href="https://github.com/nengo/nengo-examples">Nengo Examples</a></td>
+              </tr>
+              <tr>
+                <td class="menu-item"><a href="https://www.nengo.ai/nengo-dl/">Nengo DL</a></td>
+                <td class="menu-item"><a href="https://www.nengo.ai/nengo-loihi">Nengo Loihi</a></td>
+                <td class="menu-item"><a href="https://www.nengo.ai/nengo-extras/">Nengo Extras</a></td>
+              </tr>
+              <tr>
+                <td class="menu-item"><a href="https://github.com/nengo/nengo-gui">Nengo GUI</a></td>
+                <td class="menu-item"><a href="https://github.com/nengo/nengo-mpi">Nengo MPI</a></td>
+                <td class="menu-item"><a href="https://arvoelke.github.io/nengolib-docs/">Nengo Lib</a></td>
+              </tr>
+              <tr>
+                <td class="menu-item"><a href="https://www.nengo.ai/nengo-spa/">Nengo SPA</a></td>
+                <td class="menu-item"><a href="https://github.com/nengo/nengo-ocl">Nengo OpenCL</a></td>
+                <td class="menu-item"></td>
+              </tr>
+              <tr>
+                <td class="menu-item"></td>
+                <td class="menu-item"><a href="https://github.com/project-rig/nengo_spinnaker">Nengo SpiNNaker</a></td>
+                <td class="menu-item"></td>
+              </tr>
+            </table>
+          </li>
+          <li class="navlink w-nav-link menu-item menu-item-has-children">
+            <a href="https://www.nengo.ai/community.html">Community</a>
+            <ul class="sub-menu">
+              <li class="menu-item"><a href="https://forum.nengo.ai/">Forum</a></li>
+              <li class="menu-item"><a href="https://www.nengo.ai/publications.html">Publications</a></li>
+              <li class="menu-item"><a href="https://www.nengo.ai/summerschool.html">Summer School</a></li>
+              <li class="menu-item"><a href="https://www.nengo.ai/videos.html">Videos</a></li>
+              <li class="menu-item"><a href="https://www.nengo.ai/people.html">People</a></li>
+            </ul>
+          </li>
+          <li class="navlink w-nav-link menu-item menu-item-has-children">
+            <a href="https://www.nengo.ai/projects.html">Development</a>
+            <ul class="sub-menu">
+              <li class="menu-item"><a href="https://www.nengo.ai/contributing.html">Contributor Guide</a></li>
+              <li class="menu-item"><a href="https://www.nengo.ai/projects.html">Ecosystem</a></li>
+            </ul>
+          </li>
+          <li class="navlink w-nav-link menu-item"><a href="https://www.nengo.ai/README.html">About</a></li>
+          <li class="btn-link w-nav-link menu-item"><a href="https://www.nengo.ai/download.html">Download</a></li>
+        </ul>
+      </nav>
+
+      <div id="mobile-nav" class="mm-menu">
+        <ul class="offcanvas-menu">
+          <li class="navlink w-nav-link menu-item"><a href="https://www.nengo.ai/overview.html">Overview</a></li>
+          <li class="navlink w-nav-link menu-item menu-item-has-children">
+            <a href="https://www.nengo.ai/documentation.html">Documentation</a>
+            <ul class="sub-menu">
+              <li class="menu-item"><a href="https://www.nengo.ai/quickstart.html">Quick Start</a></li>
+              <li class="menu-item"><a href="http://www.nengo.ai/nengo">NengoCore</a></li>
+              <li class="menu-item"><a href="https://github.com/nengo/nengo-gui#nengo-gui">NengoGUI</a></li>
+            </ul>
+          </li>
+          <li class="navlink w-nav-link menu-item menu-item-has-children">
+            <a href="https://www.nengo.ai/community.html">Community</a>
+            <ul class="sub-menu">
+              <li class="menu-item"><a href="https://forum.nengo.ai/">Forum</a></li>
+              <li class="menu-item"><a href="https://www.nengo.ai/summerschool.html">Summer School</a></li>
+              <li class="menu-item"><a href="https://www.nengo.ai/people.html">People</a></li>
+            </ul>
+          </li>
+          <li class="navlink w-nav-link menu-item menu-item-has-children">
+            <a href="https://www.nengo.ai/projects.html">Development</a>
+            <ul class="sub-menu">
+              <li class="menu-item"><a href="https://www.nengo.ai/contributing.html">Contributor Guide</a></li>
+              <li class="menu-item"><a href="https://www.nengo.ai/projects.html">Ecosystem</a></li>
+            </ul>
+          </li>
+          <li class="navlink w-nav-link menu-item"><a href="https://www.nengo.ai/README.html">About</a></li>
+          <li class="btn-link w-nav-link menu-item"><a href="https://www.nengo.ai/download.html">Download</a></li>
+        </ul>
+      </div>
+
+      <a href="#mobile-nav" class="fa fa-bars mobile-nav-button"></a>
+    </div>
+  </div>
+</header>
+
+<div class="w-section section border-top">
+  <div class="container">
+    <div class="row" id="networks">
+      <div class="col-md-4 col-lg-3">
+        <aside class="wrapper-navleft"><div role="complementary" class="bs-docs-sidebar hidden-print" id="nav-affix">
+  <ul class="bs-docs-sidenav bs-sidenav nav" role="complementary">
+    <a href="index.html">
+      <img class="logo" src="https://www.nengo.ai/design/_images/general-full-light.svg" alt="Nengo" width="200" />
+    </a>
+    <ul class="toctree nav nav-list">
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="user_guide.html">User guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="frontend_api.html">Nengo frontend API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">Setting parameters with Configs</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Reusable networks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/usage/network_design.html">Designing networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/usage/network_design_advanced.html">Additional tips and tricks for designing networks</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="spa.html">Semantic Pointer Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced.html">Advanced topics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="backend_api.html">Nengo backend API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html">Release History</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html">Nengo history</a></li>
+<li class="toctree-l2"><a class="reference internal" href="converting.html">Converting from Nengo 1.4 to Nengo 2.0</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to Nengo</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://www.nengo.ai/projects.html">Nengo ecosystem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">Nengo license</a></li>
+</ul>
+
+    </ul>
+  </ul>
+<form id="form-search" class="form-search" action="search.html" method="get">
+  <div class="form-group">
+    <input type="text" name="q" class="form-control" placeholder="Search" />
+  </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form></div>
+          
+        </aside>
+      </div>
+      <div class="col-md-8 col-lg-9">
+        <div class="body wrapper-content-right">
+          
+<div class="version-select-container">
+    <div data-delay="0" class="w-dropdown">
+        <div class="w-dropdown-toggle toggle">
+            <div class="toggle-text">latest</div>
+            <div class="w-icon-dropdown-toggle toggle-icon"></div>
+        </div>
+        <nav class="w-dropdown-list dropdown-list">
+            
+            
+                <div class="w-dropdown-link">latest</div>
+            
+
+            
+                
+                    <a href="v2.8.0/networks.html" class="w-dropdown-link">v2.8.0</a>
+                
+            
+                
+                    <a href="/networks.html" class="w-dropdown-link"></a>
+                
+            
+        </nav>
+    </div>
+</div>
+
+          
+  <div class="section" id="reusable-networks">
+<h1>Reusable networks<a class="headerlink" href="#reusable-networks" title="Permalink to this headline">¶</a></h1>
+<p>Networks are an abstraction of a grouping of Nengo objects
+(i.e., <a class="reference internal" href="frontend_api.html#nengo.Node" title="nengo.Node"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Node</span></code></a>, <a class="reference internal" href="frontend_api.html#nengo.Ensemble" title="nengo.Ensemble"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Ensemble</span></code></a>, <a class="reference internal" href="frontend_api.html#nengo.Connection" title="nengo.Connection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Connection</span></code></a>, and <a class="reference internal" href="frontend_api.html#nengo.Network" title="nengo.Network"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Network</span></code></a> instances,
+though usually not <a class="reference internal" href="frontend_api.html#nengo.Probe" title="nengo.Probe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Probe</span></code></a> instances.)
+Like most abstractions, this helps with code-reuse and maintainability.
+You’ll find the documentation
+for the reusable networks included with Nengo below.</p>
+<p>You may also want to build your own reusable networks.
+Doing so can help encapsulate parts of your model,
+making your code easier to understand,
+easier to re-use, and easier to share.
+The following examples will
+help you build your own reusable networks:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/usage/network_design.html">Designing networks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/usage/network_design.html#1.-Group-related-objects-in-networks-with-with">1. Group related objects in networks with <code class="docutils literal notranslate"><span class="pre">with</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/usage/network_design.html#2.-Reuse-networks-by-defining-functions">2. Reuse networks by defining functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/usage/network_design.html#Store-useful-objects-on-the-network">Store useful objects on the network</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/usage/network_design.html#3.-Parameterize-functions-for-more-flexible-reuse">3. Parameterize functions for more flexible reuse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/usage/network_design.html#Longer-example:-double-integrator-network">Longer example: double integrator network</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/usage/network_design_advanced.html">Additional tips and tricks for designing networks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/usage/network_design_advanced.html#1.-Accept-a-**kwargs-argument">1. Accept a <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code> argument</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/usage/network_design_advanced.html#2.-Accept-a-config-argument-for-groups-of-parameters">2. Accept a config argument for groups of parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/usage/network_design_advanced.html#Longer-example:-double-integrator-network">Longer example: double integrator network</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>You may also find the <a class="reference internal" href="config.html"><span class="doc">config system documentation</span></a> useful.</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nengo.networks.EnsembleArray" title="nengo.networks.EnsembleArray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nengo.networks.EnsembleArray</span></code></a></p></td>
+<td><p>An array of ensembles.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nengo.networks.BasalGanglia" title="nengo.networks.BasalGanglia"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nengo.networks.BasalGanglia</span></code></a></p></td>
+<td><p>Winner take all network, typically used for action selection.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nengo.networks.Thalamus" title="nengo.networks.Thalamus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nengo.networks.Thalamus</span></code></a></p></td>
+<td><p>Inhibits non-selected actions.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nengo.networks.AssociativeMemory" title="nengo.networks.AssociativeMemory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nengo.networks.AssociativeMemory</span></code></a></p></td>
+<td><p>Associative memory network.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nengo.networks.CircularConvolution" title="nengo.networks.CircularConvolution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nengo.networks.CircularConvolution</span></code></a></p></td>
+<td><p>Compute the circular convolution of two vectors.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nengo.networks.Integrator" title="nengo.networks.Integrator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nengo.networks.Integrator</span></code></a></p></td>
+<td><p>An ensemble that accumulates input and maintains state.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nengo.networks.Oscillator" title="nengo.networks.Oscillator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nengo.networks.Oscillator</span></code></a></p></td>
+<td><p>A two-dimensional ensemble with interacting recurrent connections.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nengo.networks.Product" title="nengo.networks.Product"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nengo.networks.Product</span></code></a></p></td>
+<td><p>Computes the element-wise product of two equally sized vectors.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nengo.networks.InputGatedMemory" title="nengo.networks.InputGatedMemory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nengo.networks.InputGatedMemory</span></code></a></p></td>
+<td><p>Stores a given vector in memory, with input controlled by a gate.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="nengo.networks.EnsembleArray">
+<em class="property">class </em><code class="sig-prename descclassname">nengo.networks.</code><code class="sig-name descname">EnsembleArray</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">n_neurons</em>, <em class="sig-param">n_ensembles</em>, <em class="sig-param">ens_dimensions=1</em>, <em class="sig-param">neuron_nodes=False</em>, <em class="sig-param">label=None</em>, <em class="sig-param">seed=None</em>, <em class="sig-param">add_to_container=None</em>, <em class="sig-param">**ens_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/networks/ensemblearray.html#EnsembleArray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.networks.EnsembleArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>An array of ensembles.</p>
+<p>This acts, in some ways, like a single high-dimensional ensemble,
+but actually consists of many sub-ensembles, each one representing
+a separate dimension. This tends to be much faster to create
+and can be more accurate than having one huge high-dimensional ensemble.
+However, since the neurons represent different dimensions separately,
+we cannot compute nonlinear interactions between those dimensions.</p>
+<p>Note that in addition to the parameters below, parameters affecting
+all of the sub-ensembles can be passed to the ensemble array.
+For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ea</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">networks</span><span class="o">.</span><span class="n">EnsembleArray</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>creates an ensemble array with 2 sub-ensembles, each with 20 neurons,
+and a radius of 1.5.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>n_neurons</strong><span class="classifier">int</span></dt><dd><p>The number of neurons in each sub-ensemble.</p>
+</dd>
+<dt><strong>n_ensembles</strong><span class="classifier">int</span></dt><dd><p>The number of sub-ensembles to create.</p>
+</dd>
+<dt><strong>ens_dimensions</strong><span class="classifier">int, optional</span></dt><dd><p>The dimensionality of each sub-ensemble.</p>
+</dd>
+<dt><strong>neuron_nodes</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to create a node that provides access to each individual
+neuron, typically for the purpose of inhibiting the entire
+EnsembleArray.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Deprecated in Nengo 2.1.0.
+Call <a class="reference internal" href="#nengo.networks.EnsembleArray.add_neuron_input" title="nengo.networks.EnsembleArray.add_neuron_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_neuron_input</span></code></a> or
+<a class="reference internal" href="#nengo.networks.EnsembleArray.add_neuron_output" title="nengo.networks.EnsembleArray.add_neuron_output"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_neuron_output</span></code></a> instead.</p>
+</div>
+</dd>
+<dt><strong>label</strong><span class="classifier">str, optional</span></dt><dd><p>A name to assign this EnsembleArray.
+Used for visualization and debugging.</p>
+</dd>
+<dt><strong>seed</strong><span class="classifier">int, optional</span></dt><dd><p>Random number seed that will be used in the build step.</p>
+</dd>
+<dt><strong>add_to_container</strong><span class="classifier">bool, optional</span></dt><dd><p>Determines if this network will be added to the current container.
+If None, this network will be added to the network at the top of the
+<code class="docutils literal notranslate"><span class="pre">Network.context</span></code> stack unless the stack is empty.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>dimensions_per_ensemble</strong><span class="classifier">int</span></dt><dd><p>The dimensionality of each sub-ensemble.</p>
+</dd>
+<dt><strong>ea_ensembles</strong><span class="classifier">list</span></dt><dd><p>The sub-ensembles in the ensemble array.</p>
+</dd>
+<dt><strong>input</strong><span class="classifier">Node</span></dt><dd><p>A node that provides input to all of the ensembles in the array.</p>
+</dd>
+<dt><strong>n_ensembles</strong><span class="classifier">int</span></dt><dd><p>The number of sub-ensembles to create.</p>
+</dd>
+<dt><strong>n_neurons_per_ensemble</strong><span class="classifier">int</span></dt><dd><p>The number of neurons in each sub-ensemble.</p>
+</dd>
+<dt><strong>neuron_input</strong><span class="classifier">Node or None</span></dt><dd><p>A node that provides input to all the neurons in the ensemble array.
+None unless created in <a class="reference internal" href="#nengo.networks.EnsembleArray.add_neuron_input" title="nengo.networks.EnsembleArray.add_neuron_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_neuron_input</span></code></a>.</p>
+</dd>
+<dt><strong>neuron_output</strong><span class="classifier">Node or None</span></dt><dd><p>A node that gathers neural output from all the neurons in the ensemble
+array. None unless created in <a class="reference internal" href="#nengo.networks.EnsembleArray.add_neuron_output" title="nengo.networks.EnsembleArray.add_neuron_output"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_neuron_output</span></code></a>.</p>
+</dd>
+<dt><strong>output</strong><span class="classifier">Node</span></dt><dd><p>A node that gathers decoded output from all of the ensembles
+in the array.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="nengo.networks.EnsembleArray.dimensions">
+<em class="property">property </em><code class="sig-name descname">dimensions</code><a class="headerlink" href="#nengo.networks.EnsembleArray.dimensions" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int) Dimensionality of the ensemble array.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.networks.EnsembleArray.add_neuron_input">
+<code class="sig-name descname">add_neuron_input</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/networks/ensemblearray.html#EnsembleArray.add_neuron_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.networks.EnsembleArray.add_neuron_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a node that provides input to the neurons of all ensembles.</p>
+<p>Direct neuron input is useful for inhibiting the activity of all
+neurons in the ensemble array.</p>
+<p>This node is accessible through the ‘neuron_input’ attribute
+of this ensemble array.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.networks.EnsembleArray.add_neuron_output">
+<code class="sig-name descname">add_neuron_output</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/networks/ensemblearray.html#EnsembleArray.add_neuron_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.networks.EnsembleArray.add_neuron_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a node that collects the neural output of all ensembles.</p>
+<p>Direct neuron output is useful for plotting the spike raster of
+all neurons in the ensemble array.</p>
+<p>This node is accessible through the ‘neuron_output’ attribute
+of this ensemble array.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.networks.EnsembleArray.add_output">
+<code class="sig-name descname">add_output</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">name</em>, <em class="sig-param">function</em>, <em class="sig-param">synapse=None</em>, <em class="sig-param">**conn_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/networks/ensemblearray.html#EnsembleArray.add_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.networks.EnsembleArray.add_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a node that collects the decoded output of all ensembles.</p>
+<p>By default, this is called once in <code class="docutils literal notranslate"><span class="pre">__init__</span></code> with <code class="docutils literal notranslate"><span class="pre">function=None</span></code>.
+However, this can be called multiple times with different functions,
+similar to the way in which an ensemble can be connected to many
+downstream ensembles with different functions.</p>
+<p>Note that in addition to the parameters below, parameters affecting
+all of the connections from the sub-ensembles to the new node
+can be passed to this function. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ea</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;output&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="n">nengo</span><span class="o">.</span><span class="n">solers</span><span class="o">.</span><span class="n">Lstsq</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>creates a new output with the decoders of each connection solved for
+with the <a class="reference internal" href="frontend_api.html#nengo.solvers.Lstsq" title="nengo.solvers.Lstsq"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Lstsq</span></code></a> solver.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>The name of the output. This will also be the name of the attribute
+set on the ensemble array.</p>
+</dd>
+<dt><strong>function</strong><span class="classifier">callable or iterable of callables</span></dt><dd><p>The function to compute across the connection from sub-ensembles
+to the new output node. If function is an iterable, it must be
+an iterable consisting of one function for each sub-ensemble.</p>
+</dd>
+<dt><strong>synapse</strong><span class="classifier">Synapse, optional</span></dt><dd><p>The synapse model with which to filter the connections from
+sub-ensembles to the new output node. This is kept separate from
+the other <code class="docutils literal notranslate"><span class="pre">conn_kwargs</span></code> because this defaults to None rather
+than the default synapse model. In almost all cases the synapse
+should stay as None, and synaptic filtering should be performed in
+the connection from the output node.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="nengo.networks.BasalGanglia">
+<code class="sig-prename descclassname">nengo.networks.</code><code class="sig-name descname">BasalGanglia</code><span class="sig-paren">(</span><em class="sig-param">dimensions</em>, <em class="sig-param">n_neurons_per_ensemble=100</em>, <em class="sig-param">output_weight=-3.0</em>, <em class="sig-param">input_bias=0.0</em>, <em class="sig-param">ampa_config=None</em>, <em class="sig-param">gaba_config=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/networks/actionselection.html#BasalGanglia"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.networks.BasalGanglia" title="Permalink to this definition">¶</a></dt>
+<dd><p>Winner take all network, typically used for action selection.</p>
+<p>The basal ganglia network outputs approximately 0 at the dimension with
+the largest value, and is negative elsewhere.</p>
+<p>While the basal ganglia is primarily defined by its winner-take-all
+function, it is also organized to match the organization of the human
+basal ganglia. It consists of five ensembles:</p>
+<ul class="simple">
+<li><p>Striatal D1 dopamine-receptor neurons (<code class="docutils literal notranslate"><span class="pre">strD1</span></code>)</p></li>
+<li><p>Striatal D2 dopamine-receptor neurons (<code class="docutils literal notranslate"><span class="pre">strD2</span></code>)</p></li>
+<li><p>Subthalamic nucleus (<code class="docutils literal notranslate"><span class="pre">stn</span></code>)</p></li>
+<li><p>Globus pallidus internus / substantia nigra reticulata (<code class="docutils literal notranslate"><span class="pre">gpi</span></code>)</p></li>
+<li><p>Globus pallidus externus (<code class="docutils literal notranslate"><span class="pre">gpe</span></code>)</p></li>
+</ul>
+<p>Interconnections between these areas are also based on known
+neuroanatomical connections. See <a class="reference internal" href="#rcdb1ee0b041f-1" id="id1">[1]</a> for more details, and <a class="reference internal" href="#rcdb1ee0b041f-2" id="id2">[2]</a> for
+the original non-spiking basal ganglia model by
+Gurney, Prescott &amp; Redgrave that this model is based on.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The default <a class="reference internal" href="frontend_api.html#nengo.solvers.Solver" title="nengo.solvers.Solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Solver</span></code></a> for the basal ganglia is <a class="reference internal" href="frontend_api.html#nengo.solvers.NnlsL2nz" title="nengo.solvers.NnlsL2nz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NnlsL2nz</span></code></a>, which
+requires SciPy. If SciPy is not installed, the global default
+solver will be used instead.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>dimensions</strong><span class="classifier">int</span></dt><dd><p>Number of dimensions (i.e., actions).</p>
+</dd>
+<dt><strong>n_neurons_per_ensemble</strong><span class="classifier">int, optional</span></dt><dd><p>Number of neurons in each ensemble in the network.</p>
+</dd>
+<dt><strong>output_weight</strong><span class="classifier">float, optional</span></dt><dd><p>A scaling factor on the output of the basal ganglia
+(specifically on the connection out of the GPi).</p>
+</dd>
+<dt><strong>input_bias</strong><span class="classifier">float, optional</span></dt><dd><p>An amount by which to bias all dimensions of the input node.
+Biasing the input node is important for ensuring that all input
+dimensions are positive and easily comparable.</p>
+</dd>
+<dt><strong>ampa_config</strong><span class="classifier">config, optional</span></dt><dd><p>Configuration for connections corresponding to biological connections
+to AMPA receptors (i.e., connections from STN to to GPi and GPe).
+If None, a default configuration using a 2 ms lowpass synapse
+will be used.</p>
+</dd>
+<dt><strong>gaba_config</strong><span class="classifier">config, optional</span></dt><dd><p>Configuration for connections corresponding to biological connections
+to GABA receptors (i.e., connections from StrD1 to GPi, StrD2 to GPe,
+and GPe to GPi and STN). If None, a default configuration using an
+8 ms lowpass synapse will be used.</p>
+</dd>
+<dt><strong>**kwargs</strong></dt><dd><p>Keyword arguments passed through to <code class="docutils literal notranslate"><span class="pre">nengo.Network</span></code>
+like ‘label’ and ‘seed’.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="rcdb1ee0b041f-1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Stewart, T. C., Choo, X., &amp; Eliasmith, C. (2010).
+Dynamic behaviour of a spiking model of action selection in the
+basal ganglia. In Proceedings of the 10th international conference on
+cognitive modeling (pp. 235-40).</p>
+</dd>
+<dt class="label" id="rcdb1ee0b041f-2"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>Gurney, K., Prescott, T., &amp; Redgrave, P. (2001).
+A computational model of action selection in the basal
+ganglia. Biological Cybernetics 84, 401-423.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>bias_input</strong><span class="classifier">Node or None</span></dt><dd><p>If <code class="docutils literal notranslate"><span class="pre">input_bias</span></code> is non-zero, this node will be created to bias
+all of the dimensions of the input signal.</p>
+</dd>
+<dt><strong>gpe</strong><span class="classifier">EnsembleArray</span></dt><dd><p>Globus pallidus externus ensembles.</p>
+</dd>
+<dt><strong>gpi</strong><span class="classifier">EnsembleArray</span></dt><dd><p>Globus pallidus internus ensembles.</p>
+</dd>
+<dt><strong>input</strong><span class="classifier">Node</span></dt><dd><p>Accepts the input signal.</p>
+</dd>
+<dt><strong>output</strong><span class="classifier">Node</span></dt><dd><p>Provides the output signal.</p>
+</dd>
+<dt><strong>stn</strong><span class="classifier">EnsembleArray</span></dt><dd><p>Subthalamic nucleus ensembles.</p>
+</dd>
+<dt><strong>strD1</strong><span class="classifier">EnsembleArray</span></dt><dd><p>Striatal D1 ensembles.</p>
+</dd>
+<dt><strong>strD2</strong><span class="classifier">EnsembleArray</span></dt><dd><p>Striatal D2 ensembles.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="nengo.networks.Thalamus">
+<code class="sig-prename descclassname">nengo.networks.</code><code class="sig-name descname">Thalamus</code><span class="sig-paren">(</span><em class="sig-param">dimensions</em>, <em class="sig-param">n_neurons_per_ensemble=50</em>, <em class="sig-param">mutual_inhib=1.0</em>, <em class="sig-param">threshold=0.0</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/networks/actionselection.html#Thalamus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.networks.Thalamus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inhibits non-selected actions.</p>
+<p>The thalamus is intended to work in tandem with a basal ganglia network.
+It converts basal ganglia output into a signal with (approximately) 1 for
+the selected action and 0 elsewhere.</p>
+<p>In order to suppress low responses and strengthen high responses,
+a constant bias is added to each dimension (i.e., action), and dimensions
+mutually inhibit each other. Additionally, the ensemble representing
+each dimension is created with positive encoders and can be assigned
+positive x-intercepts to threshold low responses.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>dimensions</strong><span class="classifier">int</span></dt><dd><p>Number of dimensions (i.e., actions).</p>
+</dd>
+<dt><strong>n_neurons_per_ensemble</strong><span class="classifier">int, optional</span></dt><dd><p>Number of neurons in each ensemble in the network.</p>
+</dd>
+<dt><strong>mutual_inhib</strong><span class="classifier">float, optional</span></dt><dd><p>Strength of the mutual inhibition between actions.</p>
+</dd>
+<dt><strong>threshold</strong><span class="classifier">float, optional</span></dt><dd><p>The threshold below which values will not be represented.</p>
+</dd>
+<dt><strong>**kwargs</strong></dt><dd><p>Keyword arguments passed through to <code class="docutils literal notranslate"><span class="pre">nengo.Network</span></code>
+like ‘label’ and ‘seed’.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>actions</strong><span class="classifier">EnsembleArray</span></dt><dd><p>Each ensemble represents one dimension (action).</p>
+</dd>
+<dt><strong>bias</strong><span class="classifier">Node</span></dt><dd><p>The constant bias injected in each <code class="docutils literal notranslate"><span class="pre">actions</span></code> ensemble.</p>
+</dd>
+<dt><strong>input</strong><span class="classifier">Node</span></dt><dd><p>Input to the <code class="docutils literal notranslate"><span class="pre">actions</span></code> ensembles.</p>
+</dd>
+<dt><strong>output</strong><span class="classifier">Node</span></dt><dd><p>Output from the <code class="docutils literal notranslate"><span class="pre">actions</span></code> ensembles.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.networks.AssociativeMemory">
+<em class="property">class </em><code class="sig-prename descclassname">nengo.networks.</code><code class="sig-name descname">AssociativeMemory</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">input_vectors</em>, <em class="sig-param">output_vectors=None</em>, <em class="sig-param">n_neurons=50</em>, <em class="sig-param">threshold=0.3</em>, <em class="sig-param">input_scales=1.0</em>, <em class="sig-param">inhibitable=False</em>, <em class="sig-param">label=None</em>, <em class="sig-param">seed=None</em>, <em class="sig-param">add_to_container=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/networks/assoc_mem.html#AssociativeMemory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.networks.AssociativeMemory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Associative memory network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>input_vectors: array_like</strong></dt><dd><p>The list of vectors to be compared against.</p>
+</dd>
+<dt><strong>output_vectors: array_like, optional</strong></dt><dd><p>The list of vectors to be produced for each match. If None, the
+associative memory will be autoassociative (cleanup memory).</p>
+</dd>
+<dt><strong>n_neurons: int, optional</strong></dt><dd><p>The number of neurons for each of the ensemble (where each ensemble
+represents each item in the input_vectors list).</p>
+</dd>
+<dt><strong>threshold: float, optional</strong></dt><dd><p>The association activation threshold.</p>
+</dd>
+<dt><strong>input_scales: float or array_like, optional</strong></dt><dd><p>Scaling factor to apply on each of the input vectors. Note that it
+is possible to scale each vector independently.</p>
+</dd>
+<dt><strong>inhibitable: bool, optional</strong></dt><dd><p>Flag to indicate if the entire associative memory module is
+inhibitable (entire thing can be shut off). The input gain into
+the inhibitory connection is 1.5.</p>
+</dd>
+<dt><strong>label</strong><span class="classifier">str, optional</span></dt><dd><p>A name for the ensemble. Used for debugging and visualization.</p>
+</dd>
+<dt><strong>seed</strong><span class="classifier">int, optional</span></dt><dd><p>The seed used for random number generation.</p>
+</dd>
+<dt><strong>add_to_container</strong><span class="classifier">bool, optional</span></dt><dd><p>Determines if the network will be added to the current container.
+If None, will be true if currently within a Network.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="nengo.networks.AssociativeMemory.am_ens_config">
+<em class="property">property </em><code class="sig-name descname">am_ens_config</code><a class="headerlink" href="#nengo.networks.AssociativeMemory.am_ens_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Config) Defaults for associative memory ensemble creation.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.networks.AssociativeMemory.default_ens_config">
+<em class="property">property </em><code class="sig-name descname">default_ens_config</code><a class="headerlink" href="#nengo.networks.AssociativeMemory.default_ens_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Config) Defaults for other ensemble creation.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.networks.AssociativeMemory.thresh_ens_config">
+<em class="property">property </em><code class="sig-name descname">thresh_ens_config</code><a class="headerlink" href="#nengo.networks.AssociativeMemory.thresh_ens_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Config) Defaults for threshold ensemble creation.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.networks.AssociativeMemory.add_input_mapping">
+<code class="sig-name descname">add_input_mapping</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">name</em>, <em class="sig-param">input_vectors</em>, <em class="sig-param">input_scales=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/networks/assoc_mem.html#AssociativeMemory.add_input_mapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.networks.AssociativeMemory.add_input_mapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a set of input vectors to the associative memory network.</p>
+<p>Creates a transform with the given input vectors between the
+a named input node and associative memory element input to enable the
+inputs to be mapped onto ensembles of the Associative Memory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name: str</strong></dt><dd><p>Name to use for the input node. This name will be used as the name
+of the attribute for the associative memory network.</p>
+</dd>
+<dt><strong>input_vectors: array_like</strong></dt><dd><p>The list of vectors to be compared against.</p>
+</dd>
+<dt><strong>input_scales: float or array_like, optional</strong></dt><dd><p>Scaling factor to apply on each of the input vectors. Note that it
+is possible to scale each vector independently.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.networks.AssociativeMemory.add_output_mapping">
+<code class="sig-name descname">add_output_mapping</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">name</em>, <em class="sig-param">output_vectors</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/networks/assoc_mem.html#AssociativeMemory.add_output_mapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.networks.AssociativeMemory.add_output_mapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds another output to the associative memory network.</p>
+<p>Creates a transform with the given output vectors between the
+associative memory element output and a named output node to enable the
+selection of output vectors by the associative memory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name: str</strong></dt><dd><p>Name to use for the output node. This name will be used as
+the name of the attribute for the associative memory network.</p>
+</dd>
+<dt><strong>output_vectors: array_like</strong></dt><dd><p>The list of vectors to be produced for each match.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.networks.AssociativeMemory.add_default_output_vector">
+<code class="sig-name descname">add_default_output_vector</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">output_vector</em>, <em class="sig-param">output_name='output'</em>, <em class="sig-param">n_neurons=50</em>, <em class="sig-param">min_activation_value=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/networks/assoc_mem.html#AssociativeMemory.add_default_output_vector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.networks.AssociativeMemory.add_default_output_vector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a default output vector to the associative memory network.</p>
+<p>The default output vector is chosen if the input matches none of
+the given input vectors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>output_vector: array_like</strong></dt><dd><p>The vector to be produced if the input value matches none of
+the vectors in the input vector list.</p>
+</dd>
+<dt><strong>output_name: str, optional</strong></dt><dd><p>The name of the input to which the default output vector
+should be applied.</p>
+</dd>
+<dt><strong>n_neurons: int, optional</strong></dt><dd><p>Number of neurons to use for the default output vector ensemble.</p>
+</dd>
+<dt><strong>min_activation_value: float, optional</strong></dt><dd><p>Minimum activation value (i.e. threshold) to use to disable
+the default output vector.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.networks.AssociativeMemory.add_wta_network">
+<code class="sig-name descname">add_wta_network</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">inhibit_scale=1.5</em>, <em class="sig-param">inhibit_synapse=0.005</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/networks/assoc_mem.html#AssociativeMemory.add_wta_network"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.networks.AssociativeMemory.add_wta_network" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a winner-take-all (WTA) network to associative memory output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>inhibit_scale: float, optional</strong></dt><dd><p>Mutual inhibition scaling factor.</p>
+</dd>
+<dt><strong>inhibit_synapse: float, optional</strong></dt><dd><p>Mutual inhibition synapse time constant.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.networks.AssociativeMemory.add_threshold_to_outputs">
+<code class="sig-name descname">add_threshold_to_outputs</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">n_neurons=50</em>, <em class="sig-param">inhibit_scale=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/networks/assoc_mem.html#AssociativeMemory.add_threshold_to_outputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.networks.AssociativeMemory.add_threshold_to_outputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a thresholded output to the associative memory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>n_neurons: int, optional</strong></dt><dd><p>Number of neurons to use for the default output vector ensemble.</p>
+</dd>
+<dt><strong>inhibit_scale: float, optional</strong></dt><dd><p>Mutual inhibition scaling factor.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="nengo.networks.CircularConvolution">
+<code class="sig-prename descclassname">nengo.networks.</code><code class="sig-name descname">CircularConvolution</code><span class="sig-paren">(</span><em class="sig-param">n_neurons</em>, <em class="sig-param">dimensions</em>, <em class="sig-param">invert_a=False</em>, <em class="sig-param">invert_b=False</em>, <em class="sig-param">input_magnitude=1.0</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/networks/circularconvolution.html#CircularConvolution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.networks.CircularConvolution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the circular convolution of two vectors.</p>
+<p>The circular convolution <span class="math notranslate nohighlight">\(c\)</span> of vectors <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span>
+is given by</p>
+<div class="math notranslate nohighlight">
+\[c[i] = \sum_j a[j] b[i - j]\]</div>
+<p>where negative indices on <span class="math notranslate nohighlight">\(b\)</span> wrap around to the end of the vector.</p>
+<p>This computation can also be done in the Fourier domain,</p>
+<div class="math notranslate nohighlight">
+\[c = DFT^{-1} ( DFT(a) DFT(b) )\]</div>
+<p>where <span class="math notranslate nohighlight">\(DFT\)</span> is the Discrete Fourier Transform operator, and
+<span class="math notranslate nohighlight">\(DFT^{-1}\)</span> is its inverse. This network uses this method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>n_neurons</strong><span class="classifier">int</span></dt><dd><p>Number of neurons to use in each product computation</p>
+</dd>
+<dt><strong>dimensions</strong><span class="classifier">int</span></dt><dd><p>The number of dimensions of the input and output vectors.</p>
+</dd>
+<dt><strong>invert_a, invert_b</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to reverse the order of elements in either
+the first input (<code class="docutils literal notranslate"><span class="pre">invert_a</span></code>) or the second input (<code class="docutils literal notranslate"><span class="pre">invert_b</span></code>).
+Flipping the second input will make the network perform circular
+correlation instead of circular convolution.</p>
+</dd>
+<dt><strong>input_magnitude</strong><span class="classifier">float, optional</span></dt><dd><p>The expected magnitude of the vectors to be convolved.
+This value is used to determine the radius of the ensembles
+computing the element-wise product.</p>
+</dd>
+<dt><strong>**kwargs</strong></dt><dd><p>Keyword arguments passed through to <code class="docutils literal notranslate"><span class="pre">nengo.Network</span></code>
+like ‘label’ and ‘seed’.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The network maps the input vectors <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> of length N into
+the Fourier domain and aligns them for complex multiplication.
+Letting <span class="math notranslate nohighlight">\(F = DFT(a)\)</span> and <span class="math notranslate nohighlight">\(G = DFT(b)\)</span>, this is given by:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span> <span class="n">F</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">real</span> <span class="p">]</span>     <span class="p">[</span> <span class="n">G</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">real</span> <span class="p">]</span>     <span class="p">[</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">]</span>
+<span class="p">[</span> <span class="n">F</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">imag</span> <span class="p">]</span>  <span class="o">*</span>  <span class="p">[</span> <span class="n">G</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">imag</span> <span class="p">]</span>  <span class="o">=</span>  <span class="p">[</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">]</span>
+<span class="p">[</span> <span class="n">F</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">real</span> <span class="p">]</span>     <span class="p">[</span> <span class="n">G</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">imag</span> <span class="p">]</span>     <span class="p">[</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">]</span>
+<span class="p">[</span> <span class="n">F</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">imag</span> <span class="p">]</span>     <span class="p">[</span> <span class="n">G</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">real</span> <span class="p">]</span>     <span class="p">[</span> <span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p>where <span class="math notranslate nohighlight">\(i\)</span> only ranges over the lower half of the spectrum, since
+the upper half of the spectrum is the flipped complex conjugate of
+the lower half, and therefore redundant. The input transforms are
+used to perform the DFT on the inputs and align them correctly for
+complex multiplication.</p>
+<p>The complex product <span class="math notranslate nohighlight">\(H = F * G\)</span> is then</p>
+<div class="math notranslate nohighlight">
+\[H[i] = (w[i] - x[i]) + (y[i] + z[i]) I\]</div>
+<p>where <span class="math notranslate nohighlight">\(I = \sqrt{-1}\)</span>. We can perform this addition along with the
+inverse DFT <span class="math notranslate nohighlight">\(c = DFT^{-1}(H)\)</span> in a single output transform, finding
+only the real part of <span class="math notranslate nohighlight">\(c\)</span> since the imaginary part
+is analytically zero.</p>
+<p class="rubric">Examples</p>
+<p>A basic example computing the circular convolution of two 10-dimensional
+vectors represented by ensemble arrays:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">EnsembleArray</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">n_ensembles</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">EnsembleArray</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">n_ensembles</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">EnsembleArray</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">n_ensembles</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">cconv</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">networks</span><span class="o">.</span><span class="n">CircularConvolution</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">output</span><span class="p">,</span> <span class="n">cconv</span><span class="o">.</span><span class="n">input_a</span><span class="p">)</span>
+<span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">output</span><span class="p">,</span> <span class="n">cconv</span><span class="o">.</span><span class="n">input_b</span><span class="p">)</span>
+<span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">cconv</span><span class="o">.</span><span class="n">output</span><span class="p">,</span> <span class="n">C</span><span class="o">.</span><span class="n">input</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>input_a</strong><span class="classifier">Node</span></dt><dd><p>The first vector to be convolved.</p>
+</dd>
+<dt><strong>input_b</strong><span class="classifier">Node</span></dt><dd><p>The second vector to be convolved.</p>
+</dd>
+<dt><strong>product</strong><span class="classifier">Network</span></dt><dd><p>Network created with <a class="reference internal" href="#nengo.networks.Product" title="nengo.networks.Product"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Product</span></code></a> to do the element-wise product
+of the <span class="math notranslate nohighlight">\(DFT\)</span> components.</p>
+</dd>
+<dt><strong>output</strong><span class="classifier">Node</span></dt><dd><p>The resulting convolved vector.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="nengo.networks.Integrator">
+<code class="sig-prename descclassname">nengo.networks.</code><code class="sig-name descname">Integrator</code><span class="sig-paren">(</span><em class="sig-param">recurrent_tau</em>, <em class="sig-param">n_neurons</em>, <em class="sig-param">dimensions</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/networks/integrator.html#Integrator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.networks.Integrator" title="Permalink to this definition">¶</a></dt>
+<dd><p>An ensemble that accumulates input and maintains state.</p>
+<p>This is accomplished through scaling the input signal and recurrently
+connecting an ensemble to itself to maintain state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>recurrent_tau</strong><span class="classifier">float</span></dt><dd><p>Time constant on the recurrent connection.</p>
+</dd>
+<dt><strong>n_neurons</strong><span class="classifier">int</span></dt><dd><p>Number of neurons in the recurrently connected ensemble.</p>
+</dd>
+<dt><strong>dimensions</strong><span class="classifier">int</span></dt><dd><p>Dimensionality of the input signal and ensemble.</p>
+</dd>
+<dt><strong>**kwargs</strong></dt><dd><p>Keyword arguments passed through to <code class="docutils literal notranslate"><span class="pre">nengo.Network</span></code>
+like ‘label’ and ‘seed’.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>ensemble</strong><span class="classifier">Ensemble</span></dt><dd><p>The recurrently connected ensemble.</p>
+</dd>
+<dt><strong>input</strong><span class="classifier">Node</span></dt><dd><p>Provides the input signal.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="nengo.networks.Oscillator">
+<code class="sig-prename descclassname">nengo.networks.</code><code class="sig-name descname">Oscillator</code><span class="sig-paren">(</span><em class="sig-param">recurrent_tau</em>, <em class="sig-param">frequency</em>, <em class="sig-param">n_neurons</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/networks/oscillator.html#Oscillator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.networks.Oscillator" title="Permalink to this definition">¶</a></dt>
+<dd><p>A two-dimensional ensemble with interacting recurrent connections.</p>
+<p>The ensemble connects to itself in a manner similar to the integrator;
+however, here the two dimensions interact with each other to implement
+a cyclic oscillator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>recurrent_tau</strong><span class="classifier">float</span></dt><dd><p>Time constant on the recurrent connection.</p>
+</dd>
+<dt><strong>frequency</strong><span class="classifier">float</span></dt><dd><p>Desired frequency, in Hz, of the cyclic oscillation.</p>
+</dd>
+<dt><strong>n_neurons</strong><span class="classifier">int</span></dt><dd><p>Number of neurons in the recurrently connected ensemble.</p>
+</dd>
+<dt><strong>**kwargs</strong></dt><dd><p>Keyword arguments passed through to <code class="docutils literal notranslate"><span class="pre">nengo.Network</span></code>
+like ‘label’ and ‘seed’.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>ensemble</strong><span class="classifier">Ensemble</span></dt><dd><p>The recurrently connected oscillatory ensemble.</p>
+</dd>
+<dt><strong>input</strong><span class="classifier">Node</span></dt><dd><p>Provides the input signal.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="nengo.networks.Product">
+<code class="sig-prename descclassname">nengo.networks.</code><code class="sig-name descname">Product</code><span class="sig-paren">(</span><em class="sig-param">n_neurons</em>, <em class="sig-param">dimensions</em>, <em class="sig-param">input_magnitude=1.0</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/networks/product.html#Product"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.networks.Product" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the element-wise product of two equally sized vectors.</p>
+<p>The network used to calculate the product is described in
+<a class="reference external" href="https://nbviewer.jupyter.org/github/ctn-archive/technical-reports/blob/master/Precise-multiplications-with-the-NEF.ipynb">Gosmann, 2015</a>. A simpler version of this network can be found in the
+<a class="reference internal" href="examples/basic/multiplication.html"><span class="doc">Multiplication example</span></a>.</p>
+<p>Note that this network is optimized under the assumption that both input
+values (or both values for each input dimensions of the input vectors) are
+uniformly and independently distributed. Visualized in a joint 2D space,
+this would give a square of equal probabilities for pairs of input values.
+This assumption is violated with non-uniform input value distributions
+(for example, if the input values follow a Gaussian or cosine similarity
+distribution). In that case, no square of equal probabilities is obtained,
+but a probability landscape with circular equi-probability lines. To obtain
+the optimal network accuracy, scale the <em>input_magnitude</em> by a factor of
+<code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">/</span> <span class="pre">sqrt(2)</span></code>.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>n_neurons</strong><span class="classifier">int</span></dt><dd><p>Number of neurons per dimension in the vector.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>These neurons will be distributed evenly across two
+ensembles. If an odd number of neurons is specified, the
+extra neuron will not be used.</p>
+</div>
+</dd>
+<dt><strong>dimensions</strong><span class="classifier">int</span></dt><dd><p>Number of dimensions in each of the vectors to be multiplied.</p>
+</dd>
+<dt><strong>input_magnitude</strong><span class="classifier">float, optional</span></dt><dd><p>The expected magnitude of the vectors to be multiplied.
+This value is used to determine the radius of the ensembles
+computing the element-wise product.</p>
+</dd>
+<dt><strong>**kwargs</strong></dt><dd><p>Keyword arguments passed through to <code class="docutils literal notranslate"><span class="pre">nengo.Network</span></code>
+like ‘label’ and ‘seed’.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>input_a</strong><span class="classifier">Node</span></dt><dd><p>The first vector to be multiplied.</p>
+</dd>
+<dt><strong>input_b</strong><span class="classifier">Node</span></dt><dd><p>The second vector to be multiplied.</p>
+</dd>
+<dt><strong>output</strong><span class="classifier">Node</span></dt><dd><p>The resulting product.</p>
+</dd>
+<dt><strong>sq1</strong><span class="classifier">EnsembleArray</span></dt><dd><p>Represents the first squared term. See <a class="reference external" href="https://nbviewer.jupyter.org/github/ctn-archive/technical-reports/blob/master/Precise-multiplications-with-the-NEF.ipynb">Gosmann, 2015</a> for details.</p>
+</dd>
+<dt><strong>sq2</strong><span class="classifier">EnsembleArray</span></dt><dd><p>Represents the second squared term. See <a class="reference external" href="https://nbviewer.jupyter.org/github/ctn-archive/technical-reports/blob/master/Precise-multiplications-with-the-NEF.ipynb">Gosmann, 2015</a> for details.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="nengo.networks.InputGatedMemory">
+<code class="sig-prename descclassname">nengo.networks.</code><code class="sig-name descname">InputGatedMemory</code><span class="sig-paren">(</span><em class="sig-param">n_neurons</em>, <em class="sig-param">dimensions</em>, <em class="sig-param">feedback=1.0</em>, <em class="sig-param">difference_gain=1.0</em>, <em class="sig-param">recurrent_synapse=0.1</em>, <em class="sig-param">difference_synapse=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/networks/workingmemory.html#InputGatedMemory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.networks.InputGatedMemory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores a given vector in memory, with input controlled by a gate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>n_neurons</strong><span class="classifier">int</span></dt><dd><p>Number of neurons per dimension in the vector.</p>
+</dd>
+<dt><strong>dimensions</strong><span class="classifier">int</span></dt><dd><p>Dimensionality of the vector.</p>
+</dd>
+<dt><strong>feedback</strong><span class="classifier">float, optional</span></dt><dd><p>Strength of the recurrent connection from the memory to itself.</p>
+</dd>
+<dt><strong>difference_gain</strong><span class="classifier">float, optional</span></dt><dd><p>Strength of the connection from the difference ensembles to the
+memory ensembles.</p>
+</dd>
+<dt><strong>recurrent_synapse</strong><span class="classifier">float, optional</span></dt><dd></dd>
+<dt><strong>difference_synapse</strong><span class="classifier">Synapse</span></dt><dd><p>If None, …</p>
+</dd>
+<dt><strong>**kwargs</strong></dt><dd><p>Keyword arguments passed through to <code class="docutils literal notranslate"><span class="pre">nengo.Network</span></code>
+like ‘label’ and ‘seed’.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>diff</strong><span class="classifier">EnsembleArray</span></dt><dd><p>Represents the difference between the desired vector and
+the current vector represented by <code class="docutils literal notranslate"><span class="pre">mem</span></code>.</p>
+</dd>
+<dt><strong>gate</strong><span class="classifier">Node</span></dt><dd><p>With input of 0, the network is not gated, and <code class="docutils literal notranslate"><span class="pre">mem</span></code> will be updated
+to minimize <code class="docutils literal notranslate"><span class="pre">diff</span></code>. With input greater than 0, the network will be
+increasingly gated such that <code class="docutils literal notranslate"><span class="pre">mem</span></code> will retain its current value,
+and <code class="docutils literal notranslate"><span class="pre">diff</span></code> will be inhibited.</p>
+</dd>
+<dt><strong>input</strong><span class="classifier">Node</span></dt><dd><p>The desired vector.</p>
+</dd>
+<dt><strong>mem</strong><span class="classifier">EnsembleArray</span></dt><dd><p>Integrative population that stores the vector.</p>
+</dd>
+<dt><strong>output</strong><span class="classifier">Node</span></dt><dd><p>The vector currently represented by <code class="docutils literal notranslate"><span class="pre">mem</span></code>.</p>
+</dd>
+<dt><strong>reset</strong><span class="classifier">Node</span></dt><dd><p>With positive input, the <code class="docutils literal notranslate"><span class="pre">mem</span></code> population will be inhibited,
+effectively wiping out the vector currently being remembered.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div><footer class="footer">
+  <div class="w-container">
+    <div class="w-clearfix">
+      <div class="w-row search">
+<form id="form-search" class="form-search" action="search.html" method="get">
+  <div class="form-group">
+    <input type="text" name="q" class="form-control" placeholder="Search" />
+  </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form></div>
+      <div class="w-row mobileAlign">
+        <div class="w-col w-col-2 footer-menu">
+          <p class="menu-Label">ABR, Inc.</p>
+          <ul class="vertical-menu">
+            <li class="footer-listitem-new"><a href="https://appliedbrainresearch.com/products/">Products</a></li>
+            <li class="footer-listitem-new "><a href="https://appliedbrainresearch.com/services/">Services</a></li>
+            <li class="footer-listitem-new"><a href="https://appliedbrainresearch.com/research/">Research</a></li>
+          </ul>
+        </div>
+        <div class="w-col w-col-2 footer-menu">
+          <p class="menu-Label">About Us</p>
+          <ul class="vertical-menu">
+            <li class="footer-listitem-new"><a href="https://appliedbrainresearch.com/about-us/">Contact</a></li>
+            <li class="footer-listitem-new"><a href="https://appliedbrainresearch.com/about-us/#team">Team</a></li>
+            <li class="footer-listitem-new"><a href="https://appliedbrainresearch.com/about-us/#culture">Culture</a></li>
+          </ul>
+        </div>
+        <a class="brand footer-brand" href="https://appliedbrainresearch.com">
+          <img src="https://appliedbrainresearch.com/img/logo-light-notext.svg" width="80">
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+  </body>
+</html>
